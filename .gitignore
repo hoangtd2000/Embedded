@@ -1,0 +1,48 @@
+# Ignoring build directories
+/build/
+/Debug/
+/Release/
+/.vs/
+/.vscode/
+
+# Ignoring STM32CubeIDE generated files
+*.ioc
+*.bin
+*.elf
+*.hex
+*.map
+*.list
+*.srec
+*.o
+*.d
+*.dep
+*.axf
+*.bak
+*.log
+
+# Ignoring auto-generated sources
+# Core/Inc/stm32*.h
+# Core/Src/stm32*.c
+
+# Ignoring system files
+.DS_Store
+Thumbs.db
+
+# Ignoring dependency files
+*.d
+*.su
+*.dep
+
+# Ignoring compiled object files
+*.o
+*.a
+*.lib
+
+# Ignoring Keil and IAR specific files
+*.uvproj*
+*.uvopt*
+*.dep
+*.ewp
+*.eww
+*.ewd
+*.ewt

@@ -1,0 +1,204 @@
+#include <compiler_defs.h>
+#include <C8051F580_defs.h>            // SFR declarations
+#include <stdio.h>
+#include  "Tick.h"
+#include "Task.h"
+#include "Scherduler.h"
+
+//-----------------------------------------------------------------------------
+// Global CONSTANTS
+//-----------------------------------------------------------------------------
+SBIT(LED_G, SFR_P2, 1);
+SBIT(LED_Y, SFR_P2, 0);
+
+#define SYSCLK      24000000           // SYSCLK frequency in Hz
+#define BAUDRATE      115200           // Baud rate of UART in bps
+
+//-----------------------------------------------------------------------------
+// Function PROTOTYPES
+//-----------------------------------------------------------------------------
+
+void SYSCLK_Init (void);
+void UART1_Init (void);
+void PORT_Init (void);
+void delayms(int time);
+void task1_handler(void);
+void task2_handler(void);
+void task3_handler(void);
+void idle_task(void);
+
+extern void iram_test(void);
+//-----------------------------------------------------------------------------
+// MAIN Routine
+//-----------------------------------------------------------------------------
+
+void main (void)
+{
+SFRPAGE = ACTIVE_PAGE;
+   PCA0MD &= ~0x40;                    // Disable watchdog timer
+   
+   PORT_Init();                        // Initialize Port I/O
+   SYSCLK_Init ();                     // Initialize Oscillator
+   UART1_Init();
+   //create_task(idle_task,   SIZE_IDLE_STACK);
+    create_task(task1_handler, SIZE_TASK_STACK);
+    create_task(task2_handler, SIZE_TASK_STACK);
+	create_task(task3_handler, SIZE_TASK_STACK);
+   //TIMER2_Init(SYSCLK / 12 / 100); // Init Timer2
+   
+	EA = 1;               // Enable global interrupts	
+	start_scheduler();
+  	Task1_handler();
+		//Idle_handler();
+   while (1)
+   {
+      // LED_G = ~LED_G;   // Toggle green LED
+      // LED_Y = ~LED_Y;   // Toggle yellow LED
+      // printf ("Hello wolrd \n ");
+      // delayms(100);     // Delay 100 ms
+   }
+}
+
+//-----------------------------------------------------------------------------
+// P1.5   digital   push-pull    UART1 TX
+// P1.6   digital   open-drain   UART1 RX
+//-----------------------------------------------------------------------------
+void PORT_Init (void)
+ {
+   U8 SFRPAGE_save = SFRPAGE;
+   SFRPAGE = CONFIG_PAGE;
+       P2MDOUT   = 0x03;
+   P1MDOUT |= 0x20; // TX1 (P1.5) push-pull
+   P1MDIN &= ~0x20; // RX1 (P1.6) input
+   P0SKIP    = 0xFF;
+   P1SKIP    = 0x1F;
+
+   XBR2    = 0x42;                     // Enable UART1 on P2.0(TX) and P2.1(RX)
+                                    // // Enable crossbar and weak pull-ups
+   SFRPAGE = SFRPAGE_save;
+ }
+
+//-----------------------------------------------------------------------------
+// SYSCLK_Init
+//-----------------------------------------------------------------------------
+//
+// Return Value : None
+// Parameters   : None
+//
+// This routine initializes the system clock to use the internal oscillator
+// at its maximum frequency.
+// Also enables the Missing Clock Detector.
+//-----------------------------------------------------------------------------
+
+void SYSCLK_Init (void)
+{
+   U8 SFRPAGE_save = SFRPAGE;
+   SFRPAGE = CONFIG_PAGE;
+
+   OSCICN |= 0x87;                     // Configure internal oscillator for
+                                       // its maximum frequency
+   RSTSRC  = 0x04;                     // Enable missing clock detector
+
+   SFRPAGE = SFRPAGE_save;
+}
+
+//-----------------------------------------------------------------------------
+// UART1_Init
+//-----------------------------------------------------------------------------
+//
+// Return Value : None
+// Parameters   : None
+//
+// Configure the UART1 using Timer1, for <BAUDRATE> and 8-N-1.
+//-----------------------------------------------------------------------------
+void UART1_Init (void)
+{
+   U8 SFRPAGE_save = SFRPAGE;
+   SFRPAGE = ACTIVE2_PAGE;
+
+   SCON1 = 0x10;                       // SCON1: 8-bit variable bit rate
+                                       //        level of STOP bit is ignored
+                                       //        RX enabled
+                                       //        ninth bits are zeros
+                                       //        clear RI0 and TI0 bits
+   if (SYSCLK / BAUDRATE / 2 / 256 < 1) 
+   {
+      TH1 = -(SYSCLK / BAUDRATE / 2);
+      CKCON &= ~0x0B;                  // T1M = 1; SCA1:0 = xx
+      CKCON |=  0x08;
+   } 
+   else if (SYSCLK / BAUDRATE / 2 / 256 < 4) 
+   {
+      TH1 = -(SYSCLK / BAUDRATE / 2 / 4);
+      CKCON &= ~0x0B;                  // T1M = 0; SCA1:0 = 01
+      CKCON |=  0x01;
+   } 
+   else if (SYSCLK / BAUDRATE / 2 / 256 < 12) 
+   {
+      TH1 = -(SYSCLK / BAUDRATE / 2 / 12);
+      CKCON &= ~0x0B;                  // T1M = 0; SCA1:0 = 00
+   } 
+   else 
+   {
+      TH1 = -(SYSCLK / BAUDRATE / 2 / 48);
+      CKCON &= ~0x0B;                  // T1M = 0; SCA1:0 = 10
+      CKCON |=  0x02;
+   }
+
+   TL1 = TH1;                          // Init Timer1
+   TMOD &= ~0xF0;                      // TMOD: timer 1 in 8-bit autoreload
+   TMOD |=  0x20;
+   TR1 = 1;                            // START Timer1
+
+   TI1 = 1;                            // Indicate TX0 ready (SCON1)
+
+   SFRPAGE = SFRPAGE_save;
+}
+
+
+
+
+// void delayms(int time)
+// {
+// 	G_Count = 0;
+// 	while(G_Count < time);
+// }
+void idle_task(void) {
+SFRPAGE = ACTIVE2_PAGE;   
+	while (1){
+			printf("Idle_handler \n");
+					task_delay(3000);
+		}
+}
+
+void task1_handler(void) {
+SEG_XDATA U32 i ;
+SFRPAGE = ACTIVE2_PAGE;   
+	while (1) {
+		printf("Task1_handler \n");
+		LED_G = ~LED_G;
+		for(i=0; i < 0xffff;i++);
+	//	task_delay(450);
+	}
+}
+
+void task2_handler(void) {
+SEG_XDATA U32 i ;
+SFRPAGE = ACTIVE2_PAGE;   
+	while (1) {
+	printf("Task2_handler \n");
+	LED_Y = ~LED_Y;
+	for(i=0; i < 0xffff;i++);
+	//	task_delay(1100);
+	}
+}
+
+void task3_handler(void) {
+SEG_XDATA U32 i ;
+SFRPAGE = ACTIVE2_PAGE;
+	while (1) {
+		printf("Task3_handler \n");
+		for(i=0; i < 0xffff;i++);
+	//	task_delay(2200);
+	}
+}

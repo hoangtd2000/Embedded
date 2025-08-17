@@ -1,0 +1,37 @@
+#include "Os_task.h"
+SEG_XDATA U8 Current_task = 0 ;
+SEG_XDATA TCB_t User_task[MAX_TASK];
+extern U32 G_systick;
+void Create_task(U8 id, void (*task_handler1)(void))
+{
+    if (id >= MAX_TASK)
+    {
+        return;
+    }
+    else
+    {	
+		User_task[id].block_count = 0;
+        User_task[id].current_state = (U8)TASK_READY_STATE;
+        User_task[id].task_handler = task_handler1;
+    }
+}
+
+void Unblock_task(void)
+{
+    SEG_XDATA U8 i;
+    for (i = 1; i < MAX_TASK; i++) {
+        if ((User_task[i].current_state == TASK_BLOCKED_STATE) && (User_task[i].block_count > 0)){
+			if( --User_task[i].block_count == 0){
+            	User_task[i].current_state = TASK_READY_STATE;
+			}
+        }
+    }
+}
+
+void Os_delay(U32 time1)
+{	if(Current_task){
+    User_task[Current_task].block_count = time1 ;
+    User_task[Current_task].current_state = TASK_BLOCKED_STATE;
+	}
+}
+

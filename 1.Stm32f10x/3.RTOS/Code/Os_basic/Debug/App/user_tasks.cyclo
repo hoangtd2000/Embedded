@@ -1,0 +1,5 @@
+../App/user_tasks.c:9:6:idle_task	1
+../App/user_tasks.c:13:6:task1_handler	1
+../App/user_tasks.c:20:6:task2_handler	1
+../App/user_tasks.c:27:6:task3_handler	1
+../App/user_tasks.c:34:6:task4_handler	1

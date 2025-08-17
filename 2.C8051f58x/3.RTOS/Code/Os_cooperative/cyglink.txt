@@ -1,0 +1,9 @@
+"D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_cooperative\main.obj",
+"D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_cooperative\App\Application.obj",
+"D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_cooperative\Os\Os_scheduler.obj",
+"D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_cooperative\Os\Os_task.obj",
+"D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_cooperative\Service\Service.obj",
+"D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_cooperative\MCAL\Dio.obj",
+"D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_cooperative\MCAL\GPT.obj",
+"D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_cooperative\MCAL\Timer.obj",
+"D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_cooperative\MCAL\Uart.obj"  TO "D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_cooperative\main" RS(256) PL(68) PW(78) BANKAREA(8000H,0FFFFH) IX 

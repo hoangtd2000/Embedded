@@ -1,0 +1,10 @@
+
+BL51 BANKED LINKER/LOCATER V6.22 - SN: K1FVC-C014WZ
+COPYRIGHT KEIL ELEKTRONIK GmbH 1987 - 2009
+"D:\hoangtd2000\Embedded\2.C8051f58x\1.Basic_knowledge\Start\L51_BANK.obj",
+"D:\hoangtd2000\Embedded\2.C8051f58x\1.Basic_knowledge\Start\STARTUP.obj",
+"D:\hoangtd2000\Embedded\2.C8051f58x\1.Basic_knowledge\Start\main.obj",
+"D:\hoangtd2000\Embedded\2.C8051f58x\1.Basic_knowledge\Start\Test_flash.obj"  TO "D:\hoangtd2000\Embedded\2.C8051f58x\1.Basic_knowledge\Start\Start" RS(256) PL(68) PW(78) BANKAREA(8000H,0FFFFH) NOOL IX BANK1(?PR?WRITE_BANK1?TEST_FLASH(0x1000)) BANK2(?PR?WRITE_BANK2?TEST_FLASH(0x1000)) BANK3(?PR?WRITE_BANK3?TEST_FLASH(0x1000))  
+
+Program Size: data=16.1 xdata=51 code=1774
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

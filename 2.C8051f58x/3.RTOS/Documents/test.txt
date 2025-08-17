@@ -1,0 +1,74 @@
+        ; ==== 1. Direct Addressing Only 0xC8 (SFR: P0) ====
+        MOV     0xC8, #012H    ; Ghi 0x12 vao SFR TMR2CN
+
+        ; ==== 2. Indirect Addressing Only IRAM upper (0xC8) ====
+        MOV     R0, #0C8H
+        MOV     A, #034H
+        MOV     @R0, A         ; Ghi 0x34 vao dia chi 0xC8
+
+        ; ==== 3. Kiem tra lai du lieu test ====
+        ; Doc lai SFR (TMR2CN) vao ACC
+        MOV     A, 0C8H
+
+        ; Doc lai upper IRAM 0xC8 vao ACC
+        MOV     R0, #0C8H
+        MOV     B, @R0
+
+
+
+
+
+        ; R7:R6 = stack_top
+; R5:R4 = task_handler
+port_prepare_stack:
+        MOV     DPL, R6
+        MOV     DPH, R7
+
+        ; 0: ACC
+        MOV     A, #00H
+        MOVX    @DPTR, A
+        INC     DPTR
+
+        ; 1: IE
+        MOV     A, #00H
+        MOVX    @DPTR, A
+        INC     DPTR
+
+        ; 2: DPL
+        MOV     A, #00H
+        MOVX    @DPTR, A
+        INC     DPTR
+
+        ; 3: DPH
+        MOV     A, #00H
+        MOVX    @DPTR, A
+        INC     DPTR
+
+        ; 4: B
+        MOV     A, #00H
+        MOVX    @DPTR, A
+        INC     DPTR
+
+        ; 5–12: R0–R7
+        MOV     R0, #8
+push_regs:
+        MOV     A, #00H
+        MOVX    @DPTR, A
+        INC     DPTR
+        DJNZ    R0, push_regs
+
+        ; 13: PSW
+        MOV     A, #00H
+        MOVX    @DPTR, A
+        INC     DPTR
+
+        ; 14: PC low (task_handler)
+        MOV     A, R4
+        MOVX    @DPTR, A
+        INC     DPTR
+
+        ; 15: PC high
+        MOV     A, R5
+        MOVX    @DPTR, A
+
+        RET

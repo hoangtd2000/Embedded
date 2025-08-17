@@ -1,0 +1,18 @@
+#include "Service.h"
+
+#define TICK 1000U
+#define SYSCLK 24000000U
+#define BAUDRATE 115200U
+ 
+void MCU_init(void)
+{
+    SYSCLK_Init();
+    PORT_Init();
+    TIMER2_Init(1000);
+	EXTERNAL_INTERRUPT_Init();
+    UART1_Init(SYSCLK, BAUDRATE);
+}
+void Polling(void){
+	SEG_XDATA U8 i = 0 ;
+	for (i ; i < 30 ; i++);
+}

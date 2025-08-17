@@ -1,0 +1,162 @@
+#include "Task.h"
+
+SEG_XDATA TCB_t user_tasks[MAX_TASK];
+SEG_XDATA U32 current_task = 0;
+
+SEG_XDATA  U32 next_stack_addr = (SRAM_END- SIZE_SCHED_STACK);
+SEG_XDATA U8 task_count = 0;
+SEG_XDATA U32 G_systick = 0 ;
+extern void  portSAVE_CONTEXT();
+extern void  portRESTORE_CONTEXT();
+
+static SEG_XDATA U8 *pxXRAMStack;
+static SEG_DATA  U8 *pxRAMStack;
+static SEG_DATA U8 ucStackBytes;
+#define SYSCLK      24000000           // SYSCLK frequency in Hz
+
+
+#define COPY_STACK_TO_XRAM()                                                            \
+{                                                                                           \
+    pxXRAMStack = (SEG_XDATA U8 *)user_tasks[current_task].psp_value;                   \
+    pxRAMStack  = (SEG_DATA U8 *)configSTACK_START;                             \
+    ucStackBytes = SP - (configSTACK_START - 1);                                    \
+    *pxXRAMStack = ucStackBytes;                                                    \
+    while (ucStackBytes) {                                      \
+        pxXRAMStack++;                                  \
+        *pxXRAMStack = *pxRAMStack;                     \
+        pxRAMStack++;               \
+        ucStackBytes--;                     \
+    }                                                                                 \
+}
+#define COPY_XRAM_TO_STACK()                                                            \
+{                                                                                           \
+    pxXRAMStack = (SEG_XDATA U8 *)user_tasks[current_task].psp_value;\
+    pxRAMStack  = (SEG_DATA U8 *)(configSTACK_START - 1);\
+    ucStackBytes = *pxXRAMStack++;\
+    do {\
+        pxXRAMStack++;\
+        pxRAMStack++;\
+        *pxRAMStack = *pxXRAMStack;\
+        ucStackBytes--;\
+    } while (ucStackBytes);\
+    SP = (U8)(pxRAMStack);\
+}
+
+
+U8 create_task(void (*task_handler)(void), U32 stack_size) {
+    SEG_XDATA U8 *stack_top;
+
+    if (task_count >= MAX_TASK) {return -1;}
+
+    stack_top = (SEG_XDATA U8 *)(next_stack_addr);
+    port_prepare_stack(&stack_top, task_handler);
+
+    user_tasks[task_count].psp_value = (U16)(stack_top);
+    user_tasks[task_count].task_handler = task_handler;
+    user_tasks[task_count].block_count = 0;
+    user_tasks[task_count].current_state = TASK_READY_STATE;
+
+    next_stack_addr -= stack_size;
+    task_count++;
+    return 0;
+}
+
+// Chuẩn FreeRTOS-style
+void port_prepare_stack(U8 **stack_ptr, void (*handler)(void)) {
+    SEG_XDATA U8 *sp;
+	
+    //*stack_ptr -= 15;
+    sp = *stack_ptr;
+
+   // PC (return address for RETI)
+    sp[0] = ((U16)handler) & 0xFF;    // LSB
+    sp[1] = ((U16)handler>>8 )& 0xff;      // MSB
+    sp[2]  = 0x00;  // ACC
+    sp[3]  = 0x00;  // IE
+    sp[4]  = 0x00;  // DPL
+    sp[5]  = 0x00;  // DPH
+    sp[6]  = 0x00;  // B
+    sp[7]  = 0x02;  // R2
+    sp[8]  = 0x03;  // R3
+    sp[9]  = 0x04;  // R4
+    sp[10] = 0x05;  // R5
+    sp[11] = 0x06;  // R6
+    sp[12] = 0x07;  // R7
+    sp[13] = 0x00;  // R0
+    sp[14] = 0x01;  // R1
+    sp[15] = 0x00;  // PSW
+}
+
+void update_next_task(void) {
+    SEG_XDATA U32 i, next;
+
+    for (i = 0; i < MAX_TASK; i++) {
+        next = (current_task + i) % MAX_TASK;
+        //if (user_tasks[next].current_state == TASK_READY_STATE) {
+            current_task = next;
+          //  return;
+        }
+    //}
+   // current_task = 0;  // IDLE
+}
+
+
+void portCOPY_STACK_TO_XRAM(void) {
+    pxXRAMStack = (SEG_XDATA U8 *)user_tasks[current_task].psp_value;
+    pxRAMStack  = (SEG_DATA U8 *)configSTACK_START;
+
+    // Tính toán độ sâu stack
+    ucStackBytes = SP - (configSTACK_START - 1);
+
+    // Ghi kích thước stack vào byte đầu tiên trong XRAM
+    *pxXRAMStack = ucStackBytes;
+
+    // Copy stack từ IRAM → XRAM
+    while (ucStackBytes) {
+        pxXRAMStack++;
+        *pxXRAMStack = *pxRAMStack;
+        pxRAMStack++;
+        ucStackBytes--;
+    }
+}
+
+
+
+void portCOPY_XRAM_TO_STACK(void) {
+    pxXRAMStack = (SEG_XDATA U8 *)user_tasks[current_task].psp_value;
+    pxRAMStack  = (SEG_DATA U8 *)(configSTACK_START - 1);
+
+    // Đọc số byte cần copy
+    ucStackBytes = *pxXRAMStack++;
+
+    // Copy từ XRAM → IRAM
+    do {
+        pxXRAMStack++;
+        pxRAMStack++;
+        *pxRAMStack = *pxXRAMStack;
+        ucStackBytes--;
+    } while (ucStackBytes);
+
+    SP = (U8)(pxRAMStack);
+
+    portRESTORE_CONTEXT();
+}
+
+INTERRUPT(Timer2_ISR, INTERRUPT_TIMER2)
+{
+	SAVE_CONTEXT();
+   update_next_task
+   TF2H = 0; 
+    COPY_XRAM_TO_STACK();
+}
+
+
+void start_scheduler(void) {
+    TIMER2_Init(SYSCLK / 12 / 100); // Init Timer2
+   // SFRPAGE = 0;
+   // current_task = 0; // task d?u ti�n s? du?c ch?y
+	
+    //portCOPY_XRAM_TO_STACK();
+
+    //portRESTORE_CONTEXT(); // B?t d?u ch?y task d?u ti�n
+}

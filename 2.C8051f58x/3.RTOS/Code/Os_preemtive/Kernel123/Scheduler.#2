@@ -1,0 +1,13 @@
+#include "Scherduler.h"
+
+extern void  portSAVE_CONTEXT();
+extern void  portRESTORE_CONTEXT();
+extern U32 current_task;
+#define SYSCLK      24000000           // SYSCLK frequency in Hz
+void start_scheduler(void) {
+//current_task = 1;
+TIMER2_Init(SYSCLK / 12 / 1000); // Init Timer2
+SFRPAGE = 0;
+     //   current_task = 1; // ho?c ch?n task d?u tiên READY
+   // portCOPY_XRAM_TO_STACK(); // s? nh?y vào portRESTORE_CONTEXT luôn
+}

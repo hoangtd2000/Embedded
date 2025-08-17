@@ -1,0 +1,17 @@
+
+BL51 BANKED LINKER/LOCATER V6.22 - SN: K1FVC-C014WZ
+COPYRIGHT KEIL ELEKTRONIK GmbH 1987 - 2009
+"D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_preemtive\main.obj",
+"D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_preemtive\L51_BANK.obj",
+"D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_preemtive\STARTUP.obj",
+"D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_preemtive\test.obj",
+"D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_preemtive\Kernel\port_stack.obj",
+"D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_preemtive\Kernel\Scheduler.obj",
+"D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_preemtive\Kernel\Task.obj",
+"D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_preemtive\Kernel\Tick.obj"  TO "D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_preemtive\Os_basic" RS(256) PL(68) PW(78) BANKAREA(8000H,0FFFFH) 
+
+*** FATAL ERROR L210: I/O ERROR ON INPUT FILE:
+    EXCEPTION 0021H: PATH OR FILE NOT FOUND
+    FILE: D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_preemtive\Kernel\port_stack.obj
+
+>> 

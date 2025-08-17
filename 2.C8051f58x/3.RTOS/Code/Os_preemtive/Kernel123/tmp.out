@@ -1,0 +1,43 @@
+
+A51 MACRO ASSEMBLER V8.02b - SN: K1FVC-C014WZ
+COPYRIGHT KEIL ELEKTRONIK GmbH 1987 - 2008
+
+MACRO ASSEMBLER A51 V8.02b
+NO OBJECT MODULE REQUESTED
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE port_stack.A51 XR GEN DB EP NOMOD51 INCDIR(C:\SiLabs\MCU\Inc;./Kernel) 
+
+LOC  OBJ            LINE     SOURCE
+
+005F E500            130             MOV     A, current_task
+*** ____________________________________________^
+*** ERROR #A48 IN 130 (port_stack.A51, LINE 47): DATA-ADDRESS EXPECTED
+0061                 131             MOV     B, #SIZEOF_TASK_STRUCT
+*** _____________________________________________^
+*** ERROR #A45 IN 131 (port_stack.A51, LINE 48): UNDEFINED SYMBOL (PASS-2)
+0065                 133             ADD     A, #OFFSET_PSP
+*** _____________________________________________^
+*** ERROR #A45 IN 133 (port_stack.A51, LINE 50): UNDEFINED SYMBOL (PASS-2)
+006A                 136             MOV     DPH, @R0+1
+*** _________________________________^
+*** _________________________________________________^
+*** ERROR #A38 IN 136 (port_stack.A51, LINE 53): NUMBER OF OPERANDS DOES NOT MATCH INSTRUCTION
+*** ERROR #A9 IN 136 (port_stack.A51, LINE 53): SYNTAX ERROR
+007D                 150             SUBB    A, #(configSTACK_START - 1)
+*** ______________________________________________^
+*** ERROR #A45 IN 150 (port_stack.A51, LINE 67): UNDEFINED SYMBOL (PASS-2)
+008B 0500            163             INC     pxXRAMStack
+*** _________________________________________^
+*** ERROR #A48 IN 163 (port_stack.A51, LINE 80): DATA-ADDRESS EXPECTED
+0092                 168             MOV     DPTR, pxXRAMStack
+*** _________________________________________^
+*** ERROR #A40 IN 168 (port_stack.A51, LINE 85): INVALID REGISTER
+009B 0500            181             INC     pxXRAMStack
+*** _________________________________________^
+*** ERROR #A48 IN 181 (port_stack.A51, LINE 98): DATA-ADDRESS EXPECTED
+009F A800            184             MOV     R0, pxXRAMStack
+*** _____________________________________________^
+*** ERROR #A48 IN 184 (port_stack.A51, LINE 101): DATA-ADDRESS EXPECTED
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 10 ERROR(S)
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 10 ERROR(S)

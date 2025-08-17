@@ -1,0 +1,8 @@
+#ifndef SCHEDULER_H_
+#define SCHEDULER_H_
+
+#include "rtos_config.h"
+#include "task.h"
+#include "stdint.h"
+void start_scheduler(void);
+#endif /* SCHEDULER_H_ */

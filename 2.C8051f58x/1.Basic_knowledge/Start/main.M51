@@ -1,0 +1,588 @@
+BL51 BANKED LINKER/LOCATER V6.22              05/02/2025  14:52:09  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+C:\KEIL_V5\C51\BIN\BL51.EXE D:\hoangtd2000\Embedded\2.C8051f58x\1.Basic_knowle
+>> dge\Start\main.obj, D:\hoangtd2000\Embedded\2.C8051f58x\1.Basic_knowledge\S
+>> tart\L51_BANK.obj, D:\hoangtd2000\Embedded\2.C8051f58x\1.Basic_knowledge\St
+>> art\STARTUP.obj, BANK2 {D:\hoangtd2000\Embedded\2.C8051f58x\1.Basic_knowled
+>> ge\Start\Test_flash.obj} TO D:\hoangtd2000\Embedded\2.C8051f58x\1.Basic_kno
+>> wledge\Start\main RS (256) PL (68) PW (78) IX NOOL BANKAREA (8000H, 0FFFFH)
+>>  BANK1 (?PR?WRITE_BANK1?TEST_FLASH (0X1000)) BANK2 (?PR?WRITE_BANK2?TEST_FL
+>> ASH (0X1000)) BANK3 (?PR?WRITE_BANK3?TEST_FLASH (0X1000))
+
+
+MEMORY MODEL: LARGE
+
+
+INPUT MODULES INCLUDED:
+  D:\hoangtd2000\Embedded\2.C8051f58x\1.Basic_knowledge\Start\main.obj (MAIN)
+  D:\hoangtd2000\Embedded\2.C8051f58x\1.Basic_knowledge\Start\L51_BANK.obj (?B
+>> ANK?SWITCHING)
+  D:\hoangtd2000\Embedded\2.C8051f58x\1.Basic_knowledge\Start\STARTUP.obj (?C_
+>> STARTUP)
+  D:\hoangtd2000\Embedded\2.C8051f58x\1.Basic_knowledge\Start\Test_flash.obj (
+>> TEST_FLASH)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (?C_INIT)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (?C?ULCMP)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (?C?LSTXDATA)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (?C?LSTKXDATA)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (PRINTF)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (?C?CLDPTR)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (?C?CLDOPTR)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (?C?CSTPTR)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (?C?PLDIXDATA)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (?C?PSTXDATA)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (?C?CCASE)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (PUTCHAR)
+
+
+LINK MAP OF MODULE:  D:\hoangtd2000\Embedded\2.C8051f58x\1.Basic_knowledge\Sta
+>> rt\main (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0005H     UNIT         ?DT?PRINTF?PRINTF
+            DATA    000DH     0001H     UNIT         ?BANK?DATA
+                    000EH     0002H                  *** GAP ***
+            REG     0010H     0008H     ABSOLUTE     "REG BANK 2"
+                    0018H     0008H                  *** GAP ***
+            BIT     0020H.0   0001H.1   UNIT         ?BI?PRINTF?PRINTF
+                    0021H.1   0000H.7                *** GAP ***
+            IDATA   0022H     0001H     UNIT         ?STACK
+
+            * * * * * * *  X D A T A   M E M O R Y  * * * * * * *
+            XDATA   0000H     0028H     UNIT         ?XD?PRINTF?PRINTF
+            XDATA   0028H     0008H     UNIT         ?XD?MAIN
+            XDATA   0030H     0003H     UNIT         ?XD?_TIMER2_INIT?MAIN
+            XDATA   0033H     0002H     UNIT         ?XD?_DELAYMS?MAIN
+            XDATA   0035H     0001H     UNIT         ?XD?MAIN?MAIN
+            XDATA   0036H     0001H     UNIT         ?XD?PORT_INIT?MAIN
+            XDATA   0037H     0001H     UNIT         ?XD?SYSCLK_INIT?MAIN
+            XDATA   0038H     0001H     UNIT         ?XD?UART1_INIT?MAIN
+            XDATA   0039H     0001H     UNIT         ?XD?EXTERNAL_INTERRUPT_IN
+>> IT?MAIN
+            XDATA   003AH     0001H     UNIT         ?XD?WRITE_BANK1?TEST_FLAS
+BL51 BANKED LINKER/LOCATER V6.22            05/02/2025  14:52:09  PAGE 2
+
+
+>> H
+            XDATA   003BH     0001H     UNIT         ?XD?WRITE_BANK2?TEST_FLAS
+>> H
+            XDATA   003CH     0001H     UNIT         ?XD?WRITE_BANK3?TEST_FLAS
+>> H
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0003H     ABSOLUTE     
+            CODE    0006H     0023H     UNIT         ?PR?PORT_INIT?MAIN
+                    0029H     0002H                  *** GAP ***
+            CODE    002BH     0003H     ABSOLUTE     
+            CODE    002EH     0365H     UNIT         ?PR?PRINTF?PRINTF
+            CODE    0393H     00ECH     UNIT         ?C?LIB_CODE
+            CODE    047FH     008FH     UNIT         ?C_C51STARTUP
+            CODE    050EH     0048H     UNIT         ?PR?UART1_INIT?MAIN
+            CODE    0556H     0042H     UNIT         ?PR?MAIN?MAIN
+            CODE    0598H     0042H     UNIT         ?PR?ISR_TIMER?MAIN
+            CODE    05DAH     001BH     UNIT         ?PR?EXTERNAL_INTERRUPT_IN
+>> IT?MAIN
+            CODE    05F5H     000AH     UNIT         ?PR?HOANG?MAIN
+                    05FFH     0001H                  *** GAP ***
+            CODE    0600H     0054H     PAGE         ?BANK?SWITCH
+            CODE    0654H     003CH     UNIT         ?PR?_TIMER2_INIT?MAIN
+            CODE    0690H     0035H     UNIT         ?PR?_DELAYMS?MAIN
+            CODE    06C5H     0027H     UNIT         ?PR?PUTCHAR?PUTCHAR
+            CODE    06ECH     0017H     UNIT         ?PR?SYSCLK_INIT?MAIN
+            CODE    0703H     000FH     UNIT         ?C_INITSEG
+            CODE    0712H     000CH     UNIT         ?BANK?SELECT
+            CODE    071EH     0008H     UNIT         ?CO?MAIN
+
+            * * * * * * *   C O D E   B A N K   1   * * * * * * *
+                    0000H     1000H                  *** GAP ***
+            BANK1   1000H     000DH     UNIT         ?PR?WRITE_BANK1?TEST_FLAS
+>> H
+
+            * * * * * * *   C O D E   B A N K   2   * * * * * * *
+                    0000H     1000H                  *** GAP ***
+            BANK2   1000H     000DH     UNIT         ?PR?WRITE_BANK2?TEST_FLAS
+>> H
+
+            * * * * * * *   C O D E   B A N K   3   * * * * * * *
+                    0000H     1000H                  *** GAP ***
+            BANK3   1000H     000DH     UNIT         ?PR?WRITE_BANK3?TEST_FLAS
+>> H
+
+
+
+INTERBANK CALL TABLE OF MODULE:  D:\hoangtd2000\Embedded\2.C8051f58x\1.Basic_k
+>> nowledge\Start\main (MAIN)
+
+ADDRESS    FUNCTION NAME
+------------------------
+ 0644H     WRITE_BANK1
+ 0649H     WRITE_BANK2
+ 064EH     WRITE_BANK3
+
+
+
+SYMBOL TABLE OF MODULE:  D:\hoangtd2000\Embedded\2.C8051f58x\1.Basic_knowledge
+>> \Start\main (MAIN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+BL51 BANKED LINKER/LOCATER V6.22            05/02/2025  14:52:09  PAGE 3
+
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0088H         PUBLIC        TCON
+  D:0089H         PUBLIC        TMOD
+  D:008BH         PUBLIC        TL1
+  D:008DH         PUBLIC        TH1
+  D:008EH         PUBLIC        CKCON
+  D:0098H         PUBLIC        SCON1
+  D:00A1H         PUBLIC        OSCICN
+  D:00A5H         PUBLIC        P1MDOUT
+  D:00A6H         PUBLIC        P2MDOUT
+  D:00A7H         PUBLIC        SFRPAGE
+  D:00C7H         PUBLIC        XBR2
+  D:00C8H         PUBLIC        TMR2CN
+  D:00D4H         PUBLIC        P0SKIP
+  D:00D5H         PUBLIC        P1SKIP
+  D:00D9H         PUBLIC        PCA0MD
+  D:00E4H         PUBLIC        IT01CF
+  D:00EFH         PUBLIC        RSTSRC
+  D:00F2H         PUBLIC        P1MDIN
+  D:00CAH         PUBLIC        TMR2RL
+  D:00CCH         PUBLIC        TMR2
+  B:0088H.6       PUBLIC        TR1
+  B:0098H.1       PUBLIC        TI1
+  B:00A8H.7       PUBLIC        EA
+  B:00A8H.5       PUBLIC        ET2
+  B:00A8H.0       PUBLIC        EX0
+  B:00C8H.7       PUBLIC        TF2H
+  B:00C8H.2       PUBLIC        TR2
+  B:00A0H.1       PUBLIC        LED_G
+  B:00A0H.0       PUBLIC        LED_Y
+  B:0090H.2       PUBLIC        SW2
+  C:06ECH         PUBLIC        SYSCLK_Init
+  C:050EH         PUBLIC        UART1_Init
+  C:0006H         PUBLIC        PORT_Init
+  C:0690H         PUBLIC        _delayms
+  C:0654H         PUBLIC        _TIMER2_Init
+  C:05DAH         PUBLIC        EXTERNAL_INTERRUPT_Init
+  X:0028H         PUBLIC        G_systick
+  X:002CH         PUBLIC        test
+  C:0556H         PUBLIC        main
+  C:0598H         PUBLIC        isr_timer
+  C:05F5H         PUBLIC        hoang
+  -------         PROC          MAIN
+  -------         DO            
+  X:0035H         SYMBOL        SFRPAGE_save
+  -------         ENDDO         
+  C:0556H         LINE#         36
+  C:0556H         LINE#         37
+  C:0556H         LINE#         39
+  C:055CH         LINE#         41
+  C:055FH         LINE#         42
+  C:0562H         LINE#         43
+  C:0565H         LINE#         44
+  C:0568H         LINE#         45
+  C:056BH         LINE#         47
+  C:056EH         LINE#         48
+  C:0571H         LINE#         49
+  C:0574H         LINE#         50
+  C:057BH         LINE#         51
+  C:057EH         LINE#         52
+  C:0580H         LINE#         53
+  C:0583H         LINE#         55
+  C:0583H         LINE#         56
+  C:0583H         LINE#         58
+BL51 BANKED LINKER/LOCATER V6.22            05/02/2025  14:52:09  PAGE 4
+
+
+  C:0585H         LINE#         59
+  C:058EH         LINE#         60
+  C:0595H         LINE#         61
+  C:0597H         LINE#         62
+  -------         ENDPROC       MAIN
+  -------         PROC          PORT_INIT
+  -------         DO            
+  X:0036H         SYMBOL        SFRPAGE_save
+  -------         ENDDO         
+  C:0006H         LINE#         68
+  C:0006H         LINE#         69
+  C:0006H         LINE#         70
+  C:000CH         LINE#         71
+  C:000FH         LINE#         72
+  C:0012H         LINE#         73
+  C:0015H         LINE#         74
+  C:0018H         LINE#         75
+  C:001BH         LINE#         76
+  C:001EH         LINE#         78
+  C:0021H         LINE#         80
+  C:0028H         LINE#         81
+  -------         ENDPROC       PORT_INIT
+  -------         PROC          SYSCLK_INIT
+  -------         DO            
+  X:0037H         SYMBOL        SFRPAGE_save
+  -------         ENDDO         
+  C:06ECH         LINE#         90
+  C:06ECH         LINE#         91
+  C:06ECH         LINE#         92
+  C:06F2H         LINE#         93
+  C:06F5H         LINE#         95
+  C:06F8H         LINE#         97
+  C:06FBH         LINE#         99
+  C:0702H         LINE#         100
+  -------         ENDPROC       SYSCLK_INIT
+  -------         PROC          UART1_INIT
+  -------         DO            
+  X:0038H         SYMBOL        SFRPAGE_save
+  -------         ENDDO         
+  C:050EH         LINE#         106
+  C:050EH         LINE#         107
+  C:050EH         LINE#         108
+  C:0514H         LINE#         109
+  C:0517H         LINE#         111
+  C:051AH         LINE#         116
+  C:051AH         LINE#         117
+  C:051AH         LINE#         118
+  C:051DH         LINE#         119
+  C:0520H         LINE#         120
+  C:0523H         LINE#         121
+  C:0525H         LINE#         122
+  C:0525H         LINE#         123
+  C:0525H         LINE#         124
+  C:0528H         LINE#         125
+  C:052BH         LINE#         126
+  C:052EH         LINE#         127
+  C:0530H         LINE#         128
+  C:0530H         LINE#         129
+  C:0530H         LINE#         130
+  C:0533H         LINE#         131
+  C:0536H         LINE#         132
+  C:0538H         LINE#         134
+  C:0538H         LINE#         135
+  C:053BH         LINE#         136
+  C:053EH         LINE#         137
+BL51 BANKED LINKER/LOCATER V6.22            05/02/2025  14:52:09  PAGE 5
+
+
+  C:0541H         LINE#         138
+  C:0541H         LINE#         140
+  C:0544H         LINE#         141
+  C:0547H         LINE#         142
+  C:054AH         LINE#         143
+  C:054CH         LINE#         145
+  C:054EH         LINE#         147
+  C:0555H         LINE#         148
+  -------         ENDPROC       UART1_INIT
+  -------         PROC          _DELAYMS
+  X:0033H         SYMBOL        time
+  C:0690H         LINE#         153
+  C:0698H         LINE#         154
+  C:0698H         LINE#         155
+  C:06A2H         LINE#         156
+  C:06C4H         LINE#         157
+  -------         ENDPROC       _DELAYMS
+  -------         PROC          _TIMER2_INIT
+  X:0030H         SYMBOL        counts
+  -------         DO            
+  X:0032H         SYMBOL        SFRPAGE_save
+  -------         ENDDO         
+  C:0654H         LINE#         161
+  C:065CH         LINE#         162
+  C:065CH         LINE#         163
+  C:0662H         LINE#         164
+  C:0665H         LINE#         166
+  C:0668H         LINE#         168
+  C:066BH         LINE#         170
+  C:067EH         LINE#         171
+  C:0684H         LINE#         172
+  C:0686H         LINE#         173
+  C:0688H         LINE#         174
+  C:068FH         LINE#         175
+  -------         ENDPROC       _TIMER2_INIT
+  -------         PROC          ISR_TIMER
+  C:0598H         LINE#         183
+  C:05A5H         LINE#         184
+  C:05A7H         LINE#         185
+  C:05CFH         LINE#         186
+  -------         ENDPROC       ISR_TIMER
+  -------         PROC          EXTERNAL_INTERRUPT_INIT
+  -------         DO            
+  X:0039H         SYMBOL        sfr_backup
+  -------         ENDDO         
+  C:05DAH         LINE#         188
+  C:05DAH         LINE#         189
+  C:05DAH         LINE#         190
+  C:05E0H         LINE#         191
+  C:05E3H         LINE#         193
+  C:05E6H         LINE#         194
+  C:05E9H         LINE#         195
+  C:05EBH         LINE#         196
+  C:05EDH         LINE#         198
+  C:05F4H         LINE#         199
+  -------         ENDPROC       EXTERNAL_INTERRUPT_INIT
+  -------         PROC          HOANG
+  C:05F5H         LINE#         202
+  C:05F7H         LINE#         205
+  C:05FAH         LINE#         206
+  C:05FCH         LINE#         207
+  C:05FCH         LINE#         208
+  -------         ENDPROC       HOANG
+  -------         ENDMOD        MAIN
+
+BL51 BANKED LINKER/LOCATER V6.22            05/02/2025  14:52:09  PAGE 6
+
+
+  -------         MODULE        ?BANK?SWITCHING
+  C:0712H         SEGMENT       ?BANK?SELECT
+  D:000DH         SEGMENT       ?BANK?DATA
+  C:0600H         SEGMENT       ?BANK?SWITCH
+  C:0600H         PUBLIC        ?B_BANK0
+  C:0611H         PUBLIC        ?B_BANK1
+  C:0622H         PUBLIC        ?B_BANK2
+  C:0633H         PUBLIC        ?B_BANK3
+  D:000DH         PUBLIC        ?B_CURRENTBANK
+  N:0000H         PUBLIC        ?B_FACTOR
+  N:0003H         PUBLIC        ?B_MASK
+  N:0004H         PUBLIC        ?B_MODE
+  N:0004H         PUBLIC        ?B_NBANKS
+  N:00FFH         PUBLIC        ?B_RST_BANK
+  C:060AH         PUBLIC        ?B_SWITCH0
+  C:061BH         PUBLIC        ?B_SWITCH1
+  C:062CH         PUBLIC        ?B_SWITCH2
+  C:063DH         PUBLIC        ?B_SWITCH3
+  C:0712H         PUBLIC        _SWITCHBANK
+  N:0000H         SYMBOL        ?BANK?SWITCHING
+  N:0000H         SYMBOL        ?B_FIRSTBIT
+  N:0000H         SYMBOL        ?B_RTX
+  N:0000H         SYMBOL        ?B_VAR_BANKING
+  D:00E0H         SYMBOL        ACC
+  D:00F0H         SYMBOL        B
+  N:0044H         SYMBOL        B_SWITCH_SIZE
+  C:0600H         SYMBOL        B_SWITCH_START
+  N:0004H         SYMBOL        CNT
+  D:0083H         SYMBOL        DPH
+  D:0082H         SYMBOL        DPL
+  B:00A8H.7       SYMBOL        EA
+  D:00A8H         SYMBOL        IE
+  N:0003H         SYMBOL        MASK
+  D:00F5H         SYMBOL        PSBANK
+  C:071AH         SYMBOL        SWITCH_TAB
+  C:0713H         SYMBOL        _SWITCHBANK_A
+  -------         ENDMOD        ?BANK?SWITCHING
+
+  -------         MODULE        ?C_STARTUP
+  C:047FH         SEGMENT       ?C_C51STARTUP
+  I:0022H         SEGMENT       ?STACK
+  C:0000H         PUBLIC        ?C_STARTUP
+  D:00E0H         SYMBOL        ACC
+  D:00F0H         SYMBOL        B
+  D:0083H         SYMBOL        DPH
+  D:0082H         SYMBOL        DPL
+  N:0000H         SYMBOL        IBPSTACK
+  N:0100H         SYMBOL        IBPSTACKTOP
+  N:0080H         SYMBOL        IDATALEN
+  C:0482H         SYMBOL        IDATALOOP
+  N:0000H         SYMBOL        PBPSTACK
+  N:0100H         SYMBOL        PBPSTACKTOP
+  N:0000H         SYMBOL        PDATALEN
+  N:0000H         SYMBOL        PDATASTART
+  N:0000H         SYMBOL        PPAGE
+  N:0000H         SYMBOL        PPAGEENABLE
+  D:00A0H         SYMBOL        PPAGE_SFR
+  D:0081H         SYMBOL        SP
+  C:047FH         SYMBOL        STARTUP1
+  N:0000H         SYMBOL        XBPSTACK
+  N:0000H         SYMBOL        XBPSTACKTOP
+  N:0000H         SYMBOL        XDATALEN
+  N:0000H         SYMBOL        XDATASTART
+  C:0000H         LINE#         127
+  C:047FH         LINE#         133
+BL51 BANKED LINKER/LOCATER V6.22            05/02/2025  14:52:09  PAGE 7
+
+
+  C:0481H         LINE#         134
+  C:0482H         LINE#         135
+  C:0483H         LINE#         136
+  C:0485H         LINE#         185
+  C:0488H         LINE#         193
+  C:048BH         LINE#         196
+  -------         ENDMOD        ?C_STARTUP
+
+  -------         MODULE        TEST_FLASH
+  C:0000H         SYMBOL        _ICE_DUMMY_
+ C1:1000H         PUBLIC        write_bank1
+ C2:1000H         PUBLIC        write_bank2
+ C3:1000H         PUBLIC        write_bank3
+
+  -------         PROC BANK=1   WRITE_BANK1
+  -------         DO            
+  X:003AH         SYMBOL        a_bank1
+  -------         ENDDO         
+ C1:1000H         LINE#         5
+ C1:1000H         LINE#         6
+ C1:1000H         LINE#         7
+ C1:1006H         LINE#         8
+ C1:100CH         LINE#         9
+ C1:100CH         LINE#         10
+ C1:100CH         LINE#         12
+ C1:100CH         LINE#         14
+  -------         ENDPROC       WRITE_BANK1
+
+  -------         PROC BANK=2   WRITE_BANK2
+  -------         DO            
+  X:003BH         SYMBOL        a_bank1
+  -------         ENDDO         
+ C2:1000H         LINE#         15
+ C2:1000H         LINE#         16
+ C2:1000H         LINE#         17
+ C2:1006H         LINE#         18
+ C2:100CH         LINE#         19
+ C2:100CH         LINE#         20
+ C2:100CH         LINE#         22
+ C2:100CH         LINE#         24
+  -------         ENDPROC       WRITE_BANK2
+
+  -------         PROC BANK=3   WRITE_BANK3
+  -------         DO            
+  X:003CH         SYMBOL        a_bank1
+  -------         ENDDO         
+ C3:1000H         LINE#         25
+ C3:1000H         LINE#         26
+ C3:1000H         LINE#         27
+ C3:1006H         LINE#         28
+ C3:100CH         LINE#         29
+ C3:100CH         LINE#         30
+ C3:100CH         LINE#         32
+ C3:100CH         LINE#         34
+  -------         ENDPROC       WRITE_BANK3
+  -------         ENDMOD        TEST_FLASH
+
+  -------         MODULE        ?C?ULCMP
+  C:0393H         PUBLIC        ?C?ULCMP
+  -------         ENDMOD        ?C?ULCMP
+
+  -------         MODULE        ?C?LSTXDATA
+  C:03A4H         PUBLIC        ?C?LSTXDATA
+  -------         ENDMOD        ?C?LSTXDATA
+
+BL51 BANKED LINKER/LOCATER V6.22            05/02/2025  14:52:09  PAGE 8
+
+
+  -------         MODULE        ?C?LSTKXDATA
+  C:03B0H         PUBLIC        ?C?LSTKXDATA
+  -------         ENDMOD        ?C?LSTKXDATA
+
+  -------         MODULE        PRINTF
+  X:0000H         PUBLIC        ?_PRINTF517?BYTE
+  X:0000H         PUBLIC        ?_PRINTF?BYTE
+  X:0000H         PUBLIC        ?_SPRINTF517?BYTE
+  X:0000H         PUBLIC        ?_SPRINTF?BYTE
+  C:0099H         PUBLIC        _PRINTF
+  C:0099H         PUBLIC        _PRINTF517
+  C:0093H         PUBLIC        _SPRINTF
+  C:0093H         PUBLIC        _SPRINTF517
+  -------         ENDMOD        PRINTF
+
+  -------         MODULE        ?C?CLDPTR
+  C:03E1H         PUBLIC        ?C?CLDPTR
+  -------         ENDMOD        ?C?CLDPTR
+
+  -------         MODULE        ?C?CLDOPTR
+  C:03FAH         PUBLIC        ?C?CLDOPTR
+  -------         ENDMOD        ?C?CLDOPTR
+
+  -------         MODULE        ?C?CSTPTR
+  C:0427H         PUBLIC        ?C?CSTPTR
+  -------         ENDMOD        ?C?CSTPTR
+
+  -------         MODULE        ?C?PLDIXDATA
+  C:0439H         PUBLIC        ?C?PLDIXDATA
+  -------         ENDMOD        ?C?PLDIXDATA
+
+  -------         MODULE        ?C?PSTXDATA
+  C:0450H         PUBLIC        ?C?PSTXDATA
+  -------         ENDMOD        ?C?PSTXDATA
+
+  -------         MODULE        ?C?CCASE
+  C:0459H         PUBLIC        ?C?CCASE
+  -------         ENDMOD        ?C?CCASE
+
+  -------         MODULE        PUTCHAR
+  C:06C5H         PUBLIC        _PUTCHAR
+  -------         ENDMOD        PUTCHAR
+
+
+
+INTER-MODULE CROSS-REFERENCE LISTING
+------------------------------------
+
+
+NAME . . . . . . . . . . USAGE    MODULE NAMES
+----------------------------------------------
+
+?B_BANK0 . . . . . . . . CODE;    ?BANK?SWITCHING  
+?B_BANK1 . . . . . . . . CODE;    ?BANK?SWITCHING  
+?B_BANK2 . . . . . . . . CODE;    ?BANK?SWITCHING  
+?B_BANK3 . . . . . . . . CODE;    ?BANK?SWITCHING  
+?B_CURRENTBANK . . . . . DATA;    ?BANK?SWITCHING  
+?B_FACTOR. . . . . . . . NUMB;    ?BANK?SWITCHING  
+?B_MASK. . . . . . . . . NUMB;    ?BANK?SWITCHING  
+?B_MODE. . . . . . . . . NUMB;    ?BANK?SWITCHING  
+?B_NBANKS. . . . . . . . NUMB;    ?BANK?SWITCHING  
+?B_RST_BANK. . . . . . . NUMB;    ?BANK?SWITCHING  
+?B_SWITCH0 . . . . . . . CODE;    ?BANK?SWITCHING  ?C_STARTUP  
+?B_SWITCH1 . . . . . . . CODE;    ?BANK?SWITCHING  
+?B_SWITCH2 . . . . . . . CODE;    ?BANK?SWITCHING  
+BL51 BANKED LINKER/LOCATER V6.22            05/02/2025  14:52:09  PAGE 9
+
+
+?B_SWITCH3 . . . . . . . CODE;    ?BANK?SWITCHING  
+?C?CCASE . . . . . . . . CODE;    ?C?CCASE  PRINTF  
+?C?CLDOPTR . . . . . . . CODE;    ?C?CLDOPTR  PRINTF  
+?C?CLDPTR. . . . . . . . CODE;    ?C?CLDPTR  PRINTF  
+?C?CSTPTR. . . . . . . . CODE;    ?C?CSTPTR  PRINTF  
+?C?LSTKXDATA . . . . . . CODE;    ?C?LSTKXDATA  MAIN  
+?C?LSTXDATA. . . . . . . CODE;    ?C?LSTXDATA  MAIN  
+?C?PLDIXDATA . . . . . . CODE;    ?C?PLDIXDATA  PRINTF  
+?C?PSTXDATA. . . . . . . CODE;    ?C?PSTXDATA  PRINTF  
+?C?ULCMP . . . . . . . . CODE;    ?C?ULCMP  MAIN  
+?C_INITSEGSTART. . . . . CODE;    ** L51 GENERATED **  
+?C_START . . . . . . . . CODE;    ?C_INIT  ?C_STARTUP  
+?C_STARTUP . . . . . . . CODE;    ?C_STARTUP  MAIN  
+?_PRINTF517?BYTE . . . . XDATA;   PRINTF  
+?_PRINTF?BYTE. . . . . . XDATA;   PRINTF  MAIN  
+?_SPRINTF517?BYTE. . . . XDATA;   PRINTF  
+?_SPRINTF?BYTE . . . . . XDATA;   PRINTF  
+EXTERNAL_INTERRUPT_INIT. CODE;    MAIN  
+G_SYSTICK. . . . . . . . XDATA;   MAIN  
+HOANG. . . . . . . . . . CODE;    MAIN  
+ISR_TIMER. . . . . . . . CODE;    MAIN  
+MAIN . . . . . . . . . . CODE;    MAIN  ?C_INIT  
+PORT_INIT. . . . . . . . CODE;    MAIN  
+SYSCLK_INIT. . . . . . . CODE;    MAIN  
+TEST . . . . . . . . . . XDATA;   MAIN  
+UART1_INIT . . . . . . . CODE;    MAIN  
+WRITE_BANK1. . . . . . . BANK1;   TEST_FLASH  MAIN  
+WRITE_BANK2. . . . . . . BANK2;   TEST_FLASH  MAIN  
+WRITE_BANK3. . . . . . . BANK3;   TEST_FLASH  MAIN  
+_DELAYMS . . . . . . . . CODE;    MAIN  
+_PRINTF. . . . . . . . . CODE;    PRINTF  MAIN  
+_PRINTF517 . . . . . . . CODE;    PRINTF  
+_PUTCHAR . . . . . . . . CODE;    PUTCHAR  PRINTF  
+_SPRINTF . . . . . . . . CODE;    PRINTF  
+_SPRINTF517. . . . . . . CODE;    PRINTF  
+_SWITCHBANK. . . . . . . CODE;    ?BANK?SWITCHING  
+_TIMER2_INIT . . . . . . CODE;    MAIN  
+
+Program Size: data=24.1 xdata=61 code=1866
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

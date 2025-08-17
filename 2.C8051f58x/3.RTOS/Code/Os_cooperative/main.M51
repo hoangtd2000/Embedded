@@ -1,0 +1,866 @@
+BL51 BANKED LINKER/LOCATER V6.22              04/23/2025  15:01:08  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+C:\KEIL_V5\C51\BIN\BL51.EXE D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_c
+>> ooperative\main.obj, D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_coope
+>> rative\App\Application.obj, D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\O
+>> s_cooperative\Os\Os_scheduler.obj, D:\hoangtd2000\Embedded\C8051f58x\3.RTOS
+>> \Code\Os_cooperative\Os\Os_task.obj, D:\hoangtd2000\Embedded\C8051f58x\3.RT
+>> OS\Code\Os_cooperative\Service\Service.obj, D:\hoangtd2000\Embedded\C8051f5
+>> 8x\3.RTOS\Code\Os_cooperative\MCAL\Dio.obj, D:\hoangtd2000\Embedded\C8051f5
+>> 8x\3.RTOS\Code\Os_cooperative\MCAL\GPT.obj, D:\hoangtd2000\Embedded\C8051f5
+>> 8x\3.RTOS\Code\Os_cooperative\MCAL\Timer.obj, D:\hoangtd2000\Embedded\C8051
+>> f58x\3.RTOS\Code\Os_cooperative\MCAL\Uart.obj TO D:\hoangtd2000\Embedded\C8
+>> 051f58x\3.RTOS\Code\Os_cooperative\main RS (256) PL (68) PW (78) BANKAREA (
+>> 8000H, 0FFFFH) IX
+
+
+MEMORY MODEL: LARGE
+
+
+INPUT MODULES INCLUDED:
+  D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_cooperative\main.obj (MAIN)
+>> 
+  D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_cooperative\App\Application
+>> .obj (APPLICATION)
+  D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_cooperative\Os\Os_scheduler
+>> .obj (OS_SCHEDULER)
+  D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_cooperative\Os\Os_task.obj 
+>> (OS_TASK)
+  D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_cooperative\Service\Service
+>> .obj (SERVICE)
+  D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_cooperative\MCAL\Dio.obj (D
+>> IO)
+  D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_cooperative\MCAL\GPT.obj (G
+>> PT)
+  D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_cooperative\MCAL\Timer.obj 
+>> (TIMER)
+  D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_cooperative\MCAL\Uart.obj (
+>> UART)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (?C_STARTUP)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (?C?ULDIV)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (?C?LNEG)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (?C?ULCMP)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (?C?LILDXDATA)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (?C?LSTXDATA)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (?C?LSTKXDATA)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (?C?CCASE)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (?C?ICALL)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (PRINTF)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (?C_INIT)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (?C?CLDPTR)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (?C?CLDOPTR)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (?C?CSTPTR)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (?C?PLDIXDATA)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (?C?PSTXDATA)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (PUTCHAR)
+
+
+LINK MAP OF MODULE:  D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_cooperat
+>> ive\main (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0005H     UNIT         _DATA_GROUP_
+BL51 BANKED LINKER/LOCATER V6.22            04/23/2025  15:01:08  PAGE 2
+
+
+                    000DH     0013H                  *** GAP ***
+            BIT     0020H.0   0001H.1   UNIT         _BIT_GROUP_
+                    0021H.1   0000H.7                *** GAP ***
+            IDATA   0022H     0001H     UNIT         ?STACK
+
+            * * * * * * *  X D A T A   M E M O R Y  * * * * * * *
+            XDATA   0000H     0028H     UNIT         _XDATA_GROUP_
+            XDATA   0028H     0021H     UNIT         ?XD?OS_TASK
+            XDATA   0049H     0009H     UNIT         ?XD?_UART1_INIT?UART
+            XDATA   0052H     0007H     UNIT         ?XD?TIMER
+            XDATA   0059H     0004H     UNIT         ?XD?_CREATE_TASK?OS_TASK
+            XDATA   005DH     0004H     UNIT         ?XD?_OS_DELAY?OS_TASK
+            XDATA   0061H     0003H     UNIT         ?XD?_EXT0_SET_CALLBACK_PT
+>> R?DIO
+            XDATA   0064H     0003H     UNIT         ?XD?DIO
+            XDATA   0067H     0003H     UNIT         ?XD?_TIMER2_INIT?TIMER
+            XDATA   006AH     0003H     UNIT         ?XD?_TIMER2_SET_CALLBACK_
+>> PTR?TIMER
+            XDATA   006DH     0002H     UNIT         ?XD?OS_SCHEDULER?OS_SCHED
+>> ULER
+            XDATA   006FH     0001H     UNIT         ?XD?TASK1_HANDLER?APPLICA
+>> TION
+            XDATA   0070H     0001H     UNIT         ?XD?TASK2_HANDLER?APPLICA
+>> TION
+            XDATA   0071H     0001H     UNIT         ?XD?TASK3_HANDLER?APPLICA
+>> TION
+            XDATA   0072H     0001H     UNIT         ?XD?APPLICATION
+            XDATA   0073H     0001H     UNIT         ?XD?UNBLOCK_TASK?OS_TASK
+            XDATA   0074H     0001H     UNIT         ?XD?POLLING?SERVICE
+            XDATA   0075H     0001H     UNIT         ?XD?PORT_INIT?DIO
+            XDATA   0076H     0001H     UNIT         ?XD?_TONGGLE?DIO
+            XDATA   0077H     0001H     UNIT         ?XD?EXTERNAL_INTERRUPT_IN
+>> IT?DIO
+            XDATA   0078H     0001H     UNIT         ?XD?SYSCLK_INIT?GPT
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0003H     ABSOLUTE     
+            CODE    0006H     0025H     UNIT         ?PR?TASK1_HANDLER?APPLICA
+>> TION
+            CODE    002BH     0003H     ABSOLUTE     
+            CODE    002EH     0365H     UNIT         ?PR?PRINTF?PRINTF
+            CODE    0393H     0203H     UNIT         ?C?LIB_CODE
+            CODE    0596H     01EAH     UNIT         ?PR?_UART1_INIT?UART
+            CODE    0780H     00A0H     UNIT         ?PR?UNBLOCK_TASK?OS_TASK
+            CODE    0820H     008CH     UNIT         ?C_C51STARTUP
+            CODE    08ACH     0085H     UNIT         ?PR?OS_SCHEDULER?OS_SCHED
+>> ULER
+            CODE    0931H     0074H     UNIT         ?PR?_CREATE_TASK?OS_TASK
+            CODE    09A5H     006BH     UNIT         ?PR?OS_START?APPLICATION
+            CODE    0A10H     0068H     UNIT         ?PR?INT0_ISR?DIO
+            CODE    0A78H     0068H     UNIT         ?PR?TIMER2_ISR?TIMER
+            CODE    0AE0H     0049H     UNIT         ?PR?_OS_DELAY?OS_TASK
+            CODE    0B29H     003CH     UNIT         ?PR?_TIMER2_INIT?TIMER
+            CODE    0B65H     0030H     UNIT         ?CO?APPLICATION
+            CODE    0B95H     002AH     UNIT         ?PR?TASK2_HANDLER?APPLICA
+>> TION
+            CODE    0BBFH     0029H     UNIT         ?PR?INCREASE_G_SYSTICK?TI
+>> MER
+            CODE    0BE8H     0027H     UNIT         ?PR?PUTCHAR?PUTCHAR
+            CODE    0C0FH     0026H     UNIT         ?PR?MCU_INIT?SERVICE
+            CODE    0C35H     0026H     UNIT         ?PR?PORT_INIT?DIO
+            CODE    0C5BH     0025H     UNIT         ?PR?TASK3_HANDLER?APPLICA
+>> TION
+            CODE    0C80H     0022H     UNIT         ?PR?_EXT0_SET_CALLBACK_PT
+BL51 BANKED LINKER/LOCATER V6.22            04/23/2025  15:01:08  PAGE 3
+
+
+>> R?DIO
+            CODE    0CA2H     0022H     UNIT         ?PR?_TIMER2_SET_CALLBACK_
+>> PTR?TIMER
+            CODE    0CC4H     001EH     UNIT         ?PR?_TONGGLE?DIO
+            CODE    0CE2H     001CH     UNIT         ?C_INITSEG
+            CODE    0CFEH     001BH     UNIT         ?PR?EXTERNAL_INTERRUPT_IN
+>> IT?DIO
+            CODE    0D19H     0019H     UNIT         ?PR?POLLING?SERVICE
+            CODE    0D32H     0017H     UNIT         ?PR?SYSCLK_INIT?GPT
+            CODE    0D49H     0014H     UNIT         ?PR?IDLE_TASK?APPLICATION
+>> 
+            CODE    0D5DH     000FH     UNIT         ?PR?CALLBACK_EXT0?APPLICA
+>> TION
+            CODE    0D6CH     000FH     UNIT         ?PR?GET_G_SYSTICK?TIMER
+            CODE    0D7BH     000AH     UNIT         ?PR?CALLBACK_TIMER2?APPLI
+>> CATION
+            CODE    0D85H     0009H     UNIT         ?PR?MAIN?MAIN
+            CODE    0D8EH     0006H     UNIT         ?PR?GET_BUTTON_STATE?DIO
+            CODE    0D94H     0003H     UNIT         ?PR?CLEAR_TIMER2_ISR_FLAG
+>> ?TIMER
+
+
+
+OVERLAY MAP OF MODULE:   D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_coop
+>> erative\main (MAIN)
+
+
+SEGMENT                                       BIT_GROUP          DATA_GROUP   
+>>        XDATA_GROUP
+  +--> CALLED SEGMENT                      START    LENGTH     START    LENGTH
+>>      START    LENGTH
+------------------------------------------------------------------------------
+>> --------------------
+?C_C51STARTUP                              -----    -----      -----    ----- 
+>>      -----    -----
+  +--> ?PR?MAIN?MAIN
+  +--> ?C_INITSEG
+
+?PR?MAIN?MAIN                              -----    -----      -----    ----- 
+>>      -----    -----
+  +--> ?PR?OS_START?APPLICATION
+
+?PR?OS_START?APPLICATION                   -----    -----      -----    ----- 
+>>      -----    -----
+  +--> ?PR?MCU_INIT?SERVICE
+  +--> ?PR?CALLBACK_TIMER2?APPLICATION
+  +--> ?PR?_TIMER2_SET_CALLBACK_PTR?TIMER
+  +--> ?PR?CALLBACK_EXT0?APPLICATION
+  +--> ?PR?_EXT0_SET_CALLBACK_PTR?DIO
+  +--> ?PR?IDLE_TASK?APPLICATION
+  +--> ?PR?_CREATE_TASK?OS_TASK
+  +--> ?PR?TASK1_HANDLER?APPLICATION
+  +--> ?PR?TASK2_HANDLER?APPLICATION
+  +--> ?PR?TASK3_HANDLER?APPLICATION
+  +--> ?PR?OS_SCHEDULER?OS_SCHEDULER
+
+?PR?MCU_INIT?SERVICE                       -----    -----      -----    ----- 
+>>      -----    -----
+  +--> ?PR?SYSCLK_INIT?GPT
+  +--> ?PR?PORT_INIT?DIO
+  +--> ?PR?_TIMER2_INIT?TIMER
+  +--> ?PR?EXTERNAL_INTERRUPT_INIT?DIO
+  +--> ?PR?_UART1_INIT?UART
+
+?PR?CALLBACK_TIMER2?APPLICATION            -----    -----      -----    ----- 
+BL51 BANKED LINKER/LOCATER V6.22            04/23/2025  15:01:08  PAGE 4
+
+
+>>      -----    -----
+  +--> ?PR?INCREASE_G_SYSTICK?TIMER
+  +--> ?PR?UNBLOCK_TASK?OS_TASK
+  +--> ?PR?CLEAR_TIMER2_ISR_FLAG?TIMER
+
+?PR?CALLBACK_EXT0?APPLICATION              -----    -----      -----    ----- 
+>>      -----    -----
+  +--> ?PR?POLLING?SERVICE
+  +--> ?PR?GET_BUTTON_STATE?DIO
+
+?PR?IDLE_TASK?APPLICATION                  -----    -----      -----    ----- 
+>>      -----    -----
+  +--> ?PR?_TONGGLE?DIO
+
+?PR?TASK1_HANDLER?APPLICATION              -----    -----      -----    ----- 
+>>      -----    -----
+  +--> ?CO?APPLICATION
+  +--> ?PR?PRINTF?PRINTF
+  +--> ?PR?_OS_DELAY?OS_TASK
+
+?PR?PRINTF?PRINTF                          0020H.0  0001H.1    0008H    0005H 
+>>      0000H    0028H
+  +--> ?PR?PUTCHAR?PUTCHAR
+
+?PR?TASK2_HANDLER?APPLICATION              -----    -----      -----    ----- 
+>>      -----    -----
+  +--> ?CO?APPLICATION
+  +--> ?PR?PRINTF?PRINTF
+  +--> ?PR?_TONGGLE?DIO
+  +--> ?PR?_OS_DELAY?OS_TASK
+
+?PR?TASK3_HANDLER?APPLICATION              -----    -----      -----    ----- 
+>>      -----    -----
+  +--> ?CO?APPLICATION
+  +--> ?PR?PRINTF?PRINTF
+  +--> ?PR?_OS_DELAY?OS_TASK
+
+
+
+SYMBOL TABLE OF MODULE:  D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_coop
+>> erative\main (MAIN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  C:0D85H         PUBLIC        main
+  -------         PROC          MAIN
+  C:0D85H         LINE#         3
+  C:0D85H         LINE#         4
+  C:0D88H         LINE#         5
+  C:0D8DH         LINE#         6
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MAIN
+
+  -------         MODULE        APPLICATION
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:00A7H         PUBLIC        SFRPAGE
+  D:00D9H         PUBLIC        PCA0MD
+  C:09A5H         PUBLIC        Os_start
+  C:0D49H         PUBLIC        idle_task
+  C:0006H         PUBLIC        task1_handler
+  C:0B95H         PUBLIC        task2_handler
+  C:0C5BH         PUBLIC        task3_handler
+BL51 BANKED LINKER/LOCATER V6.22            04/23/2025  15:01:08  PAGE 5
+
+
+  C:0D7BH         PUBLIC        Callback_timer2
+  C:0D5DH         PUBLIC        Callback_ext0
+  X:0072H         PUBLIC        G_button_state
+  -------         PROC          OS_START
+  C:09A5H         LINE#         7
+  C:09A5H         LINE#         8
+  C:09A8H         LINE#         9
+  C:09ABH         LINE#         10
+  C:09AEH         LINE#         11
+  C:09B7H         LINE#         12
+  C:09C0H         LINE#         13
+  C:09CBH         LINE#         14
+  C:09D6H         LINE#         15
+  C:09E1H         LINE#         16
+  C:09ECH         LINE#         17
+  C:09ECH         LINE#         18
+  C:09EFH         LINE#         19
+  C:0A0DH         LINE#         20
+  C:0A0FH         LINE#         21
+  -------         ENDPROC       OS_START
+  -------         PROC          IDLE_TASK
+  C:0D49H         LINE#         23
+  C:0D49H         LINE#         24
+  C:0D51H         LINE#         25
+  C:0D56H         LINE#         26
+  C:0D5CH         LINE#         27
+  C:0D5CH         LINE#         28
+  -------         ENDPROC       IDLE_TASK
+  -------         PROC          TASK1_HANDLER
+  -------         DO            
+  X:006FH         SYMBOL        save
+  -------         ENDDO         
+  C:0006H         LINE#         30
+  C:0006H         LINE#         31
+  C:000CH         LINE#         32
+  C:000FH         LINE#         33
+  C:0018H         LINE#         34
+  C:001FH         LINE#         35
+  C:002AH         LINE#         36
+  -------         ENDPROC       TASK1_HANDLER
+  -------         PROC          TASK2_HANDLER
+  -------         DO            
+  X:0070H         SYMBOL        save
+  -------         ENDDO         
+  C:0B95H         LINE#         38
+  C:0B95H         LINE#         39
+  C:0B9BH         LINE#         40
+  C:0B9EH         LINE#         41
+  C:0BA7H         LINE#         42
+  C:0BAEH         LINE#         43
+  C:0BB3H         LINE#         44
+  C:0BBEH         LINE#         45
+  -------         ENDPROC       TASK2_HANDLER
+  -------         PROC          TASK3_HANDLER
+  -------         DO            
+  X:0071H         SYMBOL        save
+  -------         ENDDO         
+  C:0C5BH         LINE#         47
+  C:0C5BH         LINE#         48
+  C:0C61H         LINE#         49
+  C:0C64H         LINE#         50
+  C:0C6DH         LINE#         51
+  C:0C74H         LINE#         52
+  C:0C7FH         LINE#         53
+  -------         ENDPROC       TASK3_HANDLER
+BL51 BANKED LINKER/LOCATER V6.22            04/23/2025  15:01:08  PAGE 6
+
+
+  -------         PROC          CALLBACK_TIMER2
+  C:0D7BH         LINE#         55
+  C:0D7BH         LINE#         57
+  C:0D7EH         LINE#         58
+  C:0D81H         LINE#         59
+  C:0D84H         LINE#         60
+  -------         ENDPROC       CALLBACK_TIMER2
+  -------         PROC          CALLBACK_EXT0
+  C:0D5DH         LINE#         61
+  C:0D5DH         LINE#         62
+  C:0D60H         LINE#         63
+  C:0D66H         LINE#         64
+  C:0D6BH         LINE#         65
+  C:0D6BH         LINE#         66
+  -------         ENDPROC       CALLBACK_EXT0
+  -------         ENDMOD        APPLICATION
+
+  -------         MODULE        OS_SCHEDULER
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  B:00A8H.7       PUBLIC        EA
+  C:08ACH         PUBLIC        Os_scheduler
+  -------         PROC          OS_SCHEDULER
+  -------         DO            
+  X:006DH         SYMBOL        i
+  X:006EH         SYMBOL        next_task
+  -------         ENDDO         
+  C:08ACH         LINE#         6
+  C:08ACH         LINE#         7
+  C:08ACH         LINE#         9
+  C:08AEH         LINE#         10
+  C:08BFH         LINE#         11
+  C:08DEH         LINE#         12
+  C:08FFH         LINE#         14
+  C:08FFH         LINE#         15
+  C:0918H         LINE#         16
+  C:0923H         LINE#         18
+  C:0923H         LINE#         19
+  C:092BH         LINE#         20
+  C:0930H         LINE#         21
+  -------         ENDPROC       OS_SCHEDULER
+  -------         ENDMOD        OS_SCHEDULER
+
+  -------         MODULE        OS_TASK
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  C:0931H         PUBLIC        _Create_task
+  C:0780H         PUBLIC        Unblock_task
+  C:0AE0H         PUBLIC        _Os_delay
+  X:0028H         PUBLIC        Current_task
+  X:0029H         PUBLIC        User_task
+  -------         PROC          _CREATE_TASK
+  X:0059H         SYMBOL        id
+  X:005AH         SYMBOL        task_handler1
+  C:0931H         LINE#         5
+  C:0941H         LINE#         6
+  C:0941H         LINE#         7
+  C:094CH         LINE#         8
+  C:094DH         LINE#         10
+  C:094EH         LINE#         12
+  C:094EH         LINE#         13
+  C:0968H         LINE#         14
+  C:097EH         LINE#         15
+  C:09A4H         LINE#         16
+  C:09A4H         LINE#         17
+  -------         ENDPROC       _CREATE_TASK
+  -------         PROC          UNBLOCK_TASK
+BL51 BANKED LINKER/LOCATER V6.22            04/23/2025  15:01:08  PAGE 7
+
+
+  -------         DO            
+  X:0073H         SYMBOL        i
+  -------         ENDDO         
+  C:0780H         LINE#         19
+  C:0780H         LINE#         20
+  C:0780H         LINE#         22
+  C:0794H         LINE#         23
+  C:07DAH         LINE#         24
+  C:0800H         LINE#         25
+  C:0816H         LINE#         26
+  C:0816H         LINE#         27
+  C:0816H         LINE#         28
+  C:081FH         LINE#         29
+  -------         ENDPROC       UNBLOCK_TASK
+  -------         PROC          _OS_DELAY
+  X:005DH         SYMBOL        time1
+  C:0AE0H         LINE#         31
+  C:0AE6H         LINE#         32
+  C:0AEEH         LINE#         33
+  C:0B12H         LINE#         34
+  C:0B28H         LINE#         35
+  C:0B28H         LINE#         36
+  -------         ENDPROC       _OS_DELAY
+  -------         ENDMOD        OS_TASK
+
+  -------         MODULE        SERVICE
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  C:0C0FH         PUBLIC        MCU_init
+  C:0D19H         PUBLIC        Polling
+  -------         PROC          MCU_INIT
+  C:0C0FH         LINE#         7
+  C:0C0FH         LINE#         8
+  C:0C0FH         LINE#         9
+  C:0C12H         LINE#         10
+  C:0C15H         LINE#         11
+  C:0C1CH         LINE#         12
+  C:0C1FH         LINE#         13
+  C:0C34H         LINE#         14
+  -------         ENDPROC       MCU_INIT
+  -------         PROC          POLLING
+  -------         DO            
+  X:0074H         SYMBOL        i
+  -------         ENDDO         
+  C:0D19H         LINE#         15
+  C:0D19H         LINE#         16
+  C:0D1EH         LINE#         17
+  C:0D31H         LINE#         18
+  -------         ENDPROC       POLLING
+  -------         ENDMOD        SERVICE
+
+  -------         MODULE        DIO
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0088H         PUBLIC        TCON
+  D:00A5H         PUBLIC        P1MDOUT
+  D:00A6H         PUBLIC        P2MDOUT
+  D:00A7H         PUBLIC        SFRPAGE
+  D:00C7H         PUBLIC        XBR2
+  D:00D4H         PUBLIC        P0SKIP
+  D:00D5H         PUBLIC        P1SKIP
+  D:00E4H         PUBLIC        IT01CF
+  D:00F2H         PUBLIC        P1MDIN
+  B:00A8H.7       PUBLIC        EA
+  B:00A8H.0       PUBLIC        EX0
+  B:00A0H.1       PUBLIC        LED_G
+  B:00A0H.0       PUBLIC        LED_Y
+BL51 BANKED LINKER/LOCATER V6.22            04/23/2025  15:01:08  PAGE 8
+
+
+  B:0090H.2       PUBLIC        SW2
+  C:0C35H         PUBLIC        PORT_Init
+  C:0CC4H         PUBLIC        _Tonggle
+  C:0D8EH         PUBLIC        Get_Button_state
+  C:0CFEH         PUBLIC        External_Interrupt_Init
+  C:0C80H         PUBLIC        _Ext0_Set_Callback_Ptr
+  X:0064H         PUBLIC        Ext0_call_back_ptr
+  C:0A10H         PUBLIC        INT0_ISR
+  -------         PROC          PORT_INIT
+  -------         DO            
+  X:0075H         SYMBOL        SFRPAGE_save
+  -------         ENDDO         
+  C:0C35H         LINE#         11
+  C:0C35H         LINE#         12
+  C:0C35H         LINE#         13
+  C:0C3BH         LINE#         14
+  C:0C3EH         LINE#         15
+  C:0C41H         LINE#         16
+  C:0C44H         LINE#         17
+  C:0C47H         LINE#         18
+  C:0C4AH         LINE#         19
+  C:0C4DH         LINE#         20
+  C:0C50H         LINE#         21
+  C:0C53H         LINE#         23
+  C:0C5AH         LINE#         24
+  -------         ENDPROC       PORT_INIT
+  -------         PROC          _TONGGLE
+  X:0076H         SYMBOL        led
+  C:0CC4H         LINE#         25
+  C:0CC9H         LINE#         26
+  C:0CC9H         LINE#         27
+  C:0CDCH         LINE#         28
+  C:0CDCH         LINE#         29
+  C:0CDCH         LINE#         30
+  C:0CDEH         LINE#         31
+  C:0CDFH         LINE#         32
+  C:0CDFH         LINE#         33
+  C:0CE1H         LINE#         34
+  C:0CE1H         LINE#         35
+  C:0CE1H         LINE#         36
+  -------         ENDPROC       _TONGGLE
+  -------         PROC          GET_BUTTON_STATE
+  C:0D8EH         LINE#         37
+  C:0D8EH         LINE#         38
+  C:0D93H         LINE#         39
+  -------         ENDPROC       GET_BUTTON_STATE
+  -------         PROC          EXTERNAL_INTERRUPT_INIT
+  -------         DO            
+  X:0077H         SYMBOL        SFRPAGE_save
+  -------         ENDDO         
+  C:0CFEH         LINE#         40
+  C:0CFEH         LINE#         41
+  C:0CFEH         LINE#         42
+  C:0D04H         LINE#         43
+  C:0D07H         LINE#         45
+  C:0D0AH         LINE#         46
+  C:0D0DH         LINE#         47
+  C:0D0FH         LINE#         48
+  C:0D11H         LINE#         50
+  C:0D18H         LINE#         51
+  -------         ENDPROC       EXTERNAL_INTERRUPT_INIT
+  -------         PROC          _EXT0_SET_CALLBACK_PTR
+  X:0061H         SYMBOL        funct
+  C:0C80H         LINE#         52
+  C:0C8BH         LINE#         53
+BL51 BANKED LINKER/LOCATER V6.22            04/23/2025  15:01:08  PAGE 9
+
+
+  C:0C8BH         LINE#         54
+  C:0CA1H         LINE#         55
+  -------         ENDPROC       _EXT0_SET_CALLBACK_PTR
+  -------         PROC          INT0_ISR
+  C:0A10H         LINE#         56
+  C:0A32H         LINE#         58
+  C:0A47H         LINE#         59
+  C:0A55H         LINE#         60
+  C:0A55H         LINE#         61
+  -------         ENDPROC       INT0_ISR
+  -------         ENDMOD        DIO
+
+  -------         MODULE        GPT
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:00A1H         PUBLIC        OSCICN
+  D:00A7H         PUBLIC        SFRPAGE
+  D:00EFH         PUBLIC        RSTSRC
+  C:0D32H         PUBLIC        SYSCLK_Init
+  -------         PROC          SYSCLK_INIT
+  -------         DO            
+  X:0078H         SYMBOL        SFRPAGE_save
+  -------         ENDDO         
+  C:0D32H         LINE#         2
+  C:0D32H         LINE#         3
+  C:0D32H         LINE#         4
+  C:0D38H         LINE#         5
+  C:0D3BH         LINE#         7
+  C:0D3EH         LINE#         9
+  C:0D41H         LINE#         11
+  C:0D48H         LINE#         12
+  -------         ENDPROC       SYSCLK_INIT
+  -------         ENDMOD        GPT
+
+  -------         MODULE        TIMER
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:008EH         PUBLIC        CKCON
+  D:00A7H         PUBLIC        SFRPAGE
+  D:00C8H         PUBLIC        TMR2CN
+  D:00CAH         PUBLIC        TMR2RL
+  D:00CCH         PUBLIC        TMR2
+  B:00A8H.5       PUBLIC        ET2
+  B:00C8H.7       PUBLIC        TF2H
+  B:00C8H.2       PUBLIC        TR2
+  C:0B29H         PUBLIC        _TIMER2_Init
+  C:0CA2H         PUBLIC        _Timer2_Set_Callback_Ptr
+  C:0D94H         PUBLIC        Clear_Timer2_ISR_Flag
+  C:0BBFH         PUBLIC        Increase_G_systick
+  C:0D6CH         PUBLIC        Get_G_systick
+  X:0052H         PUBLIC        G_systick
+  X:0056H         PUBLIC        Timer2_Call_Back_Ptr
+  C:0A78H         PUBLIC        Timer2_ISR
+  -------         PROC          _TIMER2_INIT
+  X:0067H         SYMBOL        counts
+  -------         DO            
+  X:0069H         SYMBOL        SFRPAGE_save
+  -------         ENDDO         
+  C:0B29H         LINE#         4
+  C:0B31H         LINE#         5
+  C:0B31H         LINE#         6
+  C:0B37H         LINE#         7
+  C:0B3AH         LINE#         9
+  C:0B3DH         LINE#         11
+  C:0B40H         LINE#         13
+  C:0B53H         LINE#         14
+  C:0B59H         LINE#         15
+BL51 BANKED LINKER/LOCATER V6.22            04/23/2025  15:01:08  PAGE 10
+
+
+  C:0B5BH         LINE#         16
+  C:0B5DH         LINE#         17
+  C:0B64H         LINE#         18
+  -------         ENDPROC       _TIMER2_INIT
+  -------         PROC          CLEAR_TIMER2_ISR_FLAG
+  C:0D94H         LINE#         19
+  C:0D94H         LINE#         20
+  C:0D94H         LINE#         21
+  C:0D96H         LINE#         22
+  -------         ENDPROC       CLEAR_TIMER2_ISR_FLAG
+  -------         PROC          _TIMER2_SET_CALLBACK_PTR
+  X:006AH         SYMBOL        funct
+  C:0CA2H         LINE#         23
+  C:0CADH         LINE#         24
+  C:0CADH         LINE#         25
+  C:0CC3H         LINE#         26
+  -------         ENDPROC       _TIMER2_SET_CALLBACK_PTR
+  -------         PROC          INCREASE_G_SYSTICK
+  C:0BBFH         LINE#         27
+  C:0BBFH         LINE#         28
+  C:0BBFH         LINE#         29
+  C:0BE7H         LINE#         30
+  -------         ENDPROC       INCREASE_G_SYSTICK
+  -------         PROC          GET_G_SYSTICK
+  C:0D6CH         LINE#         31
+  C:0D6CH         LINE#         32
+  C:0D6CH         LINE#         33
+  C:0D7AH         LINE#         34
+  -------         ENDPROC       GET_G_SYSTICK
+  -------         PROC          TIMER2_ISR
+  C:0A78H         LINE#         35
+  C:0A9AH         LINE#         37
+  C:0AAFH         LINE#         38
+  C:0AAFH         LINE#         39
+  C:0ABDH         LINE#         40
+  C:0ABDH         LINE#         41
+  -------         ENDPROC       TIMER2_ISR
+  -------         ENDMOD        TIMER
+
+  -------         MODULE        UART
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0089H         PUBLIC        TMOD
+  D:008BH         PUBLIC        TL1
+  D:008DH         PUBLIC        TH1
+  D:008EH         PUBLIC        CKCON
+  D:0098H         PUBLIC        SCON1
+  D:00A7H         PUBLIC        SFRPAGE
+  B:0088H.6       PUBLIC        TR1
+  B:0098H.1       PUBLIC        TI1
+  C:0596H         PUBLIC        _UART1_Init
+  -------         PROC          _UART1_INIT
+  X:0049H         SYMBOL        sysclk
+  X:004DH         SYMBOL        baudrate
+  -------         DO            
+  X:0051H         SYMBOL        SFRPAGE_save
+  -------         ENDDO         
+  C:0596H         LINE#         3
+  C:059CH         LINE#         4
+  C:059CH         LINE#         5
+  C:05A2H         LINE#         6
+  C:05A5H         LINE#         8
+  C:05A8H         LINE#         13
+  C:05EBH         LINE#         14
+  C:05EBH         LINE#         15
+  C:061AH         LINE#         16
+BL51 BANKED LINKER/LOCATER V6.22            04/23/2025  15:01:08  PAGE 11
+
+
+  C:061DH         LINE#         17
+  C:0620H         LINE#         18
+  C:0623H         LINE#         19
+  C:0666H         LINE#         20
+  C:0666H         LINE#         21
+  C:06A0H         LINE#         22
+  C:06A3H         LINE#         23
+  C:06A6H         LINE#         24
+  C:06A9H         LINE#         25
+  C:06ECH         LINE#         26
+  C:06ECH         LINE#         27
+  C:0726H         LINE#         28
+  C:0729H         LINE#         29
+  C:072BH         LINE#         31
+  C:072BH         LINE#         32
+  C:0765H         LINE#         33
+  C:0768H         LINE#         34
+  C:076BH         LINE#         35
+  C:076BH         LINE#         37
+  C:076EH         LINE#         38
+  C:0771H         LINE#         39
+  C:0774H         LINE#         40
+  C:0776H         LINE#         42
+  C:0778H         LINE#         44
+  C:077FH         LINE#         45
+  -------         ENDPROC       _UART1_INIT
+  -------         ENDMOD        UART
+
+  -------         MODULE        ?C?ULDIV
+  C:03CFH         PUBLIC        ?C?ULDIV
+  -------         ENDMOD        ?C?ULDIV
+
+  -------         MODULE        ?C?LNEG
+  C:0461H         PUBLIC        ?C?LNEG
+  -------         ENDMOD        ?C?LNEG
+
+  -------         MODULE        ?C?ULCMP
+  C:046FH         PUBLIC        ?C?ULCMP
+  -------         ENDMOD        ?C?ULCMP
+
+  -------         MODULE        ?C?LILDXDATA
+  C:0489H         PUBLIC        ?C?LILDXDATA
+  C:0480H         PUBLIC        ?C?LILDXDATA1
+  C:0482H         PUBLIC        ?C?LILDXDATA8
+  -------         ENDMOD        ?C?LILDXDATA
+
+  -------         MODULE        ?C?LSTXDATA
+  C:04B5H         PUBLIC        ?C?LSTXDATA
+  -------         ENDMOD        ?C?LSTXDATA
+
+  -------         MODULE        ?C?LSTKXDATA
+  C:04C1H         PUBLIC        ?C?LSTKXDATA
+  -------         ENDMOD        ?C?LSTKXDATA
+
+  -------         MODULE        ?C?CCASE
+  C:04F2H         PUBLIC        ?C?CCASE
+  -------         ENDMOD        ?C?CCASE
+
+  -------         MODULE        ?C?ICALL
+  C:0518H         PUBLIC        ?C?ICALL
+  C:051CH         PUBLIC        ?C?ICALL2
+  -------         ENDMOD        ?C?ICALL
+
+  -------         MODULE        PRINTF
+  X:0000H         PUBLIC        ?_PRINTF517?BYTE
+BL51 BANKED LINKER/LOCATER V6.22            04/23/2025  15:01:08  PAGE 12
+
+
+  X:0000H         PUBLIC        ?_PRINTF?BYTE
+  X:0000H         PUBLIC        ?_SPRINTF517?BYTE
+  X:0000H         PUBLIC        ?_SPRINTF?BYTE
+  C:0099H         PUBLIC        _PRINTF
+  C:0099H         PUBLIC        _PRINTF517
+  C:0093H         PUBLIC        _SPRINTF
+  C:0093H         PUBLIC        _SPRINTF517
+  -------         ENDMOD        PRINTF
+
+  -------         MODULE        ?C?CLDPTR
+  C:051EH         PUBLIC        ?C?CLDPTR
+  -------         ENDMOD        ?C?CLDPTR
+
+  -------         MODULE        ?C?CLDOPTR
+  C:0537H         PUBLIC        ?C?CLDOPTR
+  -------         ENDMOD        ?C?CLDOPTR
+
+  -------         MODULE        ?C?CSTPTR
+  C:0564H         PUBLIC        ?C?CSTPTR
+  -------         ENDMOD        ?C?CSTPTR
+
+  -------         MODULE        ?C?PLDIXDATA
+  C:0576H         PUBLIC        ?C?PLDIXDATA
+  -------         ENDMOD        ?C?PLDIXDATA
+
+  -------         MODULE        ?C?PSTXDATA
+  C:058DH         PUBLIC        ?C?PSTXDATA
+  -------         ENDMOD        ?C?PSTXDATA
+
+  -------         MODULE        PUTCHAR
+  C:0BE8H         PUBLIC        _PUTCHAR
+  -------         ENDMOD        PUTCHAR
+
+
+
+INTER-MODULE CROSS-REFERENCE LISTING
+------------------------------------
+
+
+NAME . . . . . . . . . . . USAGE    MODULE NAMES
+------------------------------------------------
+
+?C?CCASE . . . . . . . . . CODE;    ?C?CCASE  DIO  PRINTF  
+?C?CLDOPTR . . . . . . . . CODE;    ?C?CLDOPTR  PRINTF  
+?C?CLDPTR. . . . . . . . . CODE;    ?C?CLDPTR  PRINTF  
+?C?CSTPTR. . . . . . . . . CODE;    ?C?CSTPTR  PRINTF  
+?C?ICALL . . . . . . . . . CODE;    ?C?ICALL  APPLICATION  DIO  TIMER  
+?C?ICALL2. . . . . . . . . CODE;    ?C?ICALL  
+?C?LILDXDATA . . . . . . . CODE;    ?C?LILDXDATA  
+?C?LILDXDATA1. . . . . . . CODE;    ?C?LILDXDATA  
+?C?LILDXDATA8. . . . . . . CODE;    ?C?LILDXDATA  OS_TASK  
+?C?LNEG. . . . . . . . . . CODE;    ?C?LNEG  UART  
+?C?LSTKXDATA . . . . . . . CODE;    ?C?LSTKXDATA  OS_TASK  SERVICE  
+?C?LSTXDATA. . . . . . . . CODE;    ?C?LSTXDATA  OS_TASK  TIMER  UART  
+?C?PLDIXDATA . . . . . . . CODE;    ?C?PLDIXDATA  PRINTF  
+?C?PSTXDATA. . . . . . . . CODE;    ?C?PSTXDATA  PRINTF  
+?C?ULCMP . . . . . . . . . CODE;    ?C?ULCMP  OS_TASK  UART  
+?C?ULDIV . . . . . . . . . CODE;    ?C?ULDIV  UART  
+?C_INITSEGSTART. . . . . . CODE;    ** L51 GENERATED **  
+?C_START . . . . . . . . . CODE;    ?C_INIT  ?C_STARTUP  
+?C_STARTUP . . . . . . . . CODE;    ?C_STARTUP  MAIN  
+?_PRINTF517?BYTE . . . . . XDATA;   PRINTF  
+?_PRINTF?BYTE. . . . . . . XDATA;   PRINTF  APPLICATION  
+?_SPRINTF517?BYTE. . . . . XDATA;   PRINTF  
+?_SPRINTF?BYTE . . . . . . XDATA;   PRINTF  
+BL51 BANKED LINKER/LOCATER V6.22            04/23/2025  15:01:08  PAGE 13
+
+
+?_UART1_INIT?BYTE. . . . . XDATA;   UART  SERVICE  
+CALLBACK_EXT0. . . . . . . CODE;    APPLICATION  
+CALLBACK_TIMER2. . . . . . CODE;    APPLICATION  
+CLEAR_TIMER2_ISR_FLAG. . . CODE;    TIMER  APPLICATION  
+CURRENT_TASK . . . . . . . XDATA;   OS_TASK  APPLICATION  OS_SCHEDULER  
+EXT0_CALL_BACK_PTR . . . . XDATA;   DIO  
+EXTERNAL_INTERRUPT_INIT. . CODE;    DIO  SERVICE  
+GET_BUTTON_STATE . . . . . CODE;    DIO  APPLICATION  
+GET_G_SYSTICK. . . . . . . CODE;    TIMER  
+G_BUTTON_STATE . . . . . . XDATA;   APPLICATION  
+G_SYSTICK. . . . . . . . . XDATA;   TIMER  
+IDLE_TASK. . . . . . . . . CODE;    APPLICATION  
+INCREASE_G_SYSTICK . . . . CODE;    TIMER  APPLICATION  
+INT0_ISR . . . . . . . . . CODE;    DIO  
+MAIN . . . . . . . . . . . CODE;    MAIN  ?C_INIT  
+MCU_INIT . . . . . . . . . CODE;    SERVICE  APPLICATION  
+OS_SCHEDULER . . . . . . . CODE;    OS_SCHEDULER  APPLICATION  
+OS_START . . . . . . . . . CODE;    APPLICATION  MAIN  
+POLLING. . . . . . . . . . CODE;    SERVICE  APPLICATION  
+PORT_INIT. . . . . . . . . CODE;    DIO  SERVICE  
+SYSCLK_INIT. . . . . . . . CODE;    GPT  SERVICE  
+TASK1_HANDLER. . . . . . . CODE;    APPLICATION  
+TASK2_HANDLER. . . . . . . CODE;    APPLICATION  
+TASK3_HANDLER. . . . . . . CODE;    APPLICATION  
+TIMER2_CALL_BACK_PTR . . . XDATA;   TIMER  
+TIMER2_ISR . . . . . . . . CODE;    TIMER  
+UNBLOCK_TASK . . . . . . . CODE;    OS_TASK  APPLICATION  
+USER_TASK. . . . . . . . . XDATA;   OS_TASK  APPLICATION  OS_SCHEDULER  
+_CREATE_TASK . . . . . . . CODE;    OS_TASK  APPLICATION  
+_EXT0_SET_CALLBACK_PTR . . CODE;    DIO  APPLICATION  
+_OS_DELAY. . . . . . . . . CODE;    OS_TASK  APPLICATION  
+_PRINTF. . . . . . . . . . CODE;    PRINTF  APPLICATION  
+_PRINTF517 . . . . . . . . CODE;    PRINTF  
+_PUTCHAR . . . . . . . . . CODE;    PUTCHAR  PRINTF  
+_SPRINTF . . . . . . . . . CODE;    PRINTF  
+_SPRINTF517. . . . . . . . CODE;    PRINTF  
+_TIMER2_INIT . . . . . . . CODE;    TIMER  SERVICE  
+_TIMER2_SET_CALLBACK_PTR . CODE;    TIMER  APPLICATION  
+_TONGGLE . . . . . . . . . CODE;    DIO  APPLICATION  
+_UART1_INIT. . . . . . . . CODE;    UART  SERVICE  
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?GET_G_SYSTICK?TIMER
+
+Program Size: data=15.1 xdata=121 code=3479
+LINK/LOCATE RUN COMPLETE.  1 WARNING(S),  0 ERROR(S)

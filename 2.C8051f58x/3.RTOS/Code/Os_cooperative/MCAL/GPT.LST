@@ -1,0 +1,1473 @@
+C51 COMPILER V9.51   GPT                                                                   04/23/2025 15:01:06 PAGE 1   
+
+
+C51 COMPILER V9.51, COMPILATION OF MODULE GPT
+OBJECT MODULE PLACED IN GPT.OBJ
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.exe GPT.c DB OE BR INCDIR(C:\SiLabs\MCU\Inc,../App,../Os,../MCAL,../Service)
+                    - SB CD LC OR NOAREGS LARGE OT(0,SPEED)
+
+line level    source
+
+   1          #include "GPT.h"
+   1      =1  /*
+   2      =1   *  Created on: Apr 21, 2025
+   3      =1   *      Author: Hoangtd2000
+   4      =1   */
+   5      =1  #ifndef _GPT_H_
+   6      =1  #define _GPT_H_
+   7      =1  #include <compiler_defs.h>
+   1      =2  //-----------------------------------------------------------------------------
+   2      =2  // compiler_defs.h
+   3      =2  //-----------------------------------------------------------------------------
+   4      =2  // Portions of this file are copyright Maarten Brock
+   5      =2  // http://sdcc.sourceforge.net
+   6      =2  // Portions of this file are copyright 2010, Silicon Laboratories, Inc.
+   7      =2  // http://www.silabs.com
+   8      =2  //
+   9      =2  // GNU LGPL boilerplate:
+  10      =2  /** This library is free software; you can redistribute it and/or
+  11      =2    * modify it under the terms of the GNU Lesser General Public
+  12      =2    * License as published by the Free Software Foundation; either
+  13      =2    * version 2.1 of the License, or (at your option) any later version.
+  14      =2    *
+  15      =2    * This library is distributed in the hope that it will be useful,
+  16      =2    * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  17      =2    * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  18      =2    * Lesser General Public License for more details.
+  19      =2    *
+  20      =2    * You should have received a copy of the GNU Lesser General Public
+  21      =2    * License along with this library; if not, write to the Free Software
+  22      =2    * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+  23      =2    *
+  24      =2    * In other words, you are welcome to use, share and improve this program.
+  25      =2    * You are forbidden to forbid anyone else to use, share and improve
+  26      =2    * what you give them. Help stamp out software-hoarding!
+  27      =2  **/
+  28      =2  // Program Description:
+  29      =2  //
+  30      =2  // **Important Note**: This header file should be included before including
+  31      =2  // a device-specific header file such as C8051F300_defs.h.
+  32      =2  //
+  33      =2  // Macro definitions to accomodate 8051 compiler differences in specifying
+  34      =2  // special function registers and other 8051-specific features such as NOP
+  35      =2  // generation, and locating variables in memory-specific segments.  The
+  36      =2  // compilers are identified by their unique predefined macros. See also:
+  37      =2  // http://predef.sourceforge.net/precomp.html
+  38      =2  //
+  39      =2  // SBIT and SFR define special bit and special function registers at the given
+  40      =2  // address. SFR16 and SFR32 define sfr combinations at adjacent addresses in
+  41      =2  // little-endian format. SFR16E and SFR32E define sfr combinations without
+  42      =2  // prerequisite byte order or adjacency. None of these multi-byte sfr
+  43      =2  // combinations will guarantee the order in which they are accessed when read
+  44      =2  // or written.
+  45      =2  //
+  46      =2  // SFR16X and SFR32X for 16 bit and 32 bit xdata registers are not defined
+C51 COMPILER V9.51   GPT                                                                   04/23/2025 15:01:06 PAGE 2   
+
+  47      =2  // to avoid portability issues because of compiler endianness.
+  48      =2  //
+  49      =2  // Example:
+  50      =2  // // my_mcu.c: main 'c' file for my mcu
+  51      =2  // #include <compiler_defs.h>  // this file
+  52      =2  // #include <C8051xxxx_defs.h> // SFR definitions for specific MCU target
+  53      =2  //
+  54      =2  // SBIT  (P0_1, 0x80, 1);      // Port 0 pin 1
+  55      =2  // SFR   (P0, 0x80);           // Port 0
+  56      =2  // SFRX  (CPUCS, 0xE600);      // Cypress FX2 Control and Status register in
+  57      =2  //                             // xdata memory at 0xE600
+  58      =2  // SFR16 (TMR2, 0xCC);         // Timer 2, lsb at 0xCC, msb at 0xCD
+  59      =2  // SFR16E(TMR0, 0x8C8A);       // Timer 0, lsb at 0x8A, msb at 0x8C
+  60      =2  // SFR32 (MAC0ACC, 0x93);      // SiLabs C8051F120 32 bits MAC0 Accumulator,
+  61      =2  //                             // lsb at 0x93, msb at 0x96
+  62      =2  // SFR32E(SUMR, 0xE5E4E3E2);   // TI MSC1210 SUMR 32 bits Summation register,
+  63      =2  //                             // lsb at 0xE2, msb at 0xE5
+  64      =2  //
+  65      =2  // Target:         C8051xxxx
+  66      =2  // Tool chain:     Generic
+  67      =2  // Command Line:   None
+  68      =2  // 
+  69      =2  // Release 2.6 - 14 DEC 2012 (GO)
+  70      =2  //        -Added define for deprecated SDCC keyword 'at'
+  71      =2  // Release 2.5 - 12 SEP 2012 (TP)
+  72      =2  //    -Added defines for deprecated SDCC keywords bit and code
+  73      =2  // Release 2.4 - 27 AUG 2012 (TP)
+  74      =2  //    -Added defines for deprecated SDCC keywords interrupt, _asm, and _endasm
+  75      =2  // Release 2.3 - 27 MAY 2010 (DM)
+  76      =2  //    -Removed 'LOCATED_VARIABLE' pragma from Keil because it is not supported
+  77      =2  // Release 2.2 - 06 APR 2010 (ES)
+  78      =2  //    -Removed 'PATHINCLUDE' pragma from Raisonance section
+  79      =2  // Release 2.1 - 16 JUL 2009 (ES)
+  80      =2  //    -Added SEGMENT_POINTER macro definitions for SDCC, Keil, and Raisonance
+  81      =2  //    -Added LOCATED_VARIABLE_NO_INIT macro definitions for Raisonance
+  82      =2  // Release 2.0 - 19 MAY 2009 (ES)
+  83      =2  //    -Added LOCATED_VARIABLE_NO_INIT macro definitions for SDCC and Keil
+  84      =2  // Release 1.9 - 23 OCT 2008 (ES)
+  85      =2  //    -Updated Hi-Tech INTERRUPT and INTERRUPT_USING macro definitions
+  86      =2  //    -Added SFR16 macro defintion for Hi-Tech
+  87      =2  // Release 1.8 - 31 JUL 2008 (ES)
+  88      =2  //    -Added INTERRUPT_USING and FUNCTION_USING macro's
+  89      =2  //    -Added macro's for IAR
+  90      =2  //    -Corrected Union definitions for Hi-Tech and added SFR16 macro defintion
+  91      =2  // Release 1.7 - 11 SEP 2007 (BW)
+  92      =2  //    -Added support for Raisonance EVAL 03.03.42 and Tasking Eval 7.2r1
+  93      =2  // Release 1.6 - 27 AUG 2007 (BW)
+  94      =2  //    -Updated copyright notice per agreement with Maartin Brock
+  95      =2  //    -Added SDCC 2.7.0 "compiler.h" bug fixes
+  96      =2  //    -Added memory segment defines (SEG_XDATA, for example)
+  97      =2  // Release 1.5 - 24 AUG 2007 (BW)
+  98      =2  //    -Added support for NOP () macro
+  99      =2  //    -Added support for Hi-Tech ver 9.01
+ 100      =2  // Release 1.4 - 07 AUG 2007 (PKC)
+ 101      =2  //    -Removed FID and fixed formatting.
+ 102      =2  // Release 1.3 - 30 SEP 2007 (TP)
+ 103      =2  //    -Added INTERRUPT_PROTO_USING to properly support ISR context switching
+ 104      =2  //     under SDCC.
+ 105      =2  // Release 1.2 - (BW)
+ 106      =2  //    -Added support for U8,U16,U32,S8,S16,S32,UU16,UU32 data types
+ 107      =2  // Release 1.1 - (BW)
+ 108      =2  //    -Added support for INTERRUPT, INTERRUPT_USING, INTERRUPT_PROTO,
+C51 COMPILER V9.51   GPT                                                                   04/23/2025 15:01:06 PAGE 3   
+
+ 109      =2  //     SEGMENT_VARIABLE, VARIABLE_SEGMENT_POINTER,
+ 110      =2  //     SEGMENT_VARIABLE_SEGMENT_POINTER, and LOCATED_VARIABLE
+ 111      =2  // Release 1.0 - 29 SEP 2006 (PKC)
+ 112      =2  //    -Initial revision
+ 113      =2  
+ 114      =2  //-----------------------------------------------------------------------------
+ 115      =2  // Header File Preprocessor Directive
+ 116      =2  //-----------------------------------------------------------------------------
+ 117      =2  
+ 118      =2  #ifndef COMPILER_DEFS_H
+ 119      =2  #define COMPILER_DEFS_H
+ 120      =2  
+ 121      =2  //-----------------------------------------------------------------------------
+ 122      =2  // Macro definitions
+ 123      =2  //-----------------------------------------------------------------------------
+ 124      =2  
+ 125      =2  // SDCC - Small Device C Compiler
+ 126      =2  // http://sdcc.sourceforge.net
+ 127      =2  
+ 128      =2  #if defined SDCC
+           =2 
+           =2 #if (SDCC >= 300)
+           =2 
+           =2 #define interrupt __interrupt
+           =2 #define _asm __asm
+           =2 #define _endasm __endasm
+           =2 #define bit __bit
+           =2 #define code __code
+           =2 #define at __at
+           =2 
+           =2 #endif
+           =2 
+           =2 # define SEG_GENERIC
+           =2 # define SEG_FAR   __xdata
+           =2 # define SEG_DATA  __data
+           =2 # define SEG_NEAR  __data
+           =2 # define SEG_IDATA __idata
+           =2 # define SEG_XDATA __xdata
+           =2 # define SEG_PDATA __pdata
+           =2 # define SEG_CODE  __code
+           =2 # define SEG_BDATA __bdata
+           =2 
+           =2 # define SBIT(name, addr, bit)  __sbit  __at(addr+bit)                  name
+           =2 # define SFR(name, addr)        __sfr   __at(addr)                      name
+           =2 # define SFRX(name, addr)       xdata volatile unsigned char __at(addr) name
+           =2 # define SFR16(name, addr)      __sfr16 __at(((addr+1U)<<8) | addr)     name
+           =2 # define SFR16E(name, fulladdr) __sfr16 __at(fulladdr)                  name
+           =2 # define SFR32(name, addr)      __sfr32 __at(((addr+3UL)<<24) | ((addr+2UL)<<16) | ((addr+1UL)<<8) | addr)
+             - name
+           =2 # define SFR32E(name, fulladdr) __sfr32 __at(fulladdr)                  name
+           =2 
+           =2 # define INTERRUPT(name, vector) void name (void) interrupt (vector)
+           =2 # define INTERRUPT_USING(name, vector, regnum) void name (void) interrupt (vector) using (regnum)
+           =2 # define INTERRUPT_PROTO(name, vector) void name (void) interrupt (vector)
+           =2 # define INTERRUPT_PROTO_USING(name, vector, regnum) void name (void) interrupt (vector) using (regnum)
+           =2 
+           =2 # define FUNCTION_USING(name, return_value, parameter, regnum) return_value name (parameter) using (regnum
+             -)
+           =2 # define FUNCTION_PROTO_USING(name, return_value, parameter, regnum) return_value name (parameter) using (
+             -regnum)
+           =2 // Note: Parameter must be either 'void' or include a variable type and name. (Ex: char temp_variable)
+           =2 
+C51 COMPILER V9.51   GPT                                                                   04/23/2025 15:01:06 PAGE 4   
+
+           =2 # define SEGMENT_VARIABLE(name, vartype, locsegment) locsegment vartype name
+           =2 # define VARIABLE_SEGMENT_POINTER(name, vartype, targsegment) targsegment vartype * name
+           =2 # define SEGMENT_VARIABLE_SEGMENT_POINTER(name, vartype, targsegment, locsegment) targsegment vartype * lo
+             -csegment name
+           =2 # define SEGMENT_POINTER(name, vartype, locsegment) vartype * locsegment name
+           =2 # define LOCATED_VARIABLE(name, vartype, locsegment, addr, init) locsegment at (addr) vartype name = init
+           =2 # define LOCATED_VARIABLE_NO_INIT(name, vartype, locsegment, addr) locsegment at (addr) vartype name
+           =2 
+           =2 // used with UU16
+           =2 # define LSB 0
+           =2 # define MSB 1
+           =2 
+           =2 // used with UU32 (b0 is least-significant byte)
+           =2 # define b0 0
+           =2 # define b1 1
+           =2 # define b2 2
+           =2 # define b3 3
+           =2 
+           =2 typedef unsigned char U8;
+           =2 typedef unsigned int U16;
+           =2 typedef unsigned long U32;
+           =2 
+           =2 typedef signed char S8;
+           =2 typedef signed int S16;
+           =2 typedef signed long S32;
+           =2 
+           =2 typedef union UU16
+           =2 {
+           =2    U16 U16;
+           =2    S16 S16;
+           =2    U8 U8[2];
+           =2    S8 S8[2];
+           =2 } UU16;
+           =2 
+           =2 typedef union UU32
+           =2 {
+           =2    U32 U32;
+           =2    S32 S32;
+           =2    UU16 UU16[2];
+           =2    U16 U16[2];
+           =2    S16 S16[2];
+           =2    U8 U8[4];
+           =2    S8 S8[4];
+           =2 } UU32;
+           =2 
+           =2 // NOP () macro support
+           =2 #define NOP() _asm NOP _endasm
+           =2 
+           =2 
+           =2 //-----------------------------------------------------------------------------
+           =2 
+           =2 // Raisonance (must be placed before Keil C51)
+           =2 // http://www.raisonance.com
+           =2 
+           =2 #elif defined __RC51__
+           =2 
+           =2 //#error Raisonance C51 detected.
+           =2 
+           =2 # define SEG_GENERIC generic     //SEG_GENERIC only applies to pointers in Raisonance, not variables.
+           =2 # define SEG_FAR   xdata
+           =2 # define SEG_DATA  data
+           =2 # define SEG_NEAR  data
+C51 COMPILER V9.51   GPT                                                                   04/23/2025 15:01:06 PAGE 5   
+
+           =2 # define SEG_IDATA idata
+           =2 # define SEG_XDATA xdata
+           =2 # define SEG_PDATA pdata
+           =2 # define SEG_CODE  code
+           =2 # define SEG_BDATA bdata
+           =2 
+           =2 # define SBIT(name, addr, bit)  at (addr+bit) sbit         name
+           =2 # define SFR(name, addr)        sfr at addr                name
+           =2 # define SFR16(name, addr)      sfr16 at addr              name
+           =2 # define SFR16E(name, fulladdr) /* not supported */
+           =2 # define SFR32(name, fulladdr)  /* not supported */
+           =2 # define SFR32E(name, fulladdr) /* not supported */
+           =2 
+           =2 # define INTERRUPT(name, vector) void name (void) interrupt vector
+           =2 # define INTERRUPT_USING(name, vector, regnum) void name (void) interrupt vector using regnum
+           =2 # define INTERRUPT_PROTO(name, vector) void name (void)
+           =2 # define INTERRUPT_PROTO_USING(name, vector, regnum) void name (void)
+           =2 
+           =2 # define FUNCTION_USING(name, return_value, parameter, regnum) return_value name (parameter) using regnum
+           =2 # define FUNCTION_PROTO_USING(name, return_value, parameter, regnum) return_value name (parameter)
+           =2 // Note: Parameter must be either 'void' or include a variable type and name. (Ex: char temp_variable)
+           =2 
+           =2 # define SEGMENT_VARIABLE(name, vartype, locsegment) vartype locsegment name
+           =2 # define VARIABLE_SEGMENT_POINTER(name, vartype, targsegment) vartype targsegment * name
+           =2 # define SEGMENT_VARIABLE_SEGMENT_POINTER(name, vartype, targsegment, locsegment) vartype targsegment * lo
+             -csegment name
+           =2 # define SEGMENT_POINTER(name, vartype, locsegment) vartype * locsegment name
+           =2 # define LOCATED_VARIABLE(name, vartype, locsegment, addr, init) at addr locsegment vartype name
+           =2 # define LOCATED_VARIABLE_NO_INIT(name, vartype, locsegment, addr) at addr locsegment vartype name
+           =2 
+           =2 
+           =2 // used with UU16
+           =2 # define LSB 1
+           =2 # define MSB 0
+           =2 
+           =2 // used with UU32 (b0 is least-significant byte)
+           =2 # define b0 3
+           =2 # define b1 2
+           =2 # define b2 1
+           =2 # define b3 0
+           =2 
+           =2 typedef unsigned char U8;
+           =2 typedef unsigned int U16;
+           =2 typedef unsigned long U32;
+           =2 
+           =2 typedef signed char S8;
+           =2 typedef signed int S16;
+           =2 typedef signed long S32;
+           =2 
+           =2 typedef union UU16
+           =2 {
+           =2    U16 U16;
+           =2    S16 S16;
+           =2    U8 U8[2];
+           =2    S8 S8[2];
+           =2 } UU16;
+           =2 
+           =2 typedef union UU32
+           =2 {
+           =2    U32 U32;
+           =2    S32 S32;
+           =2    UU16 UU16[2];
+C51 COMPILER V9.51   GPT                                                                   04/23/2025 15:01:06 PAGE 6   
+
+           =2    U16 U16[2];
+           =2    S16 S16[2];
+           =2    U8 U8[4];
+           =2    S8 S8[4];
+           =2 } UU32;
+           =2 
+           =2 // NOP () macro support -- NOP is opcode 0x00
+           =2 #define NOP() asm { 0x00 }
+           =2 
+           =2 
+           =2 //-----------------------------------------------------------------------------
+           =2 
+           =2 
+           =2 // Keil C51
+           =2 // http://www.keil.com
+           =2 
+           =2 #elif defined __C51__
+ 307      =2  
+ 308      =2  //#error Keil C51 detected.
+ 309      =2  
+ 310      =2  # define SEG_GENERIC
+ 311      =2  # define SEG_FAR   xdata
+ 312      =2  # define SEG_DATA  data
+ 313      =2  # define SEG_NEAR  data
+ 314      =2  # define SEG_IDATA idata
+ 315      =2  # define SEG_XDATA xdata
+ 316      =2  # define SEG_PDATA pdata
+ 317      =2  # define SEG_CODE  code
+ 318      =2  # define SEG_BDATA bdata
+ 319      =2  
+ 320      =2  # define SBIT(name, addr, bit)  sbit  name = addr^bit
+ 321      =2  # define SFR(name, addr)        sfr   name = addr
+ 322      =2  # define SFR16(name, addr)      sfr16 name = addr
+ 323      =2  # define SFR16E(name, fulladdr) /* not supported */
+ 324      =2  # define SFR32(name, fulladdr)  /* not supported */
+ 325      =2  # define SFR32E(name, fulladdr) /* not supported */
+ 326      =2  
+ 327      =2  # define INTERRUPT(name, vector) void name (void) interrupt vector
+ 328      =2  # define INTERRUPT_USING(name, vector, regnum) void name (void) interrupt vector using regnum
+ 329      =2  # define INTERRUPT_PROTO(name, vector) void name (void)
+ 330      =2  # define INTERRUPT_PROTO_USING(name, vector, regnum) void name (void)
+ 331      =2  
+ 332      =2  # define FUNCTION_USING(name, return_value, parameter, regnum) return_value name (parameter) using regnum
+ 333      =2  # define FUNCTION_PROTO_USING(name, return_value, parameter, regnum) return_value name (parameter)
+ 334      =2  // Note: Parameter must be either 'void' or include a variable type and name. (Ex: char temp_variable)
+ 335      =2  
+ 336      =2  # define SEGMENT_VARIABLE(name, vartype, locsegment) vartype locsegment name
+ 337      =2  # define VARIABLE_SEGMENT_POINTER(name, vartype, targsegment) vartype targsegment * name
+ 338      =2  # define SEGMENT_VARIABLE_SEGMENT_POINTER(name, vartype, targsegment, locsegment) vartype targsegment * lo
+             -csegment name
+ 339      =2  # define SEGMENT_POINTER(name, vartype, locsegment) vartype * locsegment name
+ 340      =2  # define LOCATED_VARIABLE_NO_INIT(name, vartype, locsegment, addr) vartype locsegment name _at_ addr
+ 341      =2  
+ 342      =2  // used with UU16
+ 343      =2  # define LSB 1
+ 344      =2  # define MSB 0
+ 345      =2  
+ 346      =2  // used with UU32 (b0 is least-significant byte)
+ 347      =2  # define b0 3
+ 348      =2  # define b1 2
+ 349      =2  # define b2 1
+ 350      =2  # define b3 0
+C51 COMPILER V9.51   GPT                                                                   04/23/2025 15:01:06 PAGE 7   
+
+ 351      =2  
+ 352      =2  typedef unsigned char U8;
+ 353      =2  typedef unsigned int U16;
+ 354      =2  typedef unsigned long U32;
+ 355      =2  
+ 356      =2  typedef signed char S8;
+ 357      =2  typedef signed int S16;
+ 358      =2  typedef signed long S32;
+ 359      =2  
+ 360      =2  typedef union UU16
+ 361      =2  {
+ 362      =2     U16 U16;
+ 363      =2     S16 S16;
+ 364      =2     U8 U8[2];
+ 365      =2     S8 S8[2];
+ 366      =2  } UU16;
+ 367      =2  
+ 368      =2  typedef union UU32
+ 369      =2  {
+ 370      =2     U32 U32;
+ 371      =2     S32 S32;
+ 372      =2     UU16 UU16[2];
+ 373      =2     U16 U16[2];
+ 374      =2     S16 S16[2];
+ 375      =2     U8 U8[4];
+ 376      =2     S8 S8[4];
+ 377      =2  } UU32;
+ 378      =2  
+ 379      =2  // NOP () macro support
+ 380      =2  extern void _nop_ (void);
+ 381      =2  #define NOP() _nop_()
+ 382      =2  
+ 383      =2  //-----------------------------------------------------------------------------
+ 384      =2  
+ 385      =2  // Hi-Tech 8051
+ 386      =2  // http://www.htsoft.com
+ 387      =2  
+ 388      =2  #elif defined HI_TECH_C
+           =2 
+           =2 # define SEG_GENERIC
+           =2 # define SEG_FAR   far
+           =2 # define SEG_DATA  data
+           =2 # define SEG_NEAR  near
+           =2 # define SEG_IDATA idata
+           =2 # define SEG_XDATA xdata
+           =2 # define SEG_PDATA pdata
+           =2 # define SEG_CODE  code
+           =2 # define SEG_BDATA bdata
+           =2 
+           =2 
+           =2 # define SBIT(name, addr, thebit) static volatile bit name @ (addr + thebit)
+           =2 # define SFR(name, addr)          static volatile unsigned char name @ addr
+           =2 # define SFR16(name, addr)        static volatile unsigned int name @ addr
+           =2 # define SFR16E(name, fulladdr) /* not supported */
+           =2 # define SFR32(name, fulladdr)  /* not supported */
+           =2 # define SFR32E(name, fulladdr) /* not supported */
+           =2 
+           =2 # define INTERRUPT(name, vector)       void name (void) interrupt vector
+           =2 # define INTERRUPT_PROTO(name, vector)
+           =2 # define INTERRUPT_USING(name, vector, regnum) void name (void) interrupt vector using regnum
+           =2 # define INTERRUPT_PROTO_USING(name, vector, regnum)
+           =2 
+C51 COMPILER V9.51   GPT                                                                   04/23/2025 15:01:06 PAGE 8   
+
+           =2 # define FUNCTION_USING(name, return_value, parameter, regnum) /* not supported */
+           =2 # define FUNCTION_PROTO_USING(name, return_value, parameter, regnum) /* not supported */
+           =2 // Note: Hi-Tech does not support functions using different register banks. Register
+           =2 //       banks can only be specified in interrupts. If a function is called from
+           =2 //       inside an interrupt, it will use the same register bank as the interrupt.
+           =2 
+           =2 # define SEGMENT_VARIABLE(name, vartype, locsegment) locsegment vartype name
+           =2 # define VARIABLE_SEGMENT_POINTER(name, vartype, targsegment) targsegment vartype * name
+           =2 # define SEGMENT_VARIABLE_SEGMENT_POINTER(name, vartype, targsegment, locsegment) targsegment vartype * lo
+             -csegment name
+           =2 # define LOCATED_VARIABLE(name, vartype, locsegment, addr, init) locsegment vartype name @ addr
+           =2 
+           =2 // used with UU16
+           =2 # define LSB 0
+           =2 # define MSB 1
+           =2 
+           =2 // used with UU32 (b0 is least-significant byte)
+           =2 # define b0 0
+           =2 # define b1 1
+           =2 # define b2 2
+           =2 # define b3 3
+           =2 
+           =2 typedef unsigned char U8;
+           =2 typedef unsigned int U16;
+           =2 typedef unsigned long U32;
+           =2 
+           =2 typedef signed char S8;
+           =2 typedef signed int S16;
+           =2 typedef signed long S32;
+           =2 
+           =2 typedef union UU16
+           =2 {
+           =2    U16 U16;
+           =2    S16 S16;
+           =2    U8 U8[2];
+           =2    S8 S8[2];
+           =2 } UU16;
+           =2 
+           =2 typedef union UU32
+           =2 {
+           =2    U32 U32;
+           =2    S32 S32;
+           =2    UU16 UU16[2];
+           =2    U16 U16[2];
+           =2    S16 S16[2];
+           =2    U8 U8[4];
+           =2    S8 S8[4];
+           =2 } UU32;
+           =2 
+           =2 // NOP () macro support
+           =2 #define NOP() asm(" nop ")
+           =2 
+           =2 //-----------------------------------------------------------------------------
+           =2 
+           =2 // Tasking / Altium
+           =2 // http://www.altium.com/tasking
+           =2 
+           =2 
+           =2 #elif defined _CC51
+           =2 
+           =2 # define SEG_GENERIC
+           =2 # define SEG_FAR   _xdat
+C51 COMPILER V9.51   GPT                                                                   04/23/2025 15:01:06 PAGE 9   
+
+           =2 # define SEG_DATA  _data
+           =2 # define SEG_NEAR  _data
+           =2 # define SEG_IDATA _idat
+           =2 # define SEG_XDATA _xdat
+           =2 # define SEG_PDATA _pdat
+           =2 # define SEG_CODE  _rom
+           =2 # define SEG_BDATA _bdat
+           =2 
+           =2 # define SBIT(name, addr, bit)  _sfrbit  name _at(addr+bit)
+           =2 # define SFR(name, addr)        _sfrbyte name _at(addr)
+           =2 # define SFRX(name, addr)       _xdat volatile unsigned char name _at(addr)
+           =2 #if _CC51 > 71
+           =2 # define SFR16(name, addr)      _sfrword _little name _at(addr)
+           =2 #else
+           =2 # define SFR16(name, addr)      /* not supported */
+           =2 #endif
+           =2 # define SFR16E(name, fulladdr) /* not supported */
+           =2 # define SFR32(name, fulladdr)  /* not supported */
+           =2 # define SFR32E(name, fulladdr) /* not supported */
+           =2 
+           =2 # define INTERRUPT(name, vector) _interrupt (vector) void name (void)
+           =2 # define INTERRUPT_USING(name, vector, regnum) _interrupt (vector) _using(regnum) void name (void)
+           =2 # define INTERRUPT_PROTO(name, vector) _interrupt (vector) void name (void)
+           =2 # define INTERRUPT_PROTO_USING(name, vector, regnum) _interrupt (vector) _using(regnum) void name (void)
+           =2 
+           =2 // When calling FUNCTION_USING in Tasking, the function must be called from an interrupt or Main which
+           =2 // is also using the same register bank. If not, the compiler will generate an error.
+           =2 # define FUNCTION_USING(name, return_value, parameter, regnum) _using(regnum) return_value name (parameter
+             -)
+           =2 # define FUNCTION_PROTO_USING(name, return_value, parameter, regnum) _using(regnum) return_value name (par
+             -ameter)
+           =2 // Note: Parameter must be either 'void' or include a variable type and name. (Ex: char temp_variable)
+           =2 
+           =2 # define SEGMENT_VARIABLE(name, vartype, locsegment) vartype locsegment name
+           =2 # define VARIABLE_SEGMENT_POINTER(name, vartype, targsegment) vartype targsegment * name
+           =2 # define SEGMENT_VARIABLE_SEGMENT_POINTER(name, vartype, targsegment, locsegment) vartype targsegment * lo
+             -csegment name
+           =2 # define LOCATED_VARIABLE(name, vartype, locsegment, addr, init) vartype locsegment name _at( addr )
+           =2 
+           =2 // used with UU16
+           =2 # define LSB 1
+           =2 # define MSB 0
+           =2 
+           =2 // used with UU32 (b0 is least-significant byte)
+           =2 # define b0 3
+           =2 # define b1 2
+           =2 # define b2 1
+           =2 # define b3 0
+           =2 
+           =2 typedef unsigned char U8;
+           =2 typedef unsigned int U16;
+           =2 typedef unsigned long U32;
+           =2 
+           =2 typedef signed char S8;
+           =2 typedef signed int S16;
+           =2 typedef signed long S32;
+           =2 
+           =2 typedef union UU16
+           =2 {
+           =2    U16 U16;
+           =2    S16 S16;
+           =2    U8 U8[2];
+C51 COMPILER V9.51   GPT                                                                   04/23/2025 15:01:06 PAGE 10  
+
+           =2    S8 S8[2];
+           =2 } UU16;
+           =2 
+           =2 typedef union UU32
+           =2 {
+           =2    U32 U32;
+           =2    S32 S32;
+           =2    UU16 UU16[2];
+           =2    U16 U16[2];
+           =2    S16 S16[2];
+           =2    U8 U8[4];
+           =2    S8 S8[4];
+           =2 } UU32;
+           =2 
+           =2 // NOP () macro support
+           =2 extern void _nop (void);
+           =2 #define NOP() _nop()
+           =2 
+           =2 //-----------------------------------------------------------------------------
+           =2 
+           =2 
+           =2 // IAR 8051
+           =2 // http://www.iar.com
+           =2 
+           =2 #elif defined __ICC8051__
+           =2 
+           =2 #include <stdbool.h>
+           =2 #include <intrinsics.h>
+           =2 
+           =2 # define SBIT(name, addr, bit)  __bit __no_init volatile bool name @ (addr+bit)
+           =2 # define SFR(name, addr)        __sfr __no_init volatile unsigned char name @ addr
+           =2 # define SFRX(name, addr)       __xdata __no_init volatile unsigned char name @ addr
+           =2 # define SFR16(name, addr)      __sfr __no_init volatile unsigned int  name @ addr
+           =2 # define SFR16E(name, fulladdr) /* not supported */
+           =2 # define SFR32(name, fulladdr) /* not supported */
+           =2 # define SFR32E(name, fulladdr) /* not supported */
+           =2 
+           =2 # define SEG_GENERIC __generic
+           =2 # define SEG_FAR  __xdata
+           =2 # define SEG_DATA __data
+           =2 # define SEG_NEAR __data
+           =2 # define SEG_IDATA __idata
+           =2 # define SEG_XDATA __xdata
+           =2 # define SEG_PDATA __pdata
+           =2 # define SEG_CODE  __code
+           =2 # define SEG_BDATA __bdata
+           =2 
+           =2 #define bit bool
+           =2 
+           =2 # define _PPTOSTR_(x) #x
+           =2 # define _PPARAM_(address) _PPTOSTR_(vector=address * 8 + 3)
+           =2 # define _PPARAM2_(regbank) _PPTOSTR_(register_bank=regbank)
+           =2 # define INTERRUPT(name, vector) _Pragma(_PPARAM_(vector)) __interrupt void name(void)
+           =2 # define INTERRUPT_PROTO(name, vector)  __interrupt void name(void)
+           =2 # define INTERRUPT_USING(name, vector, regnum) _Pragma(_PPARAM2_(regnum)) _Pragma(_PPARAM_(vector)) __inte
+             -rrupt void name(void)
+           =2 # define INTERRUPT_PROTO_USING(name, vector, regnum) __interrupt void name(void)
+           =2 
+           =2 # define FUNCTION_USING(name, return_value, parameter, regnum) /* not supported */
+           =2 # define FUNCTION_PROTO_USING(name, return_value, parameter, regnum) /* not supported */
+           =2 // Note: IAR does not support functions using different register banks. Register
+           =2 //       banks can only be specified in interrupts. If a function is called from
+C51 COMPILER V9.51   GPT                                                                   04/23/2025 15:01:06 PAGE 11  
+
+           =2 //       inside an interrupt, it will use the same register bank as the interrupt.
+           =2 
+           =2 # define SEGMENT_VARIABLE(name, vartype, locsegment)  locsegment vartype name
+           =2 # define VARIABLE_SEGMENT_POINTER(name, vartype, targsegment) vartype targsegment  * name
+           =2 # define SEGMENT_VARIABLE_SEGMENT_POINTER(name, vartype, targsegment, locsegment) vartype targsegment * lo
+             -csegment name
+           =2 
+           =2 # define LOCATED_VARIABLE(name, vartype, locsegment, addr, init) locsegment __no_init vartype name @ addr
+           =2 
+           =2 // used with UU16
+           =2 # define LSB 0
+           =2 # define MSB 1
+           =2 
+           =2 // used with UU32 (b0 is least-significant byte)
+           =2 # define b0 0
+           =2 # define b1 1
+           =2 # define b2 2
+           =2 # define b3 3
+           =2 
+           =2 typedef unsigned char U8;
+           =2 typedef unsigned int U16;
+           =2 typedef unsigned long U32;
+           =2 
+           =2 typedef signed char S8;
+           =2 typedef signed int S16;
+           =2 typedef signed long S32;
+           =2 
+           =2 typedef union UU16
+           =2 {
+           =2    U16 U16;
+           =2    S16 S16;
+           =2    U8 U8[2];
+           =2    S8 S8[2];
+           =2 } UU16;
+           =2 
+           =2 typedef union UU32
+           =2 {
+           =2    U32 U32;
+           =2    S32 S32;
+           =2    UU16 UU16[2];
+           =2    U16 U16[2];
+           =2    S16 S16[2];
+           =2    U8 U8[4];
+           =2    S8 S8[4];
+           =2 } UU32;
+           =2 
+           =2 
+           =2 #define NOP() __no_operation();
+           =2 //-----------------------------------------------------------------------------
+           =2 
+           =2 // Crossware
+           =2 // http://www.crossware.com
+           =2 
+           =2 #elif defined _XC51_VER
+           =2 # define SBIT(name, addr, bit)  _sfrbit  name = (addr+bit)
+           =2 # define SFR(name, addr)        _sfr     name = addr
+           =2 # define SFR16(name, addr)      _sfrword name = addr
+           =2 # define SFR16E(name, fulladdr) /* not supported */
+           =2 # define SFR32(name, fulladdr)  /* not supported */
+           =2 # define SFR32E(name, fulladdr) /* not supported */
+           =2 
+           =2 //-----------------------------------------------------------------------------
+C51 COMPILER V9.51   GPT                                                                   04/23/2025 15:01:06 PAGE 12  
+
+           =2 
+           =2 // Wickenhäuser
+           =2 // http://www.wickenhaeuser.de
+           =2 
+           =2 #elif defined __UC__
+           =2 # define SBIT(name, addr, bit)  unsigned char bit  name @ (addr+bit)
+           =2 # define SFR(name, addr)        near unsigned char name @ addr
+           =2 # define SFR16(name, addr)      /* not supported */
+           =2 # define SFR16E(name, fulladdr) /* not supported */
+           =2 # define SFR32(name, fulladdr)  /* not supported */
+           =2 # define SFR32E(name, fulladdr) /* not supported */
+           =2 
+           =2 //-----------------------------------------------------------------------------
+           =2 
+           =2 // Default
+           =2 // Unknown compiler
+           =2 
+           =2 #else
+           =2 # warning unrecognized compiler
+           =2 # define SBIT(name, addr, bit)  volatile bool           name
+           =2 # define SFR(name, addr)        volatile unsigned char  name
+           =2 # define SFRX(name, addr)       volatile unsigned char  name
+           =2 # define SFR16(name, addr)      volatile unsigned short name
+           =2 # define SFR16E(name, fulladdr) volatile unsigned short name
+           =2 # define SFR32(name, fulladdr)  volatile unsigned long  name
+           =2 # define SFR32E(name, fulladdr) volatile unsigned long  name
+           =2 
+           =2 #endif
+ 683      =2  
+ 684      =2  //-----------------------------------------------------------------------------
+ 685      =2  // Header File PreProcessor Directive
+ 686      =2  //-----------------------------------------------------------------------------
+ 687      =2  
+ 688      =2  #endif                                 // #define COMPILER_DEFS_H
+ 689      =2  
+ 690      =2  //-----------------------------------------------------------------------------
+ 691      =2  // End Of File
+ 692      =2  //-----------------------------------------------------------------------------
+   8      =1  #include <C8051F580_defs.h> // SFR declarations
+   1      =2  //-----------------------------------------------------------------------------
+   2      =2  // C8051F580_defs.h
+   3      =2  //-----------------------------------------------------------------------------
+   4      =2  // Copyright 2008, Silicon Laboratories, Inc.
+   5      =2  // http://www.silabs.com
+   6      =2  //
+   7      =2  // Program Description:
+   8      =2  //
+   9      =2  // Register/bit definitions for the C8051F58x family.
+  10      =2  // **Important Note**: The compiler_defs.h header file should be included
+  11      =2  // before including this header file.
+  12      =2  //
+  13      =2  // Target:         C8051F580/1/2/3/4/5/6/7,8/9-F590/1
+  14      =2  // Tool chain:     Generic
+  15      =2  // Command Line:   None
+  16      =2  //
+  17      =2  // Release 0.6 - 20 AUG 2012 (TP)
+  18      =2  //    -Added #define for _XPAGE to provide support for SDCC memory paging
+  19      =2  //     (pdata)
+  20      =2  //
+  21      =2  // Release 0.5 - 10 SEP 2011 (GP)
+  22      =2  //    - Fixed SFR16 definition for CAN0IF2MC
+  23      =2  //
+C51 COMPILER V9.51   GPT                                                                   04/23/2025 15:01:06 PAGE 13  
+
+  24      =2  // Release 0.4 - 08 OCT 2010 (TP)
+  25      =2  //    - Fixed bit definitions for SCON0
+  26      =2  //
+  27      =2  // Release 0.3 - 01 APR 2009 (GP)
+  28      =2  //    - Added SN0-SN3
+  29      =2  //
+  30      =2  // Release 0.2 - 29 JUL 2008 (ADT)
+  31      =2  //    - Added Timer 4 bit definitions
+  32      =2  //
+  33      =2  // Release 0.1 - 09 JUL 2008 (GP)
+  34      =2  //    - Initial Revision
+  35      =2  //
+  36      =2  //-----------------------------------------------------------------------------
+  37      =2  // Header File Preprocessor Directive
+  38      =2  //-----------------------------------------------------------------------------
+  39      =2  
+  40      =2  #ifndef C8051F580_DEFS_H
+  41      =2  #define C8051F580_DEFS_H
+  42      =2  
+  43      =2  //-----------------------------------------------------------------------------
+  44      =2  // Page 0, Page 1 and Page F Registers
+  45      =2  //-----------------------------------------------------------------------------
+  46      =2  
+  47      =2  SFR (P0, 0x80);                        // Port 0 Latch
+  48      =2  SFR (SP, 0x81);                        // Stack Pointer
+  49      =2  SFR (DPL, 0x82);                       // Data Pointer Low
+  50      =2  SFR (DPH, 0x83);                       // Data Pointer High
+  51      =2  SFR (SFR0CN, 0x84);                    // SFR Page Control
+  52      =2  SFR (SFRNEXT, 0x85);                   // SFR stack next page
+  53      =2  SFR (SFRLAST, 0x86);                   // SFR stack last page
+  54      =2  SFR (PCON, 0x87);                      // Power Control
+  55      =2  SFR (TCON, 0x88);                      // Timer/Counter Control
+  56      =2  SFR (TMOD, 0x89);                      // Timer/Counter Mode
+  57      =2  SFR (TL0, 0x8A);                       // Timer/Counter 0 Low
+  58      =2  SFR (TL1, 0x8B);                       // Timer/Counter 1 Low
+  59      =2  SFR (TH0, 0x8C);                       // Timer/Counter 0 High
+  60      =2  SFR (TH1, 0x8D);                       // Timer/Counter 1 High
+  61      =2  SFR (CKCON, 0x8E);                     // Clock Control
+  62      =2  SFR (PSCTL, 0x8F);                     // Program Store R/W Control
+  63      =2  SFR (CLKSEL, 0x8F);                    // System clock select
+  64      =2  SFR (P1, 0x90);                        // Port 1 Latch
+  65      =2  SFR (TMR3CN, 0x91);                    // Timer/Counter 3 Control
+  66      =2  SFR (TMR5CN, 0x91);                    // Timer/Counter 5 Control
+  67      =2  SFR (TMR3RLL, 0x92);                   // Timer/Counter 3 Reload Low
+  68      =2  SFR (TMR5CAPL, 0x92);                  // Timer/Counter 5 Capture Low
+  69      =2  SFR (TMR3RLH, 0x93);                   // Timer/Counter 3 Reload High
+  70      =2  SFR (TMR5CAPH, 0x93);                  // Timer/Counter 5 Capture High
+  71      =2  SFR (TMR3L, 0x94);                     // Timer/Counter 3 Low
+  72      =2  SFR (TMR5L, 0x94);                     // Timer/Counter 5 Low
+  73      =2  SFR (TMR3H, 0x95);                     // Timer/Counter 3 High
+  74      =2  SFR (TMR5H, 0x95);                     // Timer/Counter 5 High
+  75      =2  SFR (TMR5CF, 0x96);                    // Timer/Counter 5 Configuration
+  76      =2  SFR (CLKMUL, 0x97);                    // Clock Multiplier
+  77      =2  SFR (SCON0, 0x98);                     // UART0 Control
+  78      =2  SFR (SCON1, 0x98);                     // UART1 Control
+  79      =2  SFR (SBUF0, 0x99);                     // UART0 Data Buffer
+  80      =2  SFR (SBUF1, 0x99);                     // UART1 Data Buffer
+  81      =2  SFR (CPT0CN, 0x9A);                    // Comparator 0 Control
+  82      =2  SFR (CPT2CN, 0x9A);                    // Comparator 2 Control
+  83      =2  SFR (CPT0MD, 0x9B);                    // Comparator 0 Mode
+  84      =2  SFR (CPT2MD, 0x9B);                    // Comparator 2 Mode
+  85      =2  SFR (CPT0MX, 0x9C);                    // Comparator 0 Mux
+C51 COMPILER V9.51   GPT                                                                   04/23/2025 15:01:06 PAGE 14  
+
+  86      =2  SFR (CPT2MX, 0x9C);                    // Comparator 2 Mux
+  87      =2  SFR (CPT1CN, 0x9D);                    // Comparator 1 Control
+  88      =2  SFR (CPT1MD, 0x9E);                    // Comparator 0 Mode
+  89      =2  SFR (OSCIFIN, 0x9E);                   // Internal Oscillator Fine Control
+  90      =2  SFR (CPT1MX, 0x9F);                    // Comparator 1 Mux
+  91      =2  SFR (OSCXCN, 0x9F);                    // External Oscillator Control
+  92      =2  SFR (P2, 0xA0);                        // Port 2 Latch
+  93      =2  SFR (SPI0CFG, 0xA1);                   // SPI0 Configuration
+  94      =2  SFR (OSCICN, 0xA1);                    // Internal Oscillator Control
+  95      =2  SFR (SPI0CKR, 0xA2);                   // SPI0 Clock rate control
+  96      =2  SFR (OSCICRS, 0xA2);                   // Internal Oscillator Coarse Control
+  97      =2  SFR (SPI0DAT, 0xA3);                   // SPI0 Data Buffer
+  98      =2  SFR (P0MDOUT, 0xA4);                   // Port 0 Output Mode
+  99      =2  SFR (P1MDOUT, 0xA5);                   // Port 1 Output Mode
+ 100      =2  SFR (P2MDOUT, 0xA6);                   // Port 2 Output Mode
+ 101      =2  SFR (SFRPAGE, 0xA7);                   // SFR Page Select
+ 102      =2  SFR (IE, 0xA8);                        // Interrupt Enable
+ 103      =2  SFR (SMOD0, 0xA9);                     // Serial Port 0 Control
+ 104      =2  SFR (EMI0CN, 0xAA);                    // EMIF Control
+ 105      =2  SFR (EMI0TC, 0xAA);                    // EMIF Timing control
+ 106      =2  SFR (SBCON0, 0xAB);                    // UART0 Baud Rate Generator Control
+ 107      =2  SFR (SBRLL0, 0xAC);                    // UART0 Baud Rate Generator Low
+ 108      =2  SFR (SBRLH0, 0xAD);                    // UART0 Baud Rate Generator High
+ 109      =2  SFR (P3MAT, 0xAE);                     // Port 3 Match
+ 110      =2  SFR (P3MDOUT, 0xAE);                   // Port 3 Mode
+ 111      =2  SFR (P3MASK, 0xAF);                    // Port 3 Mask
+ 112      =2  SFR (P4MDOUT, 0xAF);                   // Port 4 Mode
+ 113      =2  SFR (P3, 0xB0);                        // Port 3 Latch
+ 114      =2  SFR (P2MAT, 0xB1);                     // Port 2 Match
+ 115      =2  SFR (P2MASK, 0xB2);                    // Port 2 Mask
+ 116      =2  SFR (EMI0CF, 0xB2);                    // EMIF Configuration
+ 117      =2  SFR (P4, 0xB5);                        // Port 4 Latch
+ 118      =2  SFR (FLSCL, 0xB6);                     // Flash Scale
+ 119      =2  SFR (FLKEY, 0xB7);                     // Flash access limit
+ 120      =2  SFR (IP, 0xB8);                        // Interrupt Priority
+ 121      =2  SFR (SMB0ADR, 0xB9);                   // SMBus0 Slave address
+ 122      =2  SFR (ADC0TK, 0xBA);                    // ADC0 Tracking Mode Select
+ 123      =2  SFR (SMB0ADM, 0xBA);                   // SMBus0 Address Mask
+ 124      =2  SFR (ADC0MX, 0xBB);                    // AMUX0 Channel select
+ 125      =2  SFR (ADC0CF, 0xBC);                    // AMUX0 Channel configuration
+ 126      =2  SFR (ADC0L, 0xBD);                     // ADC0 Data Low
+ 127      =2  SFR (ADC0H, 0xBE);                     // ADC0 Data High
+ 128      =2  SFR (SMB0CN, 0xC0);                    // SMBus0 Control
+ 129      =2  SFR (SMB0CF, 0xC1);                    // SMBus0 Configuration
+ 130      =2  SFR (SMB0DAT, 0xC2);                   // SMBus0 Data
+ 131      =2  SFR (ADC0GTL, 0xC3);                   // ADC0 Greater-Than Compare Low
+ 132      =2  SFR (ADC0GTH, 0xC4);                   // ADC0 Greater-Than Compare High
+ 133      =2  SFR (ADC0LTL, 0xC5);                   // ADC0 Less-Than Compare Word Low
+ 134      =2  SFR (ADC0LTH, 0xC6);                   // ADC0 Less-Than Compare Word High
+ 135      =2  SFR (XBR3, 0xC6);                      // Port I/O Crossbar Control 3
+ 136      =2  SFR (XBR2, 0xC7);                      // Port I/O Crossbar Control 2
+ 137      =2  SFR (TMR2CN, 0xC8);                    // Timer/Counter 2 Control
+ 138      =2  SFR (TMR4CN, 0xC8);                    // Timer/Counter 4 Control
+ 139      =2  SFR (REG0CN, 0xC9);                    // Regulator Control
+ 140      =2  SFR (LIN0CF, 0xC9);                    // LIN 0 Configuration
+ 141      =2  SFR (TMR4CF, 0xC9);                    // Timer/Counter 4 Configuration
+ 142      =2  SFR (TMR2RLL, 0xCA);                   // Timer/Counter 2 Reload Low
+ 143      =2  SFR (TMR4CAPL, 0xCA);                  // Timer/Counter 4 Capture Low
+ 144      =2  SFR (TMR2RLH, 0xCB);                   // Timer/Counter 2 Reload High
+ 145      =2  SFR (TMR4CAPH, 0xCB);                  // Timer/Counter 4 Capture High
+ 146      =2  SFR (TMR2L, 0xCC);                     // Timer/Counter 2 Low
+ 147      =2  SFR (TMR4L, 0xCC);                     // Timer/Counter 4 Low
+C51 COMPILER V9.51   GPT                                                                   04/23/2025 15:01:06 PAGE 15  
+
+ 148      =2  SFR (TMR2H, 0xCD);                     // Timer/Counter 2 High
+ 149      =2  SFR (TMR4H, 0xCD);                     // Timer/Counter 4 High
+ 150      =2  SFR (PCA0CPL5, 0xCE);                  // PCA0 Capture 5 Low
+ 151      =2  SFR (PCA1CPL11, 0xCE);                 // PCA1 Capture 11 Low
+ 152      =2  SFR (PCA0CPH5, 0xCF);                  // PCA0 Capture 5 High
+ 153      =2  SFR (PCA1CPH11, 0xCF);                 // PCA1 Capture 11 High
+ 154      =2  SFR (PSW, 0xD0);                       // Program Status Word
+ 155      =2  SFR (REF0CN, 0xD1);                    // Voltage Reference Control
+ 156      =2  SFR (LIN0DAT, 0xD2);                   // LIN0 Data
+ 157      =2  SFR (LIN0ADR, 0xD3);                   // LIN0 Address
+ 158      =2  SFR (P0SKIP, 0xD4);                    // Port 0 Skip
+ 159      =2  SFR (P1SKIP, 0xD5);                    // Port 1 Skip
+ 160      =2  SFR (P2SKIP, 0xD6);                    // Port 2 Skip
+ 161      =2  SFR (P3SKIP, 0xD7);                    // Port 3 Skip
+ 162      =2  SFR (PCA0CN, 0xD8);                    // PCA0 Control
+ 163      =2  SFR (PCA1CN, 0xD8);                    // PCA1 Control
+ 164      =2  SFR (PCA0MD, 0xD9);                    // PCA0 Mode
+ 165      =2  SFR (PCA1MD, 0xD9);                    // PCA1 Mode
+ 166      =2  SFR (PCA0PWM, 0xD9);                   // PCA0 PWM Control
+ 167      =2  SFR (PCA0CPM0, 0xDA);                  // PCA0 Module 0 Mode
+ 168      =2  SFR (PCA1CPM6, 0xDA);                  // PCA1 Module 6 Mode
+ 169      =2  SFR (PCA1PWM, 0xDA);                   // PCA1 PWM Control
+ 170      =2  SFR (PCA0CPM1, 0xDB);                  // PCA0 Module 1  Mode
+ 171      =2  SFR (PCA1CPM7, 0xDB);                  // PCA1 Module 7  Mode
+ 172      =2  SFR (PCA0CPM2, 0xDC);                  // PCA0 Module 2  Mode
+ 173      =2  SFR (PCA1CPM8, 0xDC);                  // PCA1 Module 8  Mode
+ 174      =2  SFR (PCA0CPM3, 0xDD);                  // PCA0 Module 3  Mode
+ 175      =2  SFR (PCA1CPM9, 0xDD);                  // PCA1 Module 9  Mode
+ 176      =2  SFR (PCA0CPM4, 0xDE);                  // PCA0 Module 4  Mode
+ 177      =2  SFR (PCA1CPM10, 0xDE);                  // PCA1 Module 10 Mode
+ 178      =2  SFR (PCA0CPM5, 0xDF);                  // PCA0 Module 5  Mode
+ 179      =2  SFR (PCA1CPM11, 0xDF);                  // PCA1 Module 11 Mode
+ 180      =2  SFR (ACC, 0xE0);                       // Accumulator
+ 181      =2  SFR (XBR0, 0xE1);                      // Port I/O Crossbar Control 0
+ 182      =2  SFR (XBR1, 0xE2);                      // Port I/O Crossbar Control 1
+ 183      =2  SFR (CCH0CN, 0xE3);                    // Cache control
+ 184      =2  SFR (IT01CF, 0xE4);                    // INT0/INT1 Configuration
+ 185      =2  SFR (EIE1, 0xE6);                      // Extended Interrupt Enable 2
+ 186      =2  SFR (EIE2, 0xE7);                      // Extended Interrupt Enable 2
+ 187      =2  SFR (ADC0CN, 0xE8);                    // ADC0 Control
+ 188      =2  SFR (PCA0CPL1, 0xE9);                  // PCA0 Capture 1 Low
+ 189      =2  SFR (PCA1CPL1, 0xE9);                  // PCA1 Capture 7 Low
+ 190      =2  SFR (PCA0CPH1, 0xEA);                  // PCA0 Capture 1 High
+ 191      =2  SFR (PCA1CPH1, 0xEA);                  // PCA1 Capture 7 High
+ 192      =2  SFR (PCA0CPL2, 0xEB);                  // PCA0 Capture 2 Low
+ 193      =2  SFR (PCA1CPL2, 0xEB);                  // PCA1 Capture 8 Low
+ 194      =2  SFR (PCA0CPH2, 0xEC);                  // PCA0 Capture 2 High
+ 195      =2  SFR (PCA1CPH2, 0xEC);                  // PCA1 Capture 8 High
+ 196      =2  SFR (PCA0CPL3, 0xED);                  // PCA0 Capture 3 Low
+ 197      =2  SFR (PCA1CPL3, 0xED);                  // PCA1 Capture 9 Low
+ 198      =2  SFR (PCA0CPH3, 0xEE);                  // PCA0 Capture 3 High
+ 199      =2  SFR (PCA1CPH3, 0xEE);                  // PCA1 Capture 9 High
+ 200      =2  SFR (RSTSRC, 0xEF);                    // Reset Source Configuration/Status
+ 201      =2  SFR (B, 0xF0);                         // B Register
+ 202      =2  SFR (P0MAT, 0xF1);                     // Port 0 Match
+ 203      =2  SFR (P0MDIN, 0xF1);                    // Port 0 Input Mode
+ 204      =2  SFR (P0MASK, 0xF2);                    // Port 0 Mask
+ 205      =2  SFR (P1MDIN, 0xF2);                    // Port 1 Input Mode
+ 206      =2  SFR (P1MAT, 0xF3);                     // Port 1 Match
+ 207      =2  SFR (P2MDIN, 0xF3);                    // Port 2 Input Mode
+ 208      =2  SFR (P1MASK, 0xF4);                    // Port 1 Mask
+ 209      =2  SFR (P3MDIN, 0xF4);                    // Port 3 Input Mode
+C51 COMPILER V9.51   GPT                                                                   04/23/2025 15:01:06 PAGE 16  
+
+ 210      =2  SFR (PSBANK, 0xF5);                    // Program Space Bank Select
+ 211      =2  SFR (EIP1, 0xF6);                      // External Interrupt Priority 1
+ 212      =2  SFR (EIP2, 0xF7);                      // External Interrupt Priority 2
+ 213      =2  SFR (SPI0CN, 0xF8);                    // SPI0 Control
+ 214      =2  SFR (PCA0L, 0xF9);                     // PCA0 Counter Low
+ 215      =2  SFR (PCA1L, 0xF9);                     // PCA1 Counter Low
+ 216      =2  SFR (SN0, 0xF9);                       // Serial Number 0
+ 217      =2  SFR (PCA0H, 0xFA);                     // PCA0 Counter High
+ 218      =2  SFR (PCA1H, 0xFA);                     // PCA1 Counter High
+ 219      =2  SFR (SN1, 0xFA);                       // Serial Number 1
+ 220      =2  SFR (PCA0CPL0, 0xFB);                  // PCA0 Capture 0 Low
+ 221      =2  SFR (PCA1CPL6, 0xFB);                  // PCA1 Capture 6 Low
+ 222      =2  SFR (SN2, 0xFB);                       // Serial Number 2
+ 223      =2  SFR (PCA0CPH0, 0xFC);                  // PCA0 Capture 0 High
+ 224      =2  SFR (PCA1CPH6, 0xFC);                  // PCA1 Capture 6 High
+ 225      =2  SFR (SN3, 0xFC);                       // Serial Number 3
+ 226      =2  SFR (PCA0CPL4, 0xFD);                  // PCA0 Capture 4 Low
+ 227      =2  SFR (PCA1CPL10, 0xFD);                 // PCA1 Capture 10 Low
+ 228      =2  SFR (PCA0CPH4, 0xFE);                  // PCA0 Capture 4 High
+ 229      =2  SFR (PCA1CPH10, 0xFE);                 // PCA1 Capture 10 High
+ 230      =2  SFR (VDM0CN, 0xFF);                    // VDD Monitor Control
+ 231      =2  
+ 232      =2  //-----------------------------------------------------------------------------
+ 233      =2  // Page C (CAN0) Registers
+ 234      =2  //-----------------------------------------------------------------------------
+ 235      =2  
+ 236      =2  SFR (CAN0CFG, 0x92);                   // CAN0 Clock Configuration
+ 237      =2  SFR (CAN0STAT, 0x94);                  // Status Register Low Byte
+ 238      =2  SFR (CAN0ERRL, 0x96);                  // Error Counter Low Byte
+ 239      =2  SFR (CAN0ERRH, 0x97);                  // Error Counter High Byte
+ 240      =2  SFR (CAN0BTL, 0x9A);                   // Bit Timing Register Low Byte
+ 241      =2  SFR (CAN0BTH, 0x9B);                   // Bit Timing Register High Byte
+ 242      =2  SFR (CAN0IIDL, 0x9C);                  // Interrupt Register Low Byte
+ 243      =2  SFR (CAN0IIDH, 0x9D);                  // Interrupt Register High Byte
+ 244      =2  SFR (CAN0TST, 0x9E);                   // Test Register Low Byte
+ 245      =2  SFR (CAN0BRPE, 0xA1);                  // BRP Extension Register Low Byte
+ 246      =2  SFR (CAN0TR1L, 0xA2);                  // Transmission Request 1 Low Byte
+ 247      =2  SFR (CAN0TR1H, 0xA3);                  // Transmission Request 1 High Byte
+ 248      =2  SFR (CAN0TR2L, 0xA4);                  // Transmission Request 2 Low Byte
+ 249      =2  SFR (CAN0TR2H, 0xA5);                  // Transmission Request 2 High Byte
+ 250      =2  SFR (CAN0ND1L, 0xAA);                  // New Data 1 Low Byte
+ 251      =2  SFR (CAN0ND1H, 0xAB);                  // New Data 1 High Byte
+ 252      =2  SFR (CAN0ND2L, 0xAC);                  // New Data 2 Low Byte
+ 253      =2  SFR (CAN0ND2H, 0xAD);                  // New Data 2 High Byte
+ 254      =2  SFR (CAN0IP1L, 0xAE);                  // Interrupt Pending 1 Low Byte
+ 255      =2  SFR (CAN0IP1H, 0xAF);                  // Interrupt Pending 1 High Byte
+ 256      =2  SFR (CAN0IP2L, 0xB2);                  // Interrupt Pending 2 Low Byte
+ 257      =2  SFR (CAN0IP2H, 0xB3);                  // Interrupt Pending 2 High Byte
+ 258      =2  SFR (CAN0MV1L, 0xBA);                  // Message Valid 1 Low Byte
+ 259      =2  SFR (CAN0MV1H, 0xBB);                  // Message Valid 1 High Byte
+ 260      =2  SFR (CAN0MV2L, 0xBC);                  // Message Valid 2 Low Byte
+ 261      =2  SFR (CAN0MV2H, 0xBD);                  // Message Valid 2 High Byte
+ 262      =2  SFR (CAN0IF1CRL, 0xBE);                // IF1 Command Request Low Byte
+ 263      =2  SFR (CAN0IF1CRH, 0xBF);                // IF1 Command Request High Byte
+ 264      =2  SFR (CAN0CN, 0xC0);                    // CAN Control Register Low Byte
+ 265      =2  SFR (CAN0IF1CML, 0xC2);                // IF1 Command Mask Low Byte
+ 266      =2  SFR (CAN0IF1CMH, 0xC3);                // IF1 Command Mask High Byte
+ 267      =2  SFR (CAN0IF1M1L, 0xC4);                // IF1 Mask 1 Low Byte
+ 268      =2  SFR (CAN0IF1M1H, 0xC5);                // IF1 Mask 1 High Byte
+ 269      =2  SFR (CAN0IF1M2L, 0xC6);                // IF1 Mask 2 Low Byte
+ 270      =2  SFR (CAN0IF1M2H, 0xC7);                // IF1 Mask 2 High Byte
+ 271      =2  SFR (CAN0IF1A1L, 0xCA);                // IF1 Arbitration 1 Low Byte
+C51 COMPILER V9.51   GPT                                                                   04/23/2025 15:01:06 PAGE 17  
+
+ 272      =2  SFR (CAN0IF1A1H, 0xCB);                // IF1 Arbitration 1 High Byte
+ 273      =2  SFR (CAN0IF1A2L, 0xCC);                // IF1 Arbitration 2 Low Byte
+ 274      =2  SFR (CAN0IF1A2H, 0xCD);                // IF1 Arbitration 2 High Byte
+ 275      =2  SFR (CAN0IF2MCL, 0xCE);                // IF2 Message Control Low Byte
+ 276      =2  SFR (CAN0IF2MCH, 0xCF);                // IF2 Message Control High Byte
+ 277      =2  SFR (CAN0IF1MCL, 0xD2);                // IF1 Message Control Low Byte
+ 278      =2  SFR (CAN0IF1MCH, 0xD3);                // IF1 Message Control High Byte
+ 279      =2  SFR (CAN0IF1DA1L, 0xD4);               // IF1 Data A 1 Low Byte
+ 280      =2  SFR (CAN0IF1DA1H, 0xD5);               // IF1 Data A 1 High Byte
+ 281      =2  SFR (CAN0IF1DA2L, 0xD6);               // IF1 Data A 2 Low Byte
+ 282      =2  SFR (CAN0IF1DA2H, 0xD7);               // IF1 Data A 2 High Byte
+ 283      =2  SFR (CAN0IF1DB1L, 0xDA);               // IF1 Data B 1 Low Byte
+ 284      =2  SFR (CAN0IF1DB1H, 0xDB);               // IF1 Data B 1 High Byte
+ 285      =2  SFR (CAN0IF1DB2L, 0xDC);               // IF1 Data B 2 Low Byte
+ 286      =2  SFR (CAN0IF1DB2H, 0xDD);               // IF1 Data B 2 High Byte
+ 287      =2  SFR (CAN0IF2CRL, 0xDE);                // IF2 Command Request Low Byte
+ 288      =2  SFR (CAN0IF2CRH, 0xDF);                // IF2 Command Request High Byte
+ 289      =2  SFR (CAN0IF2CML, 0xE2);                // IF2 Command Mask Low Byte
+ 290      =2  SFR (CAN0IF2CMH, 0xE3);                // IF2 Command Mask High Byte
+ 291      =2  SFR (CAN0IF2M1L, 0xEA);                // IF2 Mask 1 Low Byte
+ 292      =2  SFR (CAN0IF2M1H, 0xEB);                // IF2 Mask 1 High Byte
+ 293      =2  SFR (CAN0IF2M2L, 0xEC);                // IF2 Mask 2 Low Byte
+ 294      =2  SFR (CAN0IF2M2H, 0xED);                // IF2 Mask 2 High Byte
+ 295      =2  SFR (CAN0IF2A1L, 0xEE);                // IF2 Arbitration 1 Low Byte
+ 296      =2  SFR (CAN0IF2A1H, 0xEF);                // IF2 Arbitration 1 High Byte
+ 297      =2  SFR (CAN0IF2A2L, 0xF2);                // IF2 Arbitration 2 Low Byte
+ 298      =2  SFR (CAN0IF2A2H, 0xF3);                // IF2 Arbitration 2 High Byte
+ 299      =2  SFR (CAN0IF2DA1L, 0xF6);               // IF2 Data A 1 Low Byte
+ 300      =2  SFR (CAN0IF2DA1H, 0xF7);               // IF2 Data A 1 High Byte
+ 301      =2  SFR (CAN0IF2DA2L, 0xFA);               // IF2 Data A 2 Low Byte
+ 302      =2  SFR (CAN0IF2DA2H, 0xFB);               // IF2 Data A 2 High Byte
+ 303      =2  SFR (CAN0IF2DB1L, 0xFC);               // IF2 Data B 1 Low Byte
+ 304      =2  SFR (CAN0IF2DB1H, 0xFD);               // IF2 Data B 1 High Byte
+ 305      =2  SFR (CAN0IF2DB2L, 0xFE);               // IF2 Data B 2 Low Byte
+ 306      =2  SFR (CAN0IF2DB2H, 0xFF);               // IF2 Data B 2 High Byte
+ 307      =2  
+ 308      =2  
+ 309      =2  //-----------------------------------------------------------------------------
+ 310      =2  // 16-bit Register Definitions (might not be supported by all compilers)
+ 311      =2  //-----------------------------------------------------------------------------
+ 312      =2  
+ 313      =2  SFR16 (DP, 0x82);                      // Data Pointer
+ 314      =2  SFR16 (TMR3RL, 0x92);                  // Timer 3 Reload
+ 315      =2  SFR16 (TMR5CAP, 0x92);                 // Timer 5 Capture
+ 316      =2  SFR16 (TMR3, 0x94);                    // Timer 3 Capture / Reload
+ 317      =2  SFR16 (TMR5, 0x94);                    // Timer 5
+ 318      =2  SFR16 (SBRL0, 0xAC);                   // UART0 Reload
+ 319      =2  SFR16 (ADC0, 0xBD);                    // ADC0 data
+ 320      =2  SFR16 (ADC0GT, 0xC3);                  // ADC0 Greater Than Window
+ 321      =2  SFR16 (ADC0LT, 0xC5);                  // ADC0 Less Than Window
+ 322      =2  SFR16 (TMR2RL, 0xCA);                  // Timer 2 Reload
+ 323      =2  SFR16 (TMR4CAP, 0xCA);                 // Timer 4 Capture
+ 324      =2  SFR16 (TMR2, 0xCC);                    // Timer 2 Capture / Reload
+ 325      =2  SFR16 (TMR4, 0xCC);                    // Timer 4
+ 326      =2  SFR16 (PCA0CP5, 0xCE);                 // PCA0 Module 5 Capture
+ 327      =2  SFR16 (PCA1CP11, 0xCE);                // PCA1 Module 11 Capture
+ 328      =2  SFR16 (PCA0CP1, 0xE9);                 // PCA0 Module 1 Capture
+ 329      =2  SFR16 (PCA1CP7, 0xE9);                 // PCA1 Module 7 Capture
+ 330      =2  SFR16 (PCA0CP2, 0xEB);                 // PCA0 Module 2 Capture
+ 331      =2  SFR16 (PCA1CP8, 0xEB);                 // PCA1 Module 8 Capture
+ 332      =2  SFR16 (PCA0CP3, 0xED);                 // PCA0 Module 3 Capture
+ 333      =2  SFR16 (PCA1CP9, 0xED);                 // PCA1 Module 9 Capture
+C51 COMPILER V9.51   GPT                                                                   04/23/2025 15:01:06 PAGE 18  
+
+ 334      =2  SFR16 (PCA0, 0xF9);                    // PCA0 Counter
+ 335      =2  SFR16 (PCA1, 0xF9);                    // PCA1 Counter
+ 336      =2  SFR16 (PCA0CP0, 0xFB);                 // PCA0 Module 0 Capture
+ 337      =2  SFR16 (PCA1CP6, 0xFB);                 // PCA1 Module 6 Capture
+ 338      =2  SFR16 (PCA0CP4, 0xFD);                 // PCA0 Module 4 Capture
+ 339      =2  SFR16 (PCA1CP10, 0xFD);                 // PCA1 Module 10 Capture
+ 340      =2  
+ 341      =2  SFR16 (CAN0ERR, 0x96);                 // Error Counter
+ 342      =2  SFR16 (CAN0BT, 0x9A);                  // Bit Timing Register
+ 343      =2  SFR16 (CAN0IID, 0x9C);                 // Interrupt Register
+ 344      =2  SFR16 (CAN0TR1, 0xA2);                 // Transmission Request 1
+ 345      =2  SFR16 (CAN0TR2, 0xA4);                 // Transmission Request 2
+ 346      =2  SFR16 (CAN0ND1, 0xAA);                 // New Data 1
+ 347      =2  SFR16 (CAN0ND2, 0xAC);                 // New Data 2
+ 348      =2  SFR16 (CAN0IP1, 0xAE);                 // Interrupt Pending 1
+ 349      =2  SFR16 (CAN0IP2, 0xB2);                 // Interrupt Pending 2
+ 350      =2  SFR16 (CAN0MV1, 0xBA);                 // Message Valid 1
+ 351      =2  SFR16 (CAN0MV2, 0xBC);                 // Message Valid 2
+ 352      =2  SFR16 (CAN0IF1CR, 0xBE);               // IF1 Command Request
+ 353      =2  SFR16 (CAN0IF1CM, 0xC2);               // IF1 Command Mask
+ 354      =2  SFR16 (CAN0IF1M1, 0xC4);               // IF1 Mask 1
+ 355      =2  SFR16 (CAN0IF1M2, 0xC6);               // IF1 Mask 2
+ 356      =2  SFR16 (CAN0IF1A1, 0xCA);               // IF1 Arbitration 1
+ 357      =2  SFR16 (CAN0IF1A2, 0xCC);               // IF1 Arbitration 2
+ 358      =2  SFR16 (CAN0IF1MC, 0xD2);               // IF1 Message Control
+ 359      =2  SFR16 (CAN0IF1DA1, 0xD4);              // IF1 Data A 1
+ 360      =2  SFR16 (CAN0IF1DA2, 0xD6);              // IF1 Data A 2
+ 361      =2  SFR16 (CAN0IF1DB1, 0xDA);              // IF1 Data B 1
+ 362      =2  SFR16 (CAN0IF1DB2, 0xDC);              // IF1 Data B 2
+ 363      =2  SFR16 (CAN0IF2CR, 0xDE);               // IF2 Command Request
+ 364      =2  SFR16 (CAN0IF2CM, 0xE2);               // IF2 Command Mask
+ 365      =2  SFR16 (CAN0IF2M1, 0xEA);               // IF2 Mask 1
+ 366      =2  SFR16 (CAN0IF2M2, 0xEC);               // IF2 Mask 2
+ 367      =2  SFR16 (CAN0IF2A1, 0xEE);               // IF2 Arbitration 1
+ 368      =2  SFR16 (CAN0IF2A2, 0xF2);               // IF2 Arbitration 2
+ 369      =2  SFR16 (CAN0IF2MC, 0xCE);               // IF2 Message Control
+ 370      =2  SFR16 (CAN0IF2DA1, 0xF6);              // IF2 Data A 1
+ 371      =2  SFR16 (CAN0IF2DA2, 0xFA);              // IF2 Data A 2
+ 372      =2  SFR16 (CAN0IF2DB1, 0xFC);              // IF2 Data B 1
+ 373      =2  SFR16 (CAN0IF2DB2, 0xFE);              // IF2 Data B 2
+ 374      =2  
+ 375      =2  //-----------------------------------------------------------------------------
+ 376      =2  // LIN0 Indirect Registers
+ 377      =2  //-----------------------------------------------------------------------------
+ 378      =2  
+ 379      =2  #define  LIN0DT1   0x00                // LIN0 Data Byte 1
+ 380      =2  #define  LIN0DT2   0x01                // LIN0 Data Byte 2
+ 381      =2  #define  LIN0DT3   0x02                // LIN0 Data Byte 3
+ 382      =2  #define  LIN0DT4   0x03                // LIN0 Data Byte 4
+ 383      =2  #define  LIN0DT5   0x04                // LIN0 Data Byte 5
+ 384      =2  #define  LIN0DT6   0x05                // LIN0 Data Byte 6
+ 385      =2  #define  LIN0DT7   0x06                // LIN0 Data Byte 7
+ 386      =2  #define  LIN0DT8   0x07                // LIN0 Data Byte 8
+ 387      =2  #define  LIN0CTRL  0x08                // LIN0 Control
+ 388      =2  #define  LIN0ST    0x09                // LIN0 Status
+ 389      =2  #define  LIN0ERR   0x0A                // LIN0 Error
+ 390      =2  #define  LIN0SIZE  0x0B                // LIN0 Message Size
+ 391      =2  #define  LIN0DIV   0x0C                // LIN0 Divider
+ 392      =2  #define  LIN0MUL   0x0D                // LIN0 Multiplier
+ 393      =2  #define  LIN0ID    0x0E                // LIN0 Identifier
+ 394      =2  
+ 395      =2  //-----------------------------------------------------------------------------
+C51 COMPILER V9.51   GPT                                                                   04/23/2025 15:01:06 PAGE 19  
+
+ 396      =2  // Address Definitions for Bit-addressable Registers
+ 397      =2  //-----------------------------------------------------------------------------
+ 398      =2  
+ 399      =2  #define SFR_P0       0x80
+ 400      =2  #define SFR_TCON     0x88
+ 401      =2  #define SFR_P1       0x90
+ 402      =2  #define SFR_SCON0    0x98
+ 403      =2  #define SFR_SCON1    0x98
+ 404      =2  #define SFR_P2       0xA0
+ 405      =2  #define SFR_IE       0xA8
+ 406      =2  #define SFR_P3       0xB0
+ 407      =2  #define SFR_IP       0xB8
+ 408      =2  #define SFR_SMB0CN   0xC0
+ 409      =2  #define SFR_TMR2CN   0xC8
+ 410      =2  #define SFR_TMR4CN   0xC8
+ 411      =2  #define SFR_PSW      0xD0
+ 412      =2  #define SFR_PCA0CN   0xD8
+ 413      =2  #define SFR_PCA1CN   0xD8
+ 414      =2  #define SFR_ACC      0xE0
+ 415      =2  #define SFR_ADC0CN   0xE8
+ 416      =2  #define SFR_B        0xF0
+ 417      =2  #define SFR_SPI0CN   0xF8
+ 418      =2  
+ 419      =2  //-----------------------------------------------------------------------------
+ 420      =2  // Bit Definitions
+ 421      =2  //-----------------------------------------------------------------------------
+ 422      =2  
+ 423      =2  // TCON 0x88
+ 424      =2  SBIT (TF1, SFR_TCON, 7);               // Timer 1 Overflow Flag
+ 425      =2  SBIT (TR1, SFR_TCON, 6);               // Timer 1 On/Off Control
+ 426      =2  SBIT (TF0, SFR_TCON, 5);               // Timer 0 Overflow Flag
+ 427      =2  SBIT (TR0, SFR_TCON, 4);               // Timer 0 On/Off Control
+ 428      =2  SBIT (IE1, SFR_TCON, 3);               // Ext. Interrupt 1 Edge Flag
+ 429      =2  SBIT (IT1, SFR_TCON, 2);               // Ext. Interrupt 1 Type
+ 430      =2  SBIT (IE0, SFR_TCON, 1);               // Ext. Interrupt 0 Edge Flag
+ 431      =2  SBIT (IT0, SFR_TCON, 0);               // Ext. Interrupt 0 Type
+ 432      =2  
+ 433      =2  // SCON0 0x98
+ 434      =2  SBIT (OVR0, SFR_SCON0, 7);             // UART0 Receive FIFO Overrun Flag
+ 435      =2  SBIT (PERR0, SFR_SCON0, 6);            // UART0 Parity Error Flag
+ 436      =2  SBIT (THRE0, SFR_SCON0, 5);            // UART0 Transmit Register Empty Flag
+ 437      =2  SBIT (REN0, SFR_SCON0, 4);             // UART0 RX Enable
+ 438      =2  SBIT (TBX0, SFR_SCON0, 3);             // UART0 Extra Transmission Bit
+ 439      =2  SBIT (RBX0, SFR_SCON0, 2);             // UART0 Extra Receive Bit
+ 440      =2  SBIT (TI0, SFR_SCON0, 1);              // UART0 TX Interrupt Flag
+ 441      =2  SBIT (RI0, SFR_SCON0, 0);              // UART0 RX Interrupt Flag
+ 442      =2  
+ 443      =2  // SCON1 0x98
+ 444      =2  SBIT (S1MODE, SFR_SCON1, 7);           // UART1 Mode 0
+ 445      =2                                         // Bit 6 UNUSED
+ 446      =2  SBIT (MCE1, SFR_SCON1, 5);             // UART1 Multiprocessor enable
+ 447      =2  SBIT (REN1, SFR_SCON1, 4);             // UART1 RX Enable
+ 448      =2  SBIT (TB81, SFR_SCON1, 3);             // UART1 TX Bit 8
+ 449      =2  SBIT (RB81, SFR_SCON1, 2);             // UART1 RX Bit 8
+ 450      =2  SBIT (TI1, SFR_SCON1, 1);              // UART1 TX Interrupt Flag
+ 451      =2  SBIT (RI1, SFR_SCON1, 0);              // UART1 RX Interrupt Flag
+ 452      =2  
+ 453      =2  // IE 0xA8
+ 454      =2  SBIT (EA, SFR_IE, 7);                  // Global Interrupt Enable
+ 455      =2  SBIT (ESPI0, SFR_IE, 6);               // SPI0 Interrupt Enable
+ 456      =2  SBIT (ET2, SFR_IE, 5);                 // Timer 2 Interrupt Enable
+ 457      =2  SBIT (ES0, SFR_IE, 4);                 // UART0 Interrupt Enable
+C51 COMPILER V9.51   GPT                                                                   04/23/2025 15:01:06 PAGE 20  
+
+ 458      =2  SBIT (ET1, SFR_IE, 3);                 // Timer 1 Interrupt Enable
+ 459      =2  SBIT (EX1, SFR_IE, 2);                 // External Interrupt 1 Enable
+ 460      =2  SBIT (ET0, SFR_IE, 1);                 // Timer 0 Interrupt Enable
+ 461      =2  SBIT (EX0, SFR_IE, 0);                 // External Interrupt 0 Enable
+ 462      =2  
+ 463      =2  // IP 0xB8
+ 464      =2                                         // Bit 7 unused
+ 465      =2  SBIT (PSPI0, SFR_IP, 6);               // SPI0 Interrupt Priority
+ 466      =2  SBIT (PT2, SFR_IP, 5);                 // Timer 2 Priority
+ 467      =2  SBIT (PS0, SFR_IP, 4);                 // UART0 Priority
+ 468      =2  SBIT (PS, SFR_IP, 4);                  // UART0 Priority
+ 469      =2  SBIT (PT1, SFR_IP, 3);                 // Timer 1 Priority
+ 470      =2  SBIT (PX1, SFR_IP, 2);                 // External Interrupt 1 Priority
+ 471      =2  SBIT (PT0, SFR_IP, 1);                 // Timer 0 Priority
+ 472      =2  SBIT (PX0, SFR_IP, 0);                 // External Interrupt 0 Priority
+ 473      =2  
+ 474      =2  // SMB0CN 0xC0
+ 475      =2  SBIT (MASTER, SFR_SMB0CN, 7);          // SMBus0 Master/Slave Indicator
+ 476      =2  SBIT (TXMODE, SFR_SMB0CN, 6);          // SMBus0 Transmit Mode Indicator
+ 477      =2  SBIT (STA, SFR_SMB0CN, 5);             // SMBus0 Start Flag
+ 478      =2  SBIT (STO, SFR_SMB0CN, 4);             // SMBus0 Stop Flag
+ 479      =2  SBIT (ACKRQ, SFR_SMB0CN, 3);           // SMBus0 Acknowledge Request
+ 480      =2  SBIT (ARBLOST, SFR_SMB0CN, 2);         // SMBus0 Arbitration Lost Indicator
+ 481      =2  SBIT (ACK, SFR_SMB0CN, 1);             // SMBus0 Acknowledge
+ 482      =2  SBIT (SI, SFR_SMB0CN, 0);              // SMBus0 Interrupt Flag
+ 483      =2  
+ 484      =2  // TMR2CN 0xC8
+ 485      =2  SBIT (TF2H, SFR_TMR2CN, 7);            // Timer 2 High-Byte Overflow Flag
+ 486      =2  SBIT (TF2L, SFR_TMR2CN, 6);            // Timer 2 Low-Byte  Overflow Flag
+ 487      =2  SBIT (TF2LEN, SFR_TMR2CN, 5);          // Timer 2 Low-Byte Flag Enable
+ 488      =2  SBIT (TF2CEN, SFR_TMR2CN, 4);          // Timer 2 Capture Enable
+ 489      =2  SBIT (T2SPLIT, SFR_TMR2CN, 3);         // Timer 2 Split-Mode Enable
+ 490      =2  SBIT (TR2, SFR_TMR2CN, 2);             // Timer 2 Run Enable
+ 491      =2  SBIT (T2RCLK, SFR_TMR2CN, 1);          // Timer 2 Xclk/Rclk Select
+ 492      =2  SBIT (T2XCLK, SFR_TMR2CN, 0);          // Timer 2 Clk/8 Clock Source
+ 493      =2  
+ 494      =2  // TMR4CN 0xC8
+ 495      =2  SBIT (TF4, SFR_TMR4CN, 7);             // Timer 4 Overflow/Underflow Flag
+ 496      =2  SBIT (EXF4, SFR_TMR4CN, 6);            // Timer 4 External Flag
+ 497      =2                                         // Bit 5 unused
+ 498      =2                                         // Bit 4 unused
+ 499      =2  SBIT (EXE4, SFR_TMR4CN, 3);            // Timer 4 External Enable
+ 500      =2  SBIT (TR4, SFR_TMR4CN, 2);             // Timer 4 Run Enable
+ 501      =2  SBIT (CT4, SFR_TMR4CN, 1);             // Timer 4 Counter/Timer Select
+ 502      =2  SBIT (CPRL4, SFR_TMR4CN, 0);           // Timer 4 Capture/Reload Select
+ 503      =2  
+ 504      =2  // PSW 0xD0
+ 505      =2  SBIT (CY, SFR_PSW, 7);                 // Carry Flag
+ 506      =2  SBIT (AC, SFR_PSW, 6);                 // Auxiliary Carry Flag
+ 507      =2  SBIT (F0, SFR_PSW, 5);                 // User Flag 0
+ 508      =2  SBIT (RS1, SFR_PSW, 4);                // Register Bank Select 1
+ 509      =2  SBIT (RS0, SFR_PSW, 3);                // Register Bank Select 0
+ 510      =2  SBIT (OV, SFR_PSW, 2);                 // Overflow Flag
+ 511      =2  SBIT (F1, SFR_PSW, 1);                 // User Flag 1
+ 512      =2  SBIT (P, SFR_PSW, 0);                  // Accumulator Parity Flag
+ 513      =2  
+ 514      =2  // PCA0CN 0xD8
+ 515      =2  SBIT (CF, SFR_PCA0CN, 7);              // PCA0 Counter Overflow Flag
+ 516      =2  SBIT (CR, SFR_PCA0CN, 6);              // PCA0 Counter Run Control Bit
+ 517      =2  SBIT (CCF5, SFR_PCA0CN, 5);            // PCA0 Module 5 Interrupt Flag
+ 518      =2  SBIT (CCF4, SFR_PCA0CN, 4);            // PCA0 Module 4 Interrupt Flag
+ 519      =2  SBIT (CCF3, SFR_PCA0CN, 3);            // PCA0 Module 3 Interrupt Flag
+C51 COMPILER V9.51   GPT                                                                   04/23/2025 15:01:06 PAGE 21  
+
+ 520      =2  SBIT (CCF2, SFR_PCA0CN, 2);            // PCA0 Module 2 Interrupt Flag
+ 521      =2  SBIT (CCF1, SFR_PCA0CN, 1);            // PCA0 Module 1 Interrupt Flag
+ 522      =2  SBIT (CCF0, SFR_PCA0CN, 0);            // PCA0 Module 0 Interrupt Flag
+ 523      =2  
+ 524      =2  // PCA1CN 0xD8
+ 525      =2  SBIT (CF1, SFR_PCA1CN, 7);             // PCA1 Counter Overflow Flag
+ 526      =2  SBIT (CR1, SFR_PCA1CN, 6);             // PCA1 Counter Run Control Bit
+ 527      =2  SBIT (CCF11, SFR_PCA1CN, 5);           // PCA1 Module 11 Interrupt Flag
+ 528      =2  SBIT (CCF10, SFR_PCA1CN, 4);           // PCA1 Module 10 Interrupt Flag
+ 529      =2  SBIT (CCF9, SFR_PCA1CN, 3);            // PCA1 Module 9 Interrupt Flag
+ 530      =2  SBIT (CCF8, SFR_PCA1CN, 2);            // PCA1 Module 8 Interrupt Flag
+ 531      =2  SBIT (CCF7, SFR_PCA1CN, 1);            // PCA1 Module 7 Interrupt Flag
+ 532      =2  SBIT (CCF6, SFR_PCA1CN, 0);            // PCA1 Module 6 Interrupt Flag
+ 533      =2  
+ 534      =2  // ADC0CN 0xE8
+ 535      =2  SBIT (AD0EN, SFR_ADC0CN, 7);           // ADC0 Enable
+ 536      =2  SBIT (BURSTEN, SFR_ADC0CN, 6);         // ADC0 Burst Enable
+ 537      =2  SBIT (AD0INT, SFR_ADC0CN, 5);          // ADC0 EOC Interrupt Flag
+ 538      =2  SBIT (AD0BUSY, SFR_ADC0CN, 4);         // ADC0 Busy Flag
+ 539      =2  SBIT (AD0WINT, SFR_ADC0CN, 3);         // ADC0 Window Compare Interrupt Flag
+ 540      =2  SBIT (AD0LJST, SFR_ADC0CN, 2);         // ADC0 Left Justified
+ 541      =2  SBIT (AD0CM1, SFR_ADC0CN, 1);          // ADC0 Start Of Conversion Mode Bit 1
+ 542      =2  SBIT (AD0CM0, SFR_ADC0CN, 0);          // ADC0 Start Of Conversion Mode Bit 0
+ 543      =2  
+ 544      =2  // SPI0CN 0xF8
+ 545      =2  SBIT (SPIF, SFR_SPI0CN, 7);            // SPI0 Interrupt Flag
+ 546      =2  SBIT (WCOL, SFR_SPI0CN, 6);            // SPI0 Write Collision Flag
+ 547      =2  SBIT (MODF, SFR_SPI0CN, 5);            // SPI0 Mode Fault Flag
+ 548      =2  SBIT (RXOVRN, SFR_SPI0CN, 4);          // SPI0 RX Overrun Flag
+ 549      =2  SBIT (NSSMD1, SFR_SPI0CN, 3);          // SPI0 Slave Select Mode 1
+ 550      =2  SBIT (NSSMD0, SFR_SPI0CN, 2);          // SPI0 Slave Select Mode 0
+ 551      =2  SBIT (TXBMT, SFR_SPI0CN, 1);           // SPI0 TX Buffer Empty Flag
+ 552      =2  SBIT (SPIEN, SFR_SPI0CN, 0);           // SPI0 Enable
+ 553      =2  
+ 554      =2  //-----------------------------------------------------------------------------
+ 555      =2  // Interrupt Priorities
+ 556      =2  //-----------------------------------------------------------------------------
+ 557      =2  
+ 558      =2  #define INTERRUPT_INT0             0   // External Interrupt 0
+ 559      =2  #define INTERRUPT_TIMER0           1   // Timer 0 Overflow
+ 560      =2  #define INTERRUPT_INT1             2   // External Interrupt 1
+ 561      =2  #define INTERRUPT_TIMER1           3   // Timer 1 Overflow
+ 562      =2  #define INTERRUPT_UART0            4   // UART0
+ 563      =2  #define INTERRUPT_TIMER2           5   // Timer 2 Overflow
+ 564      =2  #define INTERRUPT_SPI0             6   // SPI0
+ 565      =2  #define INTERRUPT_SMBUS0           7   // SMBus0 Interface
+ 566      =2  #define INTERRUPT_ADC0_WINDOW      8   // ADC0 Window Comparison
+ 567      =2  #define INTERRUPT_ADC0_EOC         9   // ADC0 End Of Conversion
+ 568      =2  #define INTERRUPT_PCA0            10   // PCA0 Peripheral
+ 569      =2  #define INTERRUPT_COMPARATOR0     11   // Comparator 0 Comparison
+ 570      =2  #define INTERRUPT_COMPARATOR1     12   // Comparator 1 Comparison
+ 571      =2  #define INTERRUPT_TIMER3          13   // Timer 3 Overflow
+ 572      =2  #define INTERRUPT_LIN0            14   // LIN Bus Interrupt
+ 573      =2  #define INTERRUPT_VREG            15   // Voltage Regulator
+ 574      =2  #define INTERRUPT_CAN0            16   // CAN Bus Interrupt
+ 575      =2  #define INTERRUPT_PORT_MATCH      17   // Port Match
+ 576      =2  #define INTERRUPT_UART1           18   // UART1
+ 577      =2  #define INTERRUPT_PCA1            19   // PCA1 Peripheral
+ 578      =2  #define INTERRUPT_COMPARATOR2     20   // Comparator 2 Comparison
+ 579      =2  #define INTERRUPT_TIMER4          21   // Timer 4 Overflow
+ 580      =2  #define INTERRUPT_TIMER5          22   // Timer 5 Overflow
+ 581      =2  
+C51 COMPILER V9.51   GPT                                                                   04/23/2025 15:01:06 PAGE 22  
+
+ 582      =2  
+ 583      =2  //-----------------------------------------------------------------------------
+ 584      =2  // SFR Page Definitions
+ 585      =2  //-----------------------------------------------------------------------------
+ 586      =2  
+ 587      =2  #define  CONFIG_PAGE       0x0F        // System and Port Configuration Page
+ 588      =2  #define  ACTIVE_PAGE       0x00        // Active Use Page
+ 589      =2  #define  ACTIVE2_PAGE      0x10        // Active Use Page 2
+ 590      =2  #define  CAN0_PAGE         0x0C        // CAN0 Registers
+ 591      =2  
+ 592      =2  //-----------------------------------------------------------------------------
+ 593      =2  // SDCC PDATA External Memory Paging Support
+ 594      =2  //-----------------------------------------------------------------------------
+ 595      =2  
+ 596      =2  #if defined SDCC
+           =2 
+           =2 SFR(_XPAGE, 0xAA); // Point to the EMI0CN register
+           =2 
+           =2 #endif
+ 601      =2  
+ 602      =2  //-----------------------------------------------------------------------------
+ 603      =2  // Header File PreProcessor Directive
+ 604      =2  //-----------------------------------------------------------------------------
+ 605      =2  
+ 606      =2  #endif                                 // #define C8051F580_DEFS_H
+ 607      =2  
+ 608      =2  //-----------------------------------------------------------------------------
+ 609      =2  // End Of File
+ 610      =2  //-----------------------------------------------------------------------------
+   9      =1  void SYSCLK_Init(void);
+  10      =1  #endif
+   2          void SYSCLK_Init(void)
+   3          {
+   4   1          U8 SFRPAGE_save = SFRPAGE;
+   5   1          SFRPAGE = CONFIG_PAGE;
+   6   1      
+   7   1          OSCICN |= 0x87; // Configure internal oscillator for
+   8   1                          // its maximum frequency
+   9   1          RSTSRC = 0x04;  // Enable missing clock detector
+  10   1      
+  11   1          SFRPAGE = SFRPAGE_save;
+  12   1      }
+C51 COMPILER V9.51   GPT                                                                   04/23/2025 15:01:06 PAGE 23  
+
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+
+
+             ; FUNCTION SYSCLK_Init (BEGIN)
+                                           ; SOURCE LINE # 2
+                                           ; SOURCE LINE # 3
+                                           ; SOURCE LINE # 4
+0000 900000      R     MOV     DPTR,#SFRPAGE_save
+0003 E5A7              MOV     A,SFRPAGE
+0005 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 5
+0006 75A70F            MOV     SFRPAGE,#0FH
+                                           ; SOURCE LINE # 7
+0009 43A187            ORL     OSCICN,#087H
+                                           ; SOURCE LINE # 9
+000C 75EF04            MOV     RSTSRC,#04H
+                                           ; SOURCE LINE # 11
+000F 900000      R     MOV     DPTR,#SFRPAGE_save
+0012 E0                MOVX    A,@DPTR
+0013 FF                MOV     R7,A
+0014 8FA7              MOV     SFRPAGE,R7
+                                           ; SOURCE LINE # 12
+0016         ?C0001:
+0016 22                RET     
+             ; FUNCTION SYSCLK_Init (END)
+
+C51 COMPILER V9.51   GPT                                                                   04/23/2025 15:01:06 PAGE 24  
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+U8 . . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+U16. . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_INT    -----  2
+U32. . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_LONG   -----  4
+S8 . . . . . . . . . . . . . . . . . .  TYPEDEF  -----  CHAR     -----  1
+S16. . . . . . . . . . . . . . . . . .  TYPEDEF  -----  INT      -----  2
+S32. . . . . . . . . . . . . . . . . .  TYPEDEF  -----  LONG     -----  4
+UU16 . . . . . . . . . . . . . . . . .  * TAG *  -----  UNION    -----  2
+  U16. . . . . . . . . . . . . . . . .  MEMBER   -----  U_INT    0000H  2
+  S16. . . . . . . . . . . . . . . . .  MEMBER   -----  INT      0000H  2
+  U8 . . . . . . . . . . . . . . . . .  MEMBER   -----  ARRAY    0000H  2
+  S8 . . . . . . . . . . . . . . . . .  MEMBER   -----  ARRAY    0000H  2
+UU16 . . . . . . . . . . . . . . . . .  TYPEDEF  -----  UNION    -----  2
+  U16. . . . . . . . . . . . . . . . .  MEMBER   -----  U_INT    0000H  2
+  S16. . . . . . . . . . . . . . . . .  MEMBER   -----  INT      0000H  2
+  U8 . . . . . . . . . . . . . . . . .  MEMBER   -----  ARRAY    0000H  2
+  S8 . . . . . . . . . . . . . . . . .  MEMBER   -----  ARRAY    0000H  2
+UU32 . . . . . . . . . . . . . . . . .  * TAG *  -----  UNION    -----  4
+  U32. . . . . . . . . . . . . . . . .  MEMBER   -----  U_LONG   0000H  4
+  S32. . . . . . . . . . . . . . . . .  MEMBER   -----  LONG     0000H  4
+  UU16 . . . . . . . . . . . . . . . .  MEMBER   -----  ARRAY    0000H  4
+  U16. . . . . . . . . . . . . . . . .  MEMBER   -----  ARRAY    0000H  4
+  S16. . . . . . . . . . . . . . . . .  MEMBER   -----  ARRAY    0000H  4
+  U8 . . . . . . . . . . . . . . . . .  MEMBER   -----  ARRAY    0000H  4
+  S8 . . . . . . . . . . . . . . . . .  MEMBER   -----  ARRAY    0000H  4
+UU32 . . . . . . . . . . . . . . . . .  TYPEDEF  -----  UNION    -----  4
+  U32. . . . . . . . . . . . . . . . .  MEMBER   -----  U_LONG   0000H  4
+  S32. . . . . . . . . . . . . . . . .  MEMBER   -----  LONG     0000H  4
+  UU16 . . . . . . . . . . . . . . . .  MEMBER   -----  ARRAY    0000H  4
+  U16. . . . . . . . . . . . . . . . .  MEMBER   -----  ARRAY    0000H  4
+  S16. . . . . . . . . . . . . . . . .  MEMBER   -----  ARRAY    0000H  4
+  U8 . . . . . . . . . . . . . . . . .  MEMBER   -----  ARRAY    0000H  4
+  S8 . . . . . . . . . . . . . . . . .  MEMBER   -----  ARRAY    0000H  4
+OSCICN . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A1H  1
+SFRPAGE. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A7H  1
+RSTSRC . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00EFH  1
+SYSCLK_Init. . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  SFRPAGE_save . . . . . . . . . . . .  AUTO     XDATA  U_CHAR   0000H  1
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     23    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =      1    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

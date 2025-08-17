@@ -1,0 +1,14 @@
+/*
+ *  Created on: Apr 21, 2025
+ *      Author: Hoangtd2000
+ */
+#ifndef _TIMER_H_
+#define _TIMER_H_
+#include <compiler_defs.h>
+#include <C8051F580_defs.h> // SFR declarations
+void TIMER2_Init(U16 counts);
+void Timer2_Set_Callback_Ptr(void (*funct)(void));
+void Clear_Timer2_ISR_Flag(void);
+void Increase_G_systick(void);
+U32 Get_G_systick(void);
+#endif

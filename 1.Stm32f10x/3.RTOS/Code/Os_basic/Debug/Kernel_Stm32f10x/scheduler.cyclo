@@ -1,0 +1,3 @@
+../Kernel_Stm32f10x/scheduler.c:11:29:scheduler_init	1
+../Kernel_Stm32f10x/scheduler.c:16:29:switch_msp_to_psp	1
+../Kernel_Stm32f10x/scheduler.c:26:29:PendSV_Handler	1

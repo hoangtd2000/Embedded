@@ -1,0 +1,281 @@
+A51 MACRO ASSEMBLER  PORT_STACK                                                           04/22/2025 15:08:49 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02b
+NO OBJECT MODULE REQUESTED
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE port_stack.A51 XR GEN DB EP NOMOD51 INCDIR(C:\SiLabs\MCU\Inc;./Kernel) 
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     $nomod51 
+                       2     ;$include (REG51.INC)
+                +1     3     ;-------------------------------------------------------------------------------
+                +1     4     ; Copyright 1995-1996 KEIL Software, Inc.
+                +1     5     ; 8051 Processor Declarations
+                +1     6     ;-------------------------------------------------------------------------------
+                +1     7  +1 $save 
+                +1    83  +1 $restore 
+                +1    84     
+                      85     
+                      86     
+                      87     ; Bi?n khai báo external
+                      88     EXTRN XDATA (user_tasks)    ; Bi?n user_tasks là SEG_XDATA
+                      89     EXTRN XDATA (current_task)  ; Bi?n current_task là SEG_XDATA
+                      90     EXTRN XDATA (next_stack_addr)  ; Bi?n next_stack_addr là SEG_XDATA
+                      91     EXTRN XDATA (task_count)    ; Bi?n task_count là SEG_XDATA
+                      92     EXTRN XDATA (G_systick)     ; Bi?n G_systick là SEG_XDATA
+                      93     
+                      94     EXTRN XDATA (pxXRAMStack)    ; Bi?n pxXRAMStack là SEG_XDATA
+                      95     EXTRN DATA (pxRAMStack)     ; Bi?n pxRAMStack là SEG_DATA
+                      96     EXTRN DATA (ucStackBytes)   ; Bi?n ucStackBytes là SEG_DATA
+                      97     
+002B                  98     ORG 002BH
+002B                  99     TIMER2_ISR:
+                     100             ; Luu ng? c?nh hi?n t?i 
+002B C0E0            101             PUSH    ACC
+002D C0A8            102             PUSH    IE
+002F C2AF            103             CLR     EA
+0031 C082            104             PUSH    DPL
+0033 C083            105             PUSH    DPH
+0035 C0F0            106             PUSH    B
+                     107     
+                     108             ; Luu R0–R7 qua d?a ch? RAM tr?c ti?p
+0037 E502            109             MOV     A, 0x02  ; R2
+0039 C0E0            110             PUSH    ACC
+003B E503            111             MOV     A, 0x03  ; R3
+003D C0E0            112             PUSH    ACC
+003F E504            113             MOV     A, 0x04  ; R4
+0041 C0E0            114             PUSH    ACC
+0043 E505            115             MOV     A, 0x05  ; R5
+0045 C0E0            116             PUSH    ACC
+0047 E506            117             MOV     A, 0x06  ; R6
+0049 C0E0            118             PUSH    ACC
+004B E507            119             MOV     A, 0x07  ; R7
+004D C0E0            120             PUSH    ACC
+004F E500            121             MOV     A, 0x00  ; R0
+0051 C0E0            122             PUSH    ACC
+0053 E501            123             MOV     A, 0x01  ; R1
+0055 C0E0            124             PUSH    ACC
+0057 C0D0            125             PUSH    PSW
+0059 75D000          126             MOV PSW, #0
+                     127             
+                     128             ; T?i d?a ch? t? user_tasks[current_task].psp_value
+005C 900000   F      129             MOV     DPTR, #user_tasks
+005F E500            130             MOV     A, current_task
+*** ____________________________________________^
+*** ERROR #A48 IN 130 (port_stack.A51, LINE 47): DATA-ADDRESS EXPECTED
+0061                 131             MOV     B, #SIZEOF_TASK_STRUCT
+A51 MACRO ASSEMBLER  PORT_STACK                                                           04/22/2025 15:08:49 PAGE     2
+
+*** _____________________________________________^
+*** ERROR #A45 IN 131 (port_stack.A51, LINE 48): UNDEFINED SYMBOL (PASS-2)
+0064 A4              132             MUL     AB
+0065                 133             ADD     A, #OFFSET_PSP
+*** _____________________________________________^
+*** ERROR #A45 IN 133 (port_stack.A51, LINE 50): UNDEFINED SYMBOL (PASS-2)
+0067 F8              134             MOV     R0, A
+0068 8682            135             MOV     DPL, @R0
+006A                 136             MOV     DPH, @R0+1
+*** _________________________________^
+*** _________________________________________________^
+*** ERROR #A38 IN 136 (port_stack.A51, LINE 53): NUMBER OF OPERANDS DOES NOT MATCH INSTRUCTION
+*** ERROR #A9 IN 136 (port_stack.A51, LINE 53): SYNTAX ERROR
+006A 900000   F      137             MOV     DPTR, #pxXRAMStack
+006D E582            138             MOV     A, DPL
+006F F0              139             MOVX    @DPTR, A
+0070 900000   F      140             MOV     DPTR, #pxXRAMStack+1
+0073 E583            141             MOV     A, DPH
+0075 F0              142             MOVX    @DPTR, A
+                     143     
+0076 7400            144             MOV     A, #0
+0078 F500     F      145             MOV     pxRAMStack, A
+                     146     
+                     147             ; Tính toán s? lu?ng byte c?a stack
+007A E581            148             MOV     A, SP
+007C C3              149             CLR     C
+007D                 150             SUBB    A, #(configSTACK_START - 1)
+*** ______________________________________________^
+*** ERROR #A45 IN 150 (port_stack.A51, LINE 67): UNDEFINED SYMBOL (PASS-2)
+007F F500     F      151             MOV     ucStackBytes, A
+                     152     
+                     153             ; Ghi kích thu?c stack vào byte d?u tiên trong XRAM
+0081 900000   F      154             MOV     DPTR, #pxXRAMStack
+0084 E500     F      155             MOV     A, ucStackBytes
+0086 F0              156             MOVX    @DPTR, A
+                     157     
+                     158             ; Copy t? IRAM -> XRAM
+0087                 159     COPY_LOOP:
+0087 E500     F      160             MOV     A, ucStackBytes
+0089 600C            161             JZ      COPY_END
+                     162     
+008B 0500            163             INC     pxXRAMStack
+*** _________________________________________^
+*** ERROR #A48 IN 163 (port_stack.A51, LINE 80): DATA-ADDRESS EXPECTED
+008D 0500     F      164             INC     pxRAMStack
+                     165     
+008F A800     F      166             MOV     R0, pxRAMStack
+0091 E6              167             MOV     A, @R0
+0092                 168             MOV     DPTR, pxXRAMStack
+*** _________________________________________^
+*** ERROR #A40 IN 168 (port_stack.A51, LINE 85): INVALID REGISTER
+0092 F0              169             MOVX    @DPTR, A
+                     170     
+0093 1500     F      171             DEC     ucStackBytes
+0095 80F0            172             SJMP    COPY_LOOP
+0097                 173     COPY_END:
+                     174     
+                     175             ; Th?c hi?n chuy?n d?i task (context_switching)
+                     176             ; Copy t? XRAM -> IRAM
+0097                 177     COPY_LOOP2:
+0097 E500     F      178             MOV     A, ucStackBytes
+0099 600E            179             JZ      COPY_END2
+                     180     
+009B 0500            181             INC     pxXRAMStack
+*** _________________________________________^
+*** ERROR #A48 IN 181 (port_stack.A51, LINE 98): DATA-ADDRESS EXPECTED
+A51 MACRO ASSEMBLER  PORT_STACK                                                           04/22/2025 15:08:49 PAGE     3
+
+009D 0500     F      182             INC     pxRAMStack
+                     183     
+009F A800            184             MOV     R0, pxXRAMStack
+*** _____________________________________________^
+*** ERROR #A48 IN 184 (port_stack.A51, LINE 101): DATA-ADDRESS EXPECTED
+00A1 E2              185             MOVX    A, @R0
+00A2 A900     F      186             MOV     R1, pxRAMStack
+00A4 F7              187             MOV     @R1, A
+                     188     
+00A5 1500     F      189             DEC     ucStackBytes
+00A7 80EE            190             SJMP    COPY_LOOP2
+00A9                 191     COPY_END2:
+                     192     
+                     193             ; Restore ng? c?nh task ti?p theo 
+00A9 D0D0            194             POP     PSW
+00AB D0E0            195             POP     ACC     ; R1
+00AD F501            196             MOV     0x01, A
+00AF D0E0            197             POP     ACC     ; R0
+00B1 F500            198             MOV     0x00, A
+00B3 D0E0            199             POP     ACC     ; R7
+00B5 F507            200             MOV     0x07, A
+00B7 D0E0            201             POP     ACC     ; R6
+00B9 F506            202             MOV     0x06, A
+00BB D0E0            203             POP     ACC     ; R5
+00BD F505            204             MOV     0x05, A
+00BF D0E0            205             POP     ACC     ; R4
+00C1 F504            206             MOV     0x04, A
+00C3 D0E0            207             POP     ACC     ; R3
+00C5 F503            208             MOV     0x03, A
+00C7 D0E0            209             POP     ACC     ; R2
+00C9 F502            210             MOV     0x02, A
+                     211     
+00CB D0F0            212             POP     B
+00CD D083            213             POP     DPH
+00CF D082            214             POP     DPL
+00D1 D0E0            215             POP     ACC
+00D3 20E704          216             JB      ACC.7, set_ea
+00D6 C2AF            217             CLR     IE.7
+00D8 8002            218             SJMP    done
+00DA                 219     set_ea:
+00DA D2AF            220             SETB    IE.7
+00DC                 221     done:
+00DC D0E0            222             POP     ACC
+00DE 32              223             RETI
+                     224     
+                     225     END
+A51 MACRO ASSEMBLER  PORT_STACK                                                           04/22/2025 15:08:49 PAGE     4
+
+XREF SYMBOL TABLE LISTING
+---- ------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES / REFERENCES
+
+AC . . . . . . . .  B ADDR   00D0H.6 A      37#
+ACC. . . . . . . .  D ADDR   00E0H   A      16# 101 110 112 114 116 118 120 122 124 195 197 199 201 203 205 207 209
+                                           215 216 222
+B. . . . . . . . .  D ADDR   00F0H   A      17# 106 131 212
+CONFIGSTACK_START.    ----   -----          150
+COPY_END . . . . .  C ADDR   0097H   A      161 173#
+COPY_END2. . . . .  C ADDR   00A9H   A      179 191#
+COPY_LOOP. . . . .  C ADDR   0087H   A      159# 172
+COPY_LOOP2 . . . .  C ADDR   0097H   A      177# 190
+CURRENT_TASK . . .  X ADDR   -----       EXT   89# 130
+CY . . . . . . . .  B ADDR   00D0H.7 A      36#
+DONE . . . . . . .  C ADDR   00DCH   A      218 221#
+DPH. . . . . . . .  D ADDR   0083H   A      20# 105 136 141 213
+DPL. . . . . . . .  D ADDR   0082H   A      19# 104 135 138 214
+EA . . . . . . . .  B ADDR   00A8H.7 A      53# 103
+ES . . . . . . . .  B ADDR   00A8H.4 A      54#
+ET0. . . . . . . .  B ADDR   00A8H.1 A      57#
+ET1. . . . . . . .  B ADDR   00A8H.3 A      55#
+EX0. . . . . . . .  B ADDR   00A8H.0 A      58#
+EX1. . . . . . . .  B ADDR   00A8H.2 A      56#
+F0 . . . . . . . .  B ADDR   00D0H.5 A      38#
+G_SYSTICK. . . . .  X ADDR   -----       EXT   92#
+IE . . . . . . . .  D ADDR   00A8H   A      28# 102 217 220
+IE0. . . . . . . .  B ADDR   0088H.1 A      50#
+IE1. . . . . . . .  B ADDR   0088H.3 A      48#
+INT0 . . . . . . .  B ADDR   00B0H.2 A      71#
+INT1 . . . . . . .  B ADDR   00B0H.3 A      70#
+IP . . . . . . . .  D ADDR   00B8H   A      29#
+IT0. . . . . . . .  B ADDR   0088H.0 A      51#
+IT1. . . . . . . .  B ADDR   0088H.2 A      49#
+NEXT_STACK_ADDR. .  X ADDR   -----       EXT   90#
+OFFSET_PSP . . . .    ----   -----          133
+OV . . . . . . . .  B ADDR   00D0H.2 A      41#
+P. . . . . . . . .  B ADDR   00D0H.0 A      42#
+P0 . . . . . . . .  D ADDR   0080H   A      11#
+P1 . . . . . . . .  D ADDR   0090H   A      12#
+P2 . . . . . . . .  D ADDR   00A0H   A      13#
+P3 . . . . . . . .  D ADDR   00B0H   A      14#
+PCON . . . . . . .  D ADDR   0087H   A      21#
+PS . . . . . . . .  B ADDR   00B8H.4 A      60#
+PSW. . . . . . . .  D ADDR   00D0H   A      15# 125 126 194
+PT0. . . . . . . .  B ADDR   00B8H.1 A      63#
+PT1. . . . . . . .  B ADDR   00B8H.3 A      61#
+PX0. . . . . . . .  B ADDR   00B8H.0 A      64#
+PX1. . . . . . . .  B ADDR   00B8H.2 A      62#
+PXRAMSTACK . . . .  D ADDR   -----       EXT   95# 145 164 166 182 186
+PXXRAMSTACK. . . .  X ADDR   -----       EXT   94# 137 140 154 163 168 181 184
+RB8. . . . . . . .  B ADDR   0098H.2 A      80#
+RD . . . . . . . .  B ADDR   00B0H.7 A      66#
+REN. . . . . . . .  B ADDR   0098H.4 A      78#
+RI . . . . . . . .  B ADDR   0098H.0 A      82#
+RS0. . . . . . . .  B ADDR   00D0H.3 A      40#
+RS1. . . . . . . .  B ADDR   00D0H.4 A      39#
+RXD. . . . . . . .  B ADDR   00B0H.0 A      73#
+SBUF . . . . . . .  D ADDR   0099H   A      31#
+SCON . . . . . . .  D ADDR   0098H   A      30#
+SET_EA . . . . . .  C ADDR   00DAH   A      216 219#
+SIZEOF_TASK_STRUCT    ----   -----          131
+SM0. . . . . . . .  B ADDR   0098H.7 A      75#
+SM1. . . . . . . .  B ADDR   0098H.6 A      76#
+A51 MACRO ASSEMBLER  PORT_STACK                                                           04/22/2025 15:08:49 PAGE     5
+
+SM2. . . . . . . .  B ADDR   0098H.5 A      77#
+SP . . . . . . . .  D ADDR   0081H   A      18# 148
+T0 . . . . . . . .  B ADDR   00B0H.4 A      69#
+T1 . . . . . . . .  B ADDR   00B0H.5 A      68#
+TASK_COUNT . . . .  X ADDR   -----       EXT   91#
+TB8. . . . . . . .  B ADDR   0098H.3 A      79#
+TCON . . . . . . .  D ADDR   0088H   A      22#
+TF0. . . . . . . .  B ADDR   0088H.5 A      46#
+TF1. . . . . . . .  B ADDR   0088H.7 A      44#
+TH0. . . . . . . .  D ADDR   008CH   A      26#
+TH1. . . . . . . .  D ADDR   008DH   A      27#
+TI . . . . . . . .  B ADDR   0098H.1 A      81#
+TIMER2_ISR . . . .  C ADDR   002BH   A      99#
+TL0. . . . . . . .  D ADDR   008AH   A      24#
+TL1. . . . . . . .  D ADDR   008BH   A      25#
+TMOD . . . . . . .  D ADDR   0089H   A      23#
+TR0. . . . . . . .  B ADDR   0088H.4 A      47#
+TR1. . . . . . . .  B ADDR   0088H.6 A      45#
+TXD. . . . . . . .  B ADDR   00B0H.1 A      72#
+UCSTACKBYTES . . .  D ADDR   -----       EXT   96# 151 155 160 171 178 189
+USER_TASKS . . . .  X ADDR   -----       EXT   88# 129
+WR . . . . . . . .  B ADDR   00B0H.6 A      67#
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 10 ERROR(S)

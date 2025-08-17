@@ -1,0 +1,18 @@
+/*
+ *  Created on: Apr 21, 2025
+ *      Author: Hoangtd2000
+ */
+#ifndef _OS_CONFIG_H_
+#define _OS_CONFIG_H_
+#include <stdio.h>
+#include "Service.h"
+#include <compiler_defs.h>
+#include <C8051F580_defs.h> // SFR declarations
+
+#define MAX_TASK 4U
+
+#define TASK_RUNNING_STATE 	0
+#define TASK_BLOCKED_STATE 	1
+#define TASK_READY_STATE 	2
+
+#endif

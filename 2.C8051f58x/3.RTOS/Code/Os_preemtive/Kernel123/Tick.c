@@ -1,0 +1,61 @@
+#include "Tick.h"
+
+
+extern U32 current_task;
+extern TCB_t user_tasks[MAX_TASK];
+extern SEG_XDATA U32 G_systick ;
+
+void TIMER2_Init (U16 counts)
+{
+   U8 SFRPAGE_save = SFRPAGE;
+   SFRPAGE = ACTIVE_PAGE;
+
+   TMR2CN  = 0x00;                     // Stop Timer2; Clear TF2;
+                                       // use SYSCLK/12 as timebase
+   CKCON  &= ~0x60;                    // Timer2 clocked based on T2XCLK;
+
+   TMR2RL  = -counts;                  // Init reload values
+   TMR2    = 0xFFFF;                   // Set to reload immediately
+   //TMR2    = 0; 
+   ET2     = 1;                        // Enable Timer2 interrupts
+   TR2     = 1;                        // Start Timer2
+   SFRPAGE = SFRPAGE_save;
+}
+void unblock_task(){
+   U8 i = 0 ;
+	for(i ; i < MAX_TASK ; i++){ // bỏ qua task 0 ;
+		if (user_tasks[i].current_state != TASK_RUNNING_STATE){
+			if (user_tasks[i].block_count == G_systick){ // đủ thời gian block thì sẽ chuyển state thành RUNNING
+				user_tasks[i].current_state = TASK_RUNNING_STATE;
+			}
+		}
+	}
+}
+
+void task_delay(U32 tick_count) {
+	EA = 0;
+	//INTERRUPT_DISABLE;
+	if (current_task) {
+		user_tasks[current_task].block_count = G_systick + tick_count; // dánh dấu thời điểm mà task được chạy . nếu như  g_SysTick = với block_count thì sẽ mở trạng thái cho task đó
+		user_tasks[current_task].current_state = TASK_BLOCKED_STATE;
+		//TF2H = 1; // vao ngat 
+	}
+	//INTERRUPT_ENABLE;
+	EA = 1;
+}
+void context_switching(){
+  // unblock_task();
+   update_next_task();
+}
+
+
+// INTERRUPT(Timer2_ISR, INTERRUPT_TIMER2)
+// {
+//    portSAVE_CONTEXT();
+//    COPY_STACK_TO_XRAM();
+//    G_systick++;
+//    context_switching();
+//    TF2H = 0; 
+//     COPY_XRAM_TO_STACK();
+//     portRESTORE_CONTEXT();
+// }

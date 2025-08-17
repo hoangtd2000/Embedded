@@ -1,0 +1,4 @@
+../Kernel_Stm32f10x/tick.c:13:6:update_g_systick	1
+../Kernel_Stm32f10x/tick.c:17:6:unblock_task	4
+../Kernel_Stm32f10x/tick.c:27:6:task_delay	2
+../Kernel_Stm32f10x/tick.c:37:6:SysTick_Handler	1

@@ -1,0 +1,80 @@
+$NOMOD51
+$INCLUDE (REG51.INC)
+
+PUBLIC  portRESTORE_CONTEXT
+
+
+CSEG    AT   0x5000
+;=============================================
+; void portRESTORE_CONTEXT(void)
+;=============================================
+portRESTORE_CONTEXT:
+        POP     PSW
+        POP     ACC     ; R1
+        MOV     0x01, A
+        POP     ACC     ; R0
+        MOV     0x00, A
+        POP     ACC     ; R7
+        MOV     0x07, A
+        POP     ACC     ; R6
+        MOV     0x06, A
+        POP     ACC     ; R5
+        MOV     0x05, A
+        POP     ACC     ; R4
+        MOV     0x04, A
+        POP     ACC     ; R3
+        MOV     0x03, A
+        POP     ACC     ; R2
+        MOV     0x02, A
+
+        POP     B
+        POP     DPH
+        POP     DPL
+        POP     ACC
+        JB      ACC.7, set_ea
+        CLR     IE.7
+        SJMP    done
+set_ea:
+        SETB    IE.7
+done:
+        POP     ACC
+         RETI
+
+
+
+PUBLIC RESTORE_CONTEXT
+
+RESTORE_CONTEXT MACRO
+        POP     PSW
+        POP     ACC     ; R1
+        MOV     0x01, A
+        POP     ACC     ; R0
+        MOV     0x00, A
+        POP     ACC     ; R7
+        MOV     0x07, A
+        POP     ACC     ; R6
+        MOV     0x06, A
+        POP     ACC     ; R5
+        MOV     0x05, A
+        POP     ACC     ; R4
+        MOV     0x04, A
+        POP     ACC     ; R3
+        MOV     0x03, A
+        POP     ACC     ; R2
+        MOV     0x02, A
+
+        POP     B
+        POP     DPH
+        POP     DPL
+        POP     ACC
+        JB      ACC.7, set_ea
+        CLR     IE.7
+        SJMP    done
+set_ea:
+        SETB    IE.7
+done:
+        POP     ACC
+				   RETI
+ENDM
+		
+END

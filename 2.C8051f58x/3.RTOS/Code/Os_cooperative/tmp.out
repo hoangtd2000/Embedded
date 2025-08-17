@@ -1,0 +1,18 @@
+
+BL51 BANKED LINKER/LOCATER V6.22 - SN: K1FVC-C014WZ
+COPYRIGHT KEIL ELEKTRONIK GmbH 1987 - 2009
+"D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_cooperative\main.obj",
+"D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_cooperative\App\Application.obj",
+"D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_cooperative\Os\Os_scheduler.obj",
+"D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_cooperative\Os\Os_task.obj",
+"D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_cooperative\Service\Service.obj",
+"D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_cooperative\MCAL\Dio.obj",
+"D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_cooperative\MCAL\GPT.obj",
+"D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_cooperative\MCAL\Timer.obj",
+"D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_cooperative\MCAL\Uart.obj"  TO "D:\hoangtd2000\Embedded\C8051f58x\3.RTOS\Code\Os_cooperative\main" RS(256) PL(68) PW(78) BANKAREA(8000H,0FFFFH) IX 
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?GET_G_SYSTICK?TIMER
+
+Program Size: data=15.1 xdata=121 code=3479
+LINK/LOCATE RUN COMPLETE.  1 WARNING(S),  0 ERROR(S)
